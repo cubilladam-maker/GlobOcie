@@ -1,0 +1,14 @@
+{
+  "version": "2.1",
+  "records": 40000,
+  "knowledge_nodes": 150,
+  "families": 80,
+  "core_stages": 7,
+  "features": {
+    "graph_planner": true,
+    "core_completion_guarantee": true,
+    "node_mastery": true,
+    "reasoning_profile": true,
+    "visual_spine_map": true
+  }
+}

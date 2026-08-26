@@ -1,0 +1,267 @@
+{
+  "version": "2.0",
+  "nodes": [
+    {
+      "id": "R:local_single_case",
+      "type": "reasoning",
+      "tag": "local_single_case",
+      "title": "Wniosek globalny z lokalnego przykładu",
+      "description": "Użytkownik wyciąga wniosek o całym systemie z jednego miejsca lub zdarzenia.",
+      "repair_families": [
+        "weather_vs_climate",
+        "global_measurements",
+        "cherry_picking"
+      ]
+    },
+    {
+      "id": "R:short_timescale",
+      "type": "reasoning",
+      "tag": "short_timescale",
+      "title": "Zbyt krótka skala czasu",
+      "description": "Krótki epizod traktowany jest jak trend wieloletni.",
+      "repair_families": [
+        "weather_vs_climate",
+        "cherry_picking",
+        "statistical_significance"
+      ]
+    },
+    {
+      "id": "R:correlation_only",
+      "type": "reasoning",
+      "tag": "correlation_only",
+      "title": "Korelacja traktowana jak przyczyna",
+      "description": "Współzmienność dwóch wielkości jest uznawana za pełny dowód mechanizmu.",
+      "repair_families": [
+        "causation_correlation",
+        "attribution",
+        "co2_origin"
+      ]
+    },
+    {
+      "id": "R:authority_only",
+      "type": "reasoning",
+      "tag": "authority_only",
+      "title": "Autorytet zamiast dowodu",
+      "description": "Popularność lub stanowisko eksperta zastępuje sprawdzalny argument.",
+      "repair_families": [
+        "consensus_vs_evidence",
+        "source_quality",
+        "skeptic_method"
+      ]
+    },
+    {
+      "id": "R:natural_excludes_human",
+      "type": "reasoning",
+      "tag": "natural_excludes_human",
+      "title": "Naturalne = nie może być antropogeniczne",
+      "description": "Istnienie naturalnego procesu jest traktowane jako wykluczenie dodatkowego wpływu człowieka.",
+      "repair_families": [
+        "co2_origin",
+        "paleoclimate",
+        "attribution"
+      ]
+    },
+    {
+      "id": "R:single_model_failure",
+      "type": "reasoning",
+      "tag": "single_model_failure",
+      "title": "Błąd jednego modelu = upadek całości",
+      "description": "Pojedynczy błąd modelu jest rozszerzany na wszystkie niezależne dowody.",
+      "repair_families": [
+        "models",
+        "model_validation",
+        "model_ensembles"
+      ]
+    },
+    {
+      "id": "R:uncertainty_means_ignorance",
+      "type": "reasoning",
+      "tag": "uncertainty_means_ignorance",
+      "title": "Niepewność = nic nie wiadomo",
+      "description": "Zakres niepewności jest traktowany jako brak informacji.",
+      "repair_families": [
+        "uncertainty",
+        "measurement_uncertainty",
+        "attribution_confidence"
+      ]
+    },
+    {
+      "id": "R:quantity_over_quality",
+      "type": "reasoning",
+      "tag": "quantity_over_quality",
+      "title": "Liczba dowodów zamiast ich jakości",
+      "description": "Sama liczba wyników jest ważniejsza niż ich jakość i niezależność.",
+      "repair_families": [
+        "independent_evidence",
+        "evidence_convergence",
+        "source_quality"
+      ]
+    },
+    {
+      "id": "R:false_dichotomy",
+      "type": "reasoning",
+      "tag": "false_dichotomy",
+      "title": "Fałszywa alternatywa",
+      "description": "Dwie współistniejące przyczyny są przedstawiane tak, jakby tylko jedna mogła działać.",
+      "repair_families": [
+        "attribution",
+        "aerosols",
+        "internal_variability"
+      ]
+    },
+    {
+      "id": "R:mechanism_omission",
+      "type": "reasoning",
+      "tag": "mechanism_omission",
+      "title": "Brak pełnego mechanizmu",
+      "description": "Argument wskazuje zjawisko, lecz nie pokazuje łańcucha przyczynowego do obserwowanego skutku.",
+      "repair_families": [
+        "causation_correlation",
+        "solar_hypothesis",
+        "cosmic_rays"
+      ]
+    },
+    {
+      "id": "R:scale_mismatch",
+      "type": "reasoning",
+      "tag": "scale_mismatch",
+      "title": "Niedopasowanie skali",
+      "description": "Dane i teza dotyczą innych skal czasu, przestrzeni lub energii.",
+      "repair_families": [
+        "weather_vs_climate",
+        "global_measurements",
+        "orbital_forcing"
+      ]
+    },
+    {
+      "id": "R:cherry_picking",
+      "type": "reasoning",
+      "tag": "cherry_picking",
+      "title": "Selekcja wygodnych danych",
+      "description": "Wybierany jest szczególny okres, miejsce lub przypadek pasujący do tezy.",
+      "repair_families": [
+        "cherry_picking",
+        "hiatus",
+        "global_measurements"
+      ]
+    },
+    {
+      "id": "R:unfalsifiable",
+      "type": "reasoning",
+      "tag": "unfalsifiable",
+      "title": "Teza niefalsyfikowalna",
+      "description": "Argument nie podaje obserwacji, która mogłaby go osłabić.",
+      "repair_families": [
+        "falsification",
+        "skeptic_method",
+        "solar_hypothesis"
+      ]
+    },
+    {
+      "id": "R:overgeneralization",
+      "type": "reasoning",
+      "tag": "overgeneralization",
+      "title": "Nadmierne uogólnienie",
+      "description": "Jedna prawdziwa obserwacja jest rozszerzana poza zakres, który rzeczywiście wspiera.",
+      "repair_families": [
+        "independent_evidence",
+        "source_quality",
+        "risk_decision"
+      ]
+    },
+    {
+      "id": "R:measurement_rejection",
+      "type": "reasoning",
+      "tag": "measurement_rejection",
+      "title": "Błąd pomiaru = odrzucenie danych",
+      "description": "Istnienie korekt lub niepewności jest traktowane jako powód odrzucenia całego zbioru.",
+      "repair_families": [
+        "station_adjustments",
+        "measurement_uncertainty",
+        "urban_heat_island"
+      ]
+    },
+    {
+      "id": "R:model_perfection",
+      "type": "reasoning",
+      "tag": "model_perfection",
+      "title": "Model musi być doskonały",
+      "description": "Użyteczność modelu jest uzależniana od bezbłędnego przewidywania wszystkiego.",
+      "repair_families": [
+        "models",
+        "model_validation",
+        "model_ensembles"
+      ]
+    },
+    {
+      "id": "R:cause_feedback_confusion",
+      "type": "reasoning",
+      "tag": "cause_feedback_confusion",
+      "title": "Mylenie przyczyny ze sprzężeniem",
+      "description": "Inicjator zmiany i mechanizm wzmacniający są traktowane jako ta sama rola.",
+      "repair_families": [
+        "feedbacks_general",
+        "water_vapor",
+        "co2_lag"
+      ]
+    },
+    {
+      "id": "R:source_driver_confusion",
+      "type": "reasoning",
+      "tag": "source_driver_confusion",
+      "title": "Źródło energii mylone ze zmianą wymuszenia",
+      "description": "Fakt, że Słońce dostarcza energię, jest utożsamiany z dowodem, że jego zmienność powoduje dany trend.",
+      "repair_families": [
+        "solar_hypothesis",
+        "solar_cycles",
+        "radiative_forcing"
+      ]
+    },
+    {
+      "id": "R:single_indicator",
+      "type": "reasoning",
+      "tag": "single_indicator",
+      "title": "Jedna linia dowodu zamiast konwergencji",
+      "description": "Pojedynczy wskaźnik jest traktowany jako wystarczający do całej atrybucji.",
+      "repair_families": [
+        "evidence_convergence",
+        "independent_evidence",
+        "attribution"
+      ]
+    },
+    {
+      "id": "R:absolute_claim",
+      "type": "reasoning",
+      "tag": "absolute_claim",
+      "title": "Żądanie absolutnej pewności",
+      "description": "Brak 100% pewności jest traktowany jako brak podstaw do wniosku.",
+      "repair_families": [
+        "uncertainty",
+        "attribution_confidence",
+        "risk_decision"
+      ]
+    }
+  ],
+  "labels": {
+    "R:local_single_case": "Wniosek globalny z lokalnego przykładu",
+    "R:short_timescale": "Zbyt krótka skala czasu",
+    "R:correlation_only": "Korelacja traktowana jak przyczyna",
+    "R:authority_only": "Autorytet zamiast dowodu",
+    "R:natural_excludes_human": "Naturalne = nie może być antropogeniczne",
+    "R:single_model_failure": "Błąd jednego modelu = upadek całości",
+    "R:uncertainty_means_ignorance": "Niepewność = nic nie wiadomo",
+    "R:quantity_over_quality": "Liczba dowodów zamiast ich jakości",
+    "R:false_dichotomy": "Fałszywa alternatywa",
+    "R:mechanism_omission": "Brak pełnego mechanizmu",
+    "R:scale_mismatch": "Niedopasowanie skali",
+    "R:cherry_picking": "Selekcja wygodnych danych",
+    "R:unfalsifiable": "Teza niefalsyfikowalna",
+    "R:overgeneralization": "Nadmierne uogólnienie",
+    "R:measurement_rejection": "Błąd pomiaru = odrzucenie danych",
+    "R:model_perfection": "Model musi być doskonały",
+    "R:cause_feedback_confusion": "Mylenie przyczyny ze sprzężeniem",
+    "R:source_driver_confusion": "Źródło energii mylone ze zmianą wymuszenia",
+    "R:single_indicator": "Jedna linia dowodu zamiast konwergencji",
+    "R:absolute_claim": "Żądanie absolutnej pewności"
+  }
+}

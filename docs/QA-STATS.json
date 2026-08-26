@@ -1,0 +1,13 @@
+{
+  "records_processed": 40000,
+  "families": 80,
+  "knowledge_nodes": 150,
+  "family_nodes": 80,
+  "concept_nodes": 50,
+  "reasoning_nodes": 20,
+  "spine_nodes": 7,
+  "chunks": 289,
+  "raw_mb": 71.86,
+  "gzip_mb": 1.78,
+  "compression_ratio": 40.4
+}

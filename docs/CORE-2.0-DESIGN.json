@@ -1,0 +1,123 @@
+{
+  "version": "2.0",
+  "principle": "question_bank_is_presentation_layer",
+  "knowledge_nodes": 150,
+  "spine": [
+    {
+      "family": "global_measurements",
+      "label": "Czy Ziemia się ociepla?"
+    },
+    {
+      "family": "station_adjustments",
+      "label": "Czy pomiary są wiarygodne?"
+    },
+    {
+      "family": "independent_evidence",
+      "label": "Czy niezależne wskaźniki są zgodne?"
+    },
+    {
+      "family": "co2_physics",
+      "label": "Co fizycznie robi CO₂?"
+    },
+    {
+      "family": "co2_origin",
+      "label": "Skąd pochodzi dodatkowy CO₂?"
+    },
+    {
+      "family": "solar_hypothesis",
+      "label": "Czy konkurencyjne przyczyny wyjaśniają wzorzec?"
+    },
+    {
+      "family": "attribution",
+      "label": "Które wyjaśnienie najlepiej przechodzi test atrybucji?"
+    }
+  ],
+  "reasoning_taxonomy": [
+    {
+      "id": "R:local_single_case",
+      "title": "Wniosek globalny z lokalnego przykładu"
+    },
+    {
+      "id": "R:short_timescale",
+      "title": "Zbyt krótka skala czasu"
+    },
+    {
+      "id": "R:correlation_only",
+      "title": "Korelacja traktowana jak przyczyna"
+    },
+    {
+      "id": "R:authority_only",
+      "title": "Autorytet zamiast dowodu"
+    },
+    {
+      "id": "R:natural_excludes_human",
+      "title": "Naturalne = nie może być antropogeniczne"
+    },
+    {
+      "id": "R:single_model_failure",
+      "title": "Błąd jednego modelu = upadek całości"
+    },
+    {
+      "id": "R:uncertainty_means_ignorance",
+      "title": "Niepewność = nic nie wiadomo"
+    },
+    {
+      "id": "R:quantity_over_quality",
+      "title": "Liczba dowodów zamiast ich jakości"
+    },
+    {
+      "id": "R:false_dichotomy",
+      "title": "Fałszywa alternatywa"
+    },
+    {
+      "id": "R:mechanism_omission",
+      "title": "Brak pełnego mechanizmu"
+    },
+    {
+      "id": "R:scale_mismatch",
+      "title": "Niedopasowanie skali"
+    },
+    {
+      "id": "R:cherry_picking",
+      "title": "Selekcja wygodnych danych"
+    },
+    {
+      "id": "R:unfalsifiable",
+      "title": "Teza niefalsyfikowalna"
+    },
+    {
+      "id": "R:overgeneralization",
+      "title": "Nadmierne uogólnienie"
+    },
+    {
+      "id": "R:measurement_rejection",
+      "title": "Błąd pomiaru = odrzucenie danych"
+    },
+    {
+      "id": "R:model_perfection",
+      "title": "Model musi być doskonały"
+    },
+    {
+      "id": "R:cause_feedback_confusion",
+      "title": "Mylenie przyczyny ze sprzężeniem"
+    },
+    {
+      "id": "R:source_driver_confusion",
+      "title": "Źródło energii mylone ze zmianą wymuszenia"
+    },
+    {
+      "id": "R:single_indicator",
+      "title": "Jedna linia dowodu zamiast konwergencji"
+    },
+    {
+      "id": "R:absolute_claim",
+      "title": "Żądanie absolutnej pewności"
+    }
+  ],
+  "metrics": {
+    "answer_accuracy": "średnia trafność wybranych odpowiedzi",
+    "reasoning": "ocena jakości rozumowania według punktacji rekordów",
+    "core_coverage": "ile z 7 obowiązkowych ogniw rdzenia zostało pokazanych",
+    "profile_confidence": "kategoria ilości/różnorodności danych o sposobie odpowiadania użytkownika"
+  }
+}
