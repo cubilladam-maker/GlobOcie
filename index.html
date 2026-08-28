@@ -1,77 +1,42 @@
-<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>QUIZ-DOWODOWY CORE 2.1.1</title><link rel="stylesheet" href="style.css"></head><body>
-<script>
-window.DATA_MODE=(location.protocol==="file:")?"offline":"online";
-if(window.DATA_MODE==="offline"){document.write('<script src="data/offline-data.js"><\\/script>')}
-</script>
-<script src="data/sources.js"></script>
-<script src="data/knowledge-graph.js"></script>
-<script src="data/reasoning-taxonomy.js"></script>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#070d1c" />
+  <title>Kim naprawdę jestem — Sztuczna Inteligencja</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-theme="male">
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" data-action="home" aria-label="Strona główna">
+        <span class="brand-mark">◉</span>
+        <span>
+          <strong>Kim naprawdę jestem</strong>
+          <small>quiz wspierany przez sztuczną inteligencję</small>
+        </span>
+      </button>
+      <nav>
+        <button class="ghost" data-action="help">Jak to działa?</button>
+        <button class="ghost" data-action="privacy">Prywatność</button>
+      </nav>
+    </header>
 
-<main>
-<section id="start" class="card">
- <span class="pill">CORE 2.1.1 — CHECK FIX</span>
- <h1>Globalne ocieplenie?</h1>
- <p class="lead">Pytania są warstwą prezentacji. Pod nimi działa graf 150 węzłów wiedzy, profil rozumowania i planista, który pilnuje pełnej ścieżki dowodu.</p>
- <div class="modebox"><b id="bankInfo">Uruchamianie…</b><br><span id="modeInfo" class="small"></span><br><span id="profileInfo" class="small"></span></div>
- <p class="spinenote"><b>Rdzeń każdej sesji:</b> pomiary → wiarygodność → niezależne wskaźniki → fizyka CO₂ → pochodzenie CO₂ → konkurencyjne przyczyny → atrybucja.</p>
- <br><b>Poziom startowy</b><input id="level" type="range" min="0" max="100" step="10" value="40">
- <div class="labels"><span>Uczeń</span><span>Student</span><span>Profesor</span></div>
- <div id="lv" style="text-align:center;font-size:23px;font-weight:900">40%</div><div id="startLevelDesc" class="small" style="text-align:center;margin-top:3px">Uczeń+ — krok dalej</div>
- <br><b>Stanowisko startowe</b><input id="stance" type="range" min="0" max="100" step="5" value="75">
- <div class="labels"><span>bardziej przekonany</span><span>niepewny</span><span>bardziej sceptyczny</span></div>
- <div class="checkline"><input id="remember" type="checkbox" checked><label for="remember"><b>Pamiętaj profil rozumowania na tym urządzeniu</b></label></div>
- <button type="button" id="clearProfile" class="home" style="margin-top:8px">Wyczyść pamięć</button>
- <div class="box" style="margin-top:16px"><b id="time">ok. 11 min • 25 pytań</b><br><span class="small">orientacyjny czas i długość sesji</span></div>
- <br><button type="button" id="go" class="action">Rozpocznij</button>
-</section>
+    <main id="app" aria-live="polite"></main>
 
-<section id="quiz" class="card hidden">
- <div class="top"><button type="button" class="home" data-home>⌂ START</button><div><span id="topic" class="pill"></span> <span id="diff" class="pill"></span></div>
- <div class="gamelevel"><div class="gamelevel-title">POZIOM GRY</div><div class="controls">
-  <div class="ctlwrap"><span class="ctlhint">łatwiej</span><button type="button" id="minus" class="mini">−10%</button></div>
-  <div class="levelread"><b id="ul">40%</b><span id="gameLevelDesc">Uczeń+ — krok dalej</span></div>
-  <div class="ctlwrap"><span class="ctlhint">trudniej</span><button type="button" id="plus" class="mini">+10%</button></div>
- </div></div></div>
- <div id="loading" class="loading hidden">Wczytuję i rozpakowuję potrzebny fragment grafu pytań…</div>
- <div id="levelnote" class="levelnote hidden"></div><div id="meta" class="small" style="margin-top:12px"></div><div id="spineMap" class="spine-map"></div><div id="whyq" class="whyq"></div>
- <div id="stem" class="q"></div><div id="answers" class="answers"></div>
- <div id="cw" class="hidden"><p class="small"><b>Opcjonalnie:</b> dlaczego żadna odpowiedź nie pasuje?</p><textarea id="comment"></textarea></div>
- <div id="readTimer" class="timer"></div><div id="fb" class="fb hidden"></div>
- <div class="nextrow"><span></span><div><button type="button" id="check" class="action" disabled>Sprawdź</button> <button type="button" id="next" class="action hidden">Dalej</button></div></div>
-</section>
+    <footer>
+      <span>Wersja prototypowa 0.1.6</span>
+      <span>Tematy quizów są ładowane ze skompresowanych paczek.</span>
+    </footer>
+  </div>
 
-<section id="s1" class="card hidden">
- <div class="top"><button type="button" class="home" data-home>⌂ START</button><span class="pill">PODSUMOWANIE 1/3</span></div>
- <h2>Twoja ścieżka przez dowody</h2>
- <div class="box"><b>Trafność odpowiedzi: <span id="a1"></span></b><div class="bar"><div id="ab"></div></div></div>
- <div class="box" style="margin-top:10px"><b>Rozumowanie: <span id="r1"></span></b><div class="bar"><div id="rb"></div></div></div>
- <div class="coremetric"><div class="box"><b>Pokrycie rdzenia</b><br><span id="coverage"></span></div><div class="box"><b>Pewność profilu</b><br><span id="confidence"></span><br><span class="small">ilość i różnorodność danych o Twoim sposobie odpowiadania</span></div></div>
- <div class="row" style="margin-top:12px"><div class="box"><b id="sl"></b><br>poziom startowy</div><div class="box"><b id="el"></b><br>poziom końcowy</div></div>
- <div class="row" style="margin-top:12px"><div class="box"><b>Najmocniejszy temat</b><p id="best"></p></div><div class="box"><b>Do powtórzenia</b><p id="weak"></p></div></div>
- <h3>Mapa słabszych obszarów wiedzy</h3><div id="masterylist" class="masterygrid"></div>
- <h3>Najsłabsze węzły wiedzy</h3><div id="nodeweaklist" class="masterygrid"></div><h3>Powtarzające się wzorce rozumowania</h3><div id="reasoninglist" class="masterygrid"></div>
- <div class="nextrow"><span></span><button type="button" id="to2" class="action">Dalej →</button></div>
-</section>
+  <dialog id="info-dialog">
+    <button class="dialog-close" data-action="close-dialog" aria-label="Zamknij">×</button>
+    <div id="dialog-content"></div>
+  </dialog>
 
-<section id="s2" class="card hidden">
- <div class="top"><button type="button" class="home" data-home>⌂ START</button><span class="pill">PODSUMOWANIE 2/3</span></div>
- <h2>Co rzeczywiście miało na Ciebie wpływ?</h2><p class="lead">Zaznacz linie dowodowe, które faktycznie zmieniły Twoją ocenę lub zmusiły do ponownego przemyślenia stanowiska.</p>
- <div id="grid" class="grid"></div><h3>Co nadal budzi największą wątpliwość?</h3><textarea id="doubt"></textarea>
- <div class="nextrow"><button type="button" id="back1" class="home">← Poprzedni</button><button type="button" id="to3" class="action">Dalej →</button></div>
-</section>
-
-<section id="s3" class="card hidden">
- <div class="top"><button type="button" class="home" data-home>⌂ START</button><span class="pill">PODSUMOWANIE 3/3</span></div>
- <h2>Czy zmieniło się Twoje stanowisko?</h2><p class="lead">Quiz nie przesuwa stanowiska automatycznie. Ustawiasz je sam.</p>
- <div class="box"><b>START</b><div class="axis"><div id="startdot" class="dot"></div></div><div class="labels"><span>bardziej przekonany</span><span>niepewny</span><span>bardziej sceptyczny</span></div></div>
- <div class="box" style="margin-top:10px"><b>TERAZ</b><input id="endrange" type="range" min="0" max="100" step="5"><div class="axis"><div id="enddot" class="dot"></div></div><div class="labels"><span>bardziej przekonany</span><span>niepewny</span><span>bardziej sceptyczny</span></div></div>
- <div class="row" style="margin-top:12px"><div class="box"><b>Najbardziej wpłynęło na mnie:</b><p id="influ"></p></div><div class="box"><b>Nadal mam wątpliwości:</b><p id="doubtout"></p></div></div>
- <p class="lead"><b>Nie chodziło o to, czy zgadzasz się z quizem.</b> Sprawdzaliśmy, które wyjaśnienia najlepiej przechodzą przez kolejne testy.</p>
- <div class="nextrow"><button type="button" id="back2" class="home">← Poprzedni</button><div><button type="button" id="retry" class="home">Powtórz najsłabszy wzorzec</button> <button type="button" class="home" data-home>⌂ START</button></div></div>
-</section>
-</main>
-
-<script src="js/loader.js"></script><script src="js/engine.js"></script><script src="js/app.js"></script>
-<script>if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});</script>
-</body></html>
+  <script src="topics/polityka-pl.quiz.gz.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
