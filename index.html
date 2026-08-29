@@ -3,31 +3,35 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#070d1c" />
-  <title>Kim naprawdę jestem — Sztuczna Inteligencja</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="theme-color" content="#060814" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Kim naprawdę jestem — quiz AI</title>
+  <link rel="stylesheet" href="styles.css?v=0.2.2" />
 </head>
-<body data-theme="male">
+<body data-theme="female" data-screen="start">
   <div class="app-shell">
     <header class="topbar">
       <button class="brand" data-action="home" aria-label="Strona główna">
-        <span class="brand-mark">◉</span>
+        <span class="brand-mark"><i></i></span>
         <span>
           <strong>Kim naprawdę jestem</strong>
           <small>quiz wspierany przez sztuczną inteligencję</small>
         </span>
       </button>
       <nav>
-        <button class="ghost" data-action="help">Jak to działa?</button>
-        <button class="ghost" data-action="privacy">Prywatność</button>
+        <button class="ghost" data-action="help">ⓘ Jak to działa?</button>
+        <button class="ghost" data-action="privacy">♢ Prywatność</button>
+        <div class="top-progress" id="top-progress" hidden></div>
       </nav>
     </header>
 
     <main id="app" aria-live="polite"></main>
 
     <footer>
-      <span>Wersja prototypowa 0.1.6</span>
-      <span>Tematy quizów są ładowane ze skompresowanych paczek.</span>
+      <span>Kim naprawdę jestem · v0.2.2</span>
+      <span>Brak Service Workera buforującego stary interfejs.</span>
     </footer>
   </div>
 
@@ -36,7 +40,11 @@
     <div id="dialog-content"></div>
   </dialog>
 
-  <script src="topics/polityka-pl.quiz.gz.js" defer></script>
-  <script src="app.js" defer></script>
+  <dialog id="confirm-dialog">
+    <div id="confirm-content"></div>
+  </dialog>
+
+  <script src="topics/polityka-pl.quiz.gz.js?v=0.2.2" defer></script>
+  <script src="app.js?v=0.2.2" defer></script>
 </body>
 </html>
