@@ -1,0 +1,11 @@
+name = "globocie-visitor-counter"
+main = "worker.js"
+compatibility_date = "2026-08-30"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "globocie-visitors"
+database_id = "WKLEJ_ID_BAZY_D1"
+
+[vars]
+ALLOWED_ORIGIN = "https://cubilladam-maker.github.io"
