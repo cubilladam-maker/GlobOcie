@@ -52,8 +52,68 @@
     }
   };
 
+  const modules = {
+    "political-compass": {
+      id: "political-compass",
+      themeId: "politics",
+      topicUrl: "topics/polityka-pl.quiz.gz",
+      name: "Kompas polityczny",
+      appearance: {
+        "--module-accent": "#f0b74c",
+        "--module-accent-2": "#3d8dff",
+        "--module-cyan": "#5de4d0",
+        "--module-line": "rgba(240, 183, 76, .30)",
+        "--module-warning": "#f0b74c",
+        "--module-bg-glow": "rgba(34, 93, 208, .25)",
+        "--module-bg-glow-2": "rgba(240, 183, 76, .12)",
+        "--module-cyan-border": "rgba(93, 228, 208, .58)",
+        "--module-cyan-glow": "rgba(93, 228, 208, .18)"
+      },
+      ui: {
+        startEyebrow: "Kompas polityczny · moduł aktywny",
+        aiLead: "AI porządkuje Twoje odpowiedzi polityczne.",
+        aiSubline: "Wynik pokazuje kierunki, nie przykleja etykiety.",
+        startButton: "Rozpocznij Kompas polityczny →",
+        stageCaption: "Kompas polityczny zmienia akcenty, opisy osi i zachowanie quizu po załadowaniu.",
+        cardDescription: "Poznaj swój punkt widzenia na państwo, wolność i wspólne reguły."
+      },
+      loading: {
+        title: "Wczytuję Kompas polityczny…",
+        description: "Przygotowuję pytania o państwo, wolność i wspólne reguły."
+      },
+      quiz: {
+        kicker: "Kompas polityczny",
+        aiStatus: "AI analizuje Twój kompas polityczny",
+        aiNote: "Tempo, opisy osi i podpowiedzi należą do modułu Kompas polityczny."
+      }
+    }
+  };
+
+  const defaultModule = "political-compass";
+
   function getTheme(id) {
     return themes[id] || themes.politics;
+  }
+
+  function mergeModule(base, override) {
+    return {
+      ...base,
+      ...override,
+      appearance: { ...(base.appearance || {}), ...(override.appearance || {}) },
+      ui: { ...(base.ui || {}), ...(override.ui || {}) },
+      loading: { ...(base.loading || {}), ...(override.loading || {}) },
+      quiz: { ...(base.quiz || {}), ...(override.quiz || {}) }
+    };
+  }
+
+  function getModule(id) {
+    return modules[id] || modules[defaultModule];
+  }
+
+  function registerModule(module) {
+    if (!module?.id) throw new Error("Moduł musi mieć identyfikator.");
+    modules[module.id] = mergeModule(getModule(defaultModule), module);
+    return modules[module.id];
   }
 
   function describeAxis(themeId, value) {
@@ -62,5 +122,5 @@
     return axis.ranges.find(range => safe >= range.min && safe <= range.max) || axis.ranges[0];
   }
 
-  return { themes, getTheme, describeAxis };
+  return { themes, modules, defaultModule, getTheme, getModule, registerModule, describeAxis };
 });

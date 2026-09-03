@@ -1,6 +1,8 @@
-GLOBOCIE v2.4 — ODKRYJ SWÓJ WEWNĘTRZNY UKRYTY KOD
+GLOBOCIE v2.6 — ODKRYJ SWÓJ WEWNĘTRZNY UKRYTY KOD
 
 Nowy interfejs quizu obejmuje ekran startowy, pytania, wynik i pełny profil.
+Aktywny moduł „Kompas polityczny” może zmieniać wygląd, teksty i zachowanie po wczytaniu własnego pakietu pytań.
+Licznik właściciela pokazuje wersję aplikacji oraz nazwę aktywnego modułu.
 Test lokalny: otwórz index.html albo uruchom START-SERWER-LOCAL.bat.
 Publikacja GitHub Pages następuje dopiero po osobnym zatwierdzeniu użytkownika.
 

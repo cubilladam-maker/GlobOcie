@@ -9,4 +9,12 @@ assert.equal(themeApi.describeAxis("politics", 70).label, "Więcej roli państwa
 assert.equal(themeApi.describeAxis("politics", 100).label, "Zdecydowanie więcej roli państwa");
 assert.equal(themeApi.getTheme("thinking").axis.leftLabel, "Więcej intuicji");
 assert.notEqual(themeApi.getTheme("thinking").axis.title, themeApi.getTheme("politics").axis.title);
+assert.equal(themeApi.getModule("political-compass").name, "Kompas polityczny");
+assert.equal(themeApi.getModule("political-compass").themeId, "politics");
+assert.equal(themeApi.getModule("political-compass").topicUrl, "topics/polityka-pl.quiz.gz");
+assert.equal(themeApi.getModule("political-compass").appearance["--module-accent"], "#f0b74c");
+const extraModule = themeApi.registerModule({ id: "future-module", topicUrl: "topics/future.quiz.gz", ui: { startButton: "Uruchom przyszły moduł" }, appearance: { "--module-accent": "#123456" } });
+assert.equal(extraModule.themeId, "politics");
+assert.equal(extraModule.ui.startButton, "Uruchom przyszły moduł");
+assert.equal(extraModule.appearance["--module-accent"], "#123456");
 console.log("Theme: konfiguracja i wszystkie zakresy działają poprawnie.");

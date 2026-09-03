@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.4";
+const APP_VERSION = "2.6";
 const QUESTION_TRANSITION_MS = 540;
 const THEME_API = window.GLOBOCIE_THEME_API;
 
@@ -38,6 +38,8 @@ const AXIS_META = {
 
 const state = {
   screen: "start",
+  moduleId: localStorage.getItem("globocie-module") || THEME_API.defaultModule || "political-compass",
+  loadedModuleId: null,
   themeId: localStorage.getItem("globocie-theme") || "politics",
   package: null,
   difficulty: Number(localStorage.getItem("globocie-difficulty") || 1),
@@ -62,8 +64,31 @@ function escapeHtml(text) {
   return String(text).replace(/[&<>\"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" }[ch]));
 }
 
-function currentTheme() { return THEME_API.getTheme(state.themeId); }
-function axisDescription() { return THEME_API.describeAxis(state.themeId, state.selfPosition); }
+function currentModule() { return THEME_API.getModule(state.moduleId); }
+function currentTheme() { return THEME_API.getTheme(currentModule().themeId || state.themeId); }
+function axisDescription() { return THEME_API.describeAxis(currentModule().themeId || state.themeId, state.selfPosition); }
+
+function applyModuleAppearance() {
+  const module = currentModule();
+  const style = document.documentElement?.style;
+  Object.entries(module.appearance || {}).forEach(([name, value]) => style?.setProperty(name, value));
+  document.body.dataset.module = module.id;
+  document.body.dataset.moduleLoaded = state.loadedModuleId === module.id ? "true" : "false";
+}
+
+function activateModule(moduleId) {
+  const module = THEME_API.getModule(moduleId);
+  if (state.moduleId !== module.id) {
+    state.package = null;
+    state.loadedModuleId = null;
+  }
+  state.moduleId = module.id;
+  state.themeId = module.themeId || "politics";
+  localStorage.setItem("globocie-module", module.id);
+  localStorage.setItem("globocie-theme", state.themeId);
+  applyModuleAppearance();
+  return module;
+}
 
 function bytesFromBase64(base64) {
   const binary = atob(base64);
@@ -130,6 +155,7 @@ function persistProgress() {
   localStorage.setItem("globocie-progress", JSON.stringify({
     packageId: state.package.manifest?.id,
     packageVersion: state.package.manifest?.version,
+    moduleId: state.moduleId,
     themeId: state.themeId,
     difficulty: state.difficulty,
     selfPosition: state.selfPosition,
@@ -189,6 +215,7 @@ function showConfirm(html, yesLabel, onYes, onNo) {
 }
 
 function render() {
+  applyModuleAppearance();
   ownerCounter.hidden = true;
   document.body.dataset.screen = state.screen;
   topProgress.hidden = state.screen !== "quiz";
@@ -207,23 +234,27 @@ function axisSettingCard(context = "start") {
 }
 
 function renderStart() {
+  const module = currentModule();
   const theme = currentTheme();
+  const ui = module.ui || {};
   app.innerHTML = `<section class="start-page panel">
     <section class="start-copy">
-      <div class="eyebrow">Poznaj siebie z pomocą sztucznej inteligencji</div>
+      <div class="eyebrow">${escapeHtml(ui.startEyebrow || theme.eyebrow)}</div>
       <h1>Odkryj swój<br>wewnętrzny<br><span>ukryty kod</span></h1>
-      <div class="start-ai-note"><b>✦</b><span><strong>Jestem Twoją Sztuczną Inteligencją (AI).</strong><small>Od teraz prowadzę Cię przez quiz.</small></span></div>
+      <div class="start-ai-note"><b>✦</b><span><strong>${escapeHtml(ui.aiLead || "Jestem Twoją Sztuczną Inteligencją (AI).")}</strong><small>${escapeHtml(ui.aiSubline || "Od teraz prowadzę Cię przez quiz.")}</small></span></div>
       <div class="code-space">${fingerprintVisual()}<div><strong>Twój kod jest niepowtarzalny</strong><span>Każda odpowiedź odsłania kolejny fragment Twojego sposobu myślenia.</span></div></div>
       <div class="start-settings">${axisSettingCard("start")}<section class="setting-box difficulty-box"><h3>Poziom trudności: <strong id="start-difficulty-label">${DIFFICULTIES[state.difficulty].label}</strong></h3><input id="start-difficulty" class="glow-range" type="range" min="0" max="10" step="1" value="${state.difficulty}">${difficultyTicks()}${difficultyLabels()}</section></div>
       <div class="benefit-grid"><div><b>◇</b><span><strong>Odkryjesz swój profil poglądów</strong><small>Zobaczysz, jak przekonania łączą się ze sobą.</small></span></div><div><b>☷</b><span><strong>Uporządkujesz odpowiedzi</strong><small>AI złoży je w czytelny, spójny profil.</small></span></div><div><b>⌘</b><span><strong>Poznasz styl myślenia</strong><small>Nie tylko „co”, ale również „jak” odpowiadasz.</small></span></div><div><b>✦</b><span><strong>Otrzymasz analizę AI</strong><small>Wynik pozostanie mapą, nie sztywną etykietą.</small></span></div></div>
-      <div class="start-actions"><button class="primary big" data-action="start-politics">Rozpocznij darmowy quiz →</button><button class="secondary" data-action="scroll-topics">Wybierz temat</button></div>
+      <div class="start-actions"><button class="primary big" data-action="start-module" data-module-id="${escapeHtml(module.id)}">${escapeHtml(ui.startButton || "Rozpocznij darmowy quiz →")}</button><button class="secondary" data-action="scroll-topics">Wybierz temat</button></div>
     </section>
-    <section class="start-stage"><div class="stage-glow"></div>${aiHologram("start-ai")}<p class="stage-caption">AI i napis <strong>Sztuczna Inteligencja</strong> obracają się jako jeden hologram.</p><div class="module-row" id="topics"><article class="module available" data-action="start-politics"><span>DARMOWY</span><h3>${escapeHtml(theme.name)}</h3><p>Odkryj swój punkt widzenia na scenie politycznej.</p></article><article class="module locked"><span>MODUŁ DODATKOWY</span><h3>Religia i światopogląd</h3><p>Wierzenia, wartości i światopogląd.</p></article><article class="module locked"><span>MODUŁ DODATKOWY</span><h3>Styl myślenia</h3><p>Sposób analizowania i podejmowania decyzji.</p></article><article class="module locked"><span>MODUŁ DODATKOWY</span><h3>Relacje i emocje</h3><p>Sposób budowania relacji i wyrażania emocji.</p></article></div></section>
+    <section class="start-stage"><div class="stage-glow"></div>${aiHologram("start-ai")}<p class="stage-caption">${escapeHtml(ui.stageCaption || "AI i napis Sztuczna Inteligencja obracają się jako jeden hologram.")}</p><div class="module-row" id="topics"><article class="module available" data-action="start-module" data-module-id="${escapeHtml(module.id)}"><span>DARMOWY</span><h3>${escapeHtml(module.name || theme.name)}</h3><p>${escapeHtml(ui.cardDescription || "Odkryj swój punkt widzenia na scenie politycznej.")}</p></article><article class="module locked"><span>MODUŁ DODATKOWY</span><h3>Religia i światopogląd</h3><p>Wierzenia, wartości i światopogląd.</p></article><article class="module locked"><span>MODUŁ DODATKOWY</span><h3>Styl myślenia</h3><p>Sposób analizowania i podejmowania decyzji.</p></article><article class="module locked"><span>MODUŁ DODATKOWY</span><h3>Relacje i emocje</h3><p>Sposób budowania relacji i wyrażania emocji.</p></article></div></section>
   </section>`;
 }
 
 function renderLoading() {
-  app.innerHTML = `<section class="panel loading"><div class="loader-ring"></div><h2>Układam Twój quiz…</h2><p>Przygotowuję pytania dla poziomu ${escapeHtml(DIFFICULTIES[state.difficulty].label)}.</p></section>`;
+  const module = currentModule();
+  const loading = module.loading || {};
+  app.innerHTML = `<section class="panel loading"><div class="loader-ring"></div><h2>${escapeHtml(loading.title || "Układam Twój quiz…")}</h2><p>${escapeHtml(loading.description || "Przygotowuję pytania.")} Poziom: ${escapeHtml(DIFFICULTIES[state.difficulty].label)}.</p></section>`;
 }
 
 function aiHintForQuestion() {
@@ -234,6 +265,8 @@ function aiHintForQuestion() {
 function shouldOfferHint() { return state.difficulty >= 3 || state.currentIndex % 3 === 2; }
 
 function renderQuiz() {
+  const module = currentModule();
+  const quizUi = module.quiz || {};
   const question = state.questions[state.currentIndex];
   if (!question) { state.screen = "results"; return render(); }
   const count = state.questions.length;
@@ -243,8 +276,8 @@ function renderQuiz() {
   const offerHint = shouldOfferHint();
   app.innerHTML = `<section class="quiz-page">
     <aside class="panel quiz-settings-panel"><div class="eyebrow">Ustawienia</div>${axisSettingCard("quiz")}<section class="quiz-setting-section"><div class="difficulty-heading"><h3>Poziom trudności</h3><span>Możesz zmienić w każdej chwili</span></div><input id="difficulty-live" class="glow-range" type="range" min="0" max="10" step="1" value="${state.difficulty}" ${state.difficultyChangeAttempted ? "disabled" : ""}>${difficultyTicks()}${difficultyLabels()}<p>${state.difficultyChangeAttempted ? "Na tym pytaniu wykorzystano próbę zmiany poziomu." : "Przesunięcie o jedną pozycję wymaga rozpoczęcia nowej gry."}</p></section><section class="locked-summary"><div>◉</div><div><strong>Ustawione na start</strong><span>${escapeHtml(axisDescription().label)}</span><span>Poziom: ${DIFFICULTIES[state.difficulty].label}</span></div><b>🔒</b></section><section class="ai-tip-mini"><b>✦ Wskazówka AI</b><p>AI dopasowuje tempo i podpowiedzi do przebiegu quizu.</p></section><button class="return-start" data-action="return-start">↻ <span><strong>Powrót na początek gry</strong><small>Zresetuj quiz i rozpocznij od nowa</small></span></button></aside>
-    <main class="panel quiz-question-panel"><div class="question-kicker">${escapeHtml(question.category || "Pytanie")}</div><h2>${escapeHtml(question.text)}</h2><div class="answers compact-answers">${answers.map((answer, index) => `<button class="answer" data-answer="${answer.value}" ${state.answerLock ? "disabled" : ""}><span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${escapeHtml(answer.label)}</span></button>`).join("")}</div>${offerHint ? `<button class="hint-row" data-action="toggle-hint"><span>✦</span><strong>AI podpowiedź</strong><small>${state.hintOpen ? "ukryj" : "pokaż"}</small><b>${state.hintOpen ? "⌃" : "⌄"}</b></button>` : ""}${offerHint && state.hintOpen ? `<div class="hint-box">${escapeHtml(aiHintForQuestion())}</div>` : ""}<div class="question-footnote">Po wyborze odpowiedzi kolejne pytanie pojawi się automatycznie.</div></main>
-    <aside class="panel quiz-ai-panel">${aiHologram("quiz-ai")}<div class="ai-status"><strong>AI analizuje przebieg quizu</strong><span>Spokojny obrót oznacza aktywną analizę.</span></div></aside>
+    <main class="panel quiz-question-panel"><div class="question-kicker">${escapeHtml(quizUi.kicker || question.category || "Pytanie")}</div><h2>${escapeHtml(question.text)}</h2><div class="answers compact-answers">${answers.map((answer, index) => `<button class="answer" data-answer="${answer.value}" ${state.answerLock ? "disabled" : ""}><span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${escapeHtml(answer.label)}</span></button>`).join("")}</div>${offerHint ? `<button class="hint-row" data-action="toggle-hint"><span>✦</span><strong>AI podpowiedź</strong><small>${state.hintOpen ? "ukryj" : "pokaż"}</small><b>${state.hintOpen ? "⌃" : "⌄"}</b></button>` : ""}${offerHint && state.hintOpen ? `<div class="hint-box">${escapeHtml(aiHintForQuestion())}</div>` : ""}<div class="question-footnote">Po wyborze odpowiedzi kolejne pytanie pojawi się automatycznie.</div></main>
+    <aside class="panel quiz-ai-panel">${aiHologram("quiz-ai")}<div class="ai-status"><strong>${escapeHtml(quizUi.aiStatus || "AI analizuje przebieg quizu")}</strong><span>${escapeHtml(quizUi.aiNote || "Spokojny obrót oznacza aktywną analizę.")}</span></div></aside>
   </section>`;
 }
 
@@ -333,11 +366,12 @@ function insightCards() {
 }
 
 function renderResults() {
+  const module = currentModule();
   const confidence = confidencePercent();
   const completed = state.answers.length;
   const total = state.questions.length || completed;
   app.innerHTML = `<section class="panel result-dashboard">
-    <header class="result-heading"><div><div class="eyebrow">Twój profil</div><h1>${profileName()}</h1><p>${profileSummary()}</p></div><div class="score-ring" style="--score:${confidence * 3.6}deg"><strong>${confidence}%</strong><span>spójność</span></div></header>
+    <header class="result-heading"><div><div class="eyebrow">${escapeHtml(module.name || "Twój profil")}</div><h1>${profileName()}</h1><p>${profileSummary()}</p></div><div class="score-ring" style="--score:${confidence * 3.6}deg"><strong>${confidence}%</strong><span>spójność</span></div></header>
     <section class="result-main"><div class="radar-card"><div class="card-heading"><span>Mapa Twojego profilu</span><small>${completed}/${total} odpowiedzi · ${elapsedMinutes()} min</small></div>${radarSvg()}</div><div class="insight-stack"><div class="card-heading"><span>Najważniejsze obserwacje</span><small>na podstawie odpowiedzi</small></div>${insightCards()}</div></section>
     <section class="ai-analysis"><b>✦</b><div><span>Analiza AI</span><p>Twój profil łączy potrzebę samodzielnego rozumowania z gotowością do sprawdzania różnych perspektyw. Najciekawsze są nie skrajne wyniki, lecz napięcia między osiami — to one pokazują Twój indywidualny kod.</p></div></section>
     <div class="results-actions"><button class="primary" data-action="details">Zobacz pełny profil →</button><button class="secondary" data-action="export-pdf">Pobierz wynik</button><button class="secondary" data-action="restart-topic">Powtórz quiz</button></div>
@@ -363,19 +397,25 @@ function profileDetailCards() {
 }
 
 function renderFullProfile() {
+  const module = currentModule();
   app.innerHTML = `<section class="panel full-profile">
-    <header class="profile-hero"><div><div class="eyebrow">Twój pełny profil</div><h1>${profileName()}</h1><p>${profileSummary()}</p><div class="chips">${strongestAxes().map(item => `<i>${AXIS_META[item.axis].name}</i>`).join("")}</div></div><div class="profile-radar">${radarSvg(true)}</div></header>
+    <header class="profile-hero"><div><div class="eyebrow">Twój pełny profil · ${escapeHtml(module.name || "moduł")}</div><h1>${profileName()}</h1><p>${profileSummary()}</p><div class="chips">${strongestAxes().map(item => `<i>${AXIS_META[item.axis].name}</i>`).join("")}</div></div><div class="profile-radar">${radarSvg(true)}</div></header>
     <section class="profile-content"><div class="profile-bars"><div class="section-title"><span>Twoje położenie na osiach</span><small>Wynik 50% oznacza środek danej osi</small></div>${Object.keys(AXIS_META).slice(0, 5).map(profileBar).join("")}</div><div class="profile-details"><div class="section-title"><span>Jak działa Twój wewnętrzny kod</span><small>Najważniejsze wzorce odpowiedzi</small></div><div class="profile-card-grid">${profileDetailCards()}</div></div></section>
     <section class="profile-conclusion"><b>✦</b><div><strong>Podsumowanie AI</strong><p>Największą wartością tego profilu jest jego wielowymiarowość. Traktuj go jak punkt startowy do dalszych pytań, a nie ostateczny opis siebie.</p></div></section>
     <div class="results-actions"><button class="primary" data-action="export-pdf">Pobierz pełny profil</button><button class="secondary" data-action="results">Wróć do podsumowania</button><button class="secondary" data-action="home">Ekran główny</button></div>
   </section>`;
 }
 
-async function startPolitics() {
+async function startModule(moduleId) {
+  const module = activateModule(moduleId);
   state.screen = "loading";
   render();
   try {
-    if (!state.package) state.package = await loadCompressedTopic("topics/polityka-pl.quiz.gz");
+    if (!state.package || state.loadedModuleId !== module.id) {
+      state.package = await loadCompressedTopic(module.topicUrl);
+      state.loadedModuleId = module.id;
+      applyModuleAppearance();
+    }
     beginSession(state.difficulty);
     state.screen = "quiz";
     render();
@@ -383,6 +423,8 @@ async function startPolitics() {
     app.innerHTML = `<section class="panel loading error"><h2>Nie udało się uruchomić quizu</h2><p>${escapeHtml(error.message || String(error))}</p><button class="secondary" data-action="home">Wróć</button></section>`;
   }
 }
+
+function startPolitics() { return startModule("political-compass"); }
 
 function restartTopic() {
   if (!state.package) return startPolitics();
@@ -403,6 +445,11 @@ function showHelp() {
 
 function showPrivacy() {
   showInfo(`<h2>Prywatność</h2><p>Odpowiedzi i postęp quizu są przechowywane lokalnie w tej przeglądarce. Nie są wysyłane do zewnętrznego modelu językowego.</p><p>Opcjonalny licznik zapisuje wyłącznie losowy identyfikator przeglądarki, bez imienia, adresu e-mail i treści odpowiedzi.</p>`);
+}
+
+function showOwnerCounter(value, suffix) {
+  ownerCounter.innerHTML = `<strong>${escapeHtml(value)}</strong><span>${escapeHtml(suffix)}</span><small>wersja v${escapeHtml(APP_VERSION)} · ${escapeHtml(currentModule().name)}</small>`;
+  ownerCounter.hidden = false;
 }
 
 const visitorCounter = {
@@ -433,8 +480,7 @@ const visitorCounter = {
           await this.request("/owner", { method: "POST", headers: { "X-Owner-Key": ownerKey }, body: JSON.stringify({ siteId: this.config.siteId, visitorId: this.visitorId() }) });
           localStorage.setItem("globocie-owner-key-v1", ownerKey);
         } catch (error) {
-          ownerCounter.innerHTML = "<strong>—</strong><span>nieprawidłowy kod właściciela</span>";
-          ownerCounter.hidden = false;
+          showOwnerCounter("—", "nieprawidłowy kod właściciela");
           return;
         }
       }
@@ -449,8 +495,7 @@ const visitorCounter = {
         value = String(data.count ?? 0);
       } catch (error) { value = "—"; suffix = "licznik chwilowo niedostępny"; }
     } else suffix = "tryb lokalny — usługa do podłączenia";
-    ownerCounter.innerHTML = `<strong>${escapeHtml(value)}</strong><span>${escapeHtml(suffix)}</span>`;
-    ownerCounter.hidden = false;
+    showOwnerCounter(value, suffix);
   }
 };
 
@@ -460,6 +505,7 @@ app.addEventListener("click", event => {
   const actionElement = event.target.closest("[data-action]");
   if (!actionElement) return;
   const action = actionElement.dataset.action;
+  if (action === "start-module") return startModule(actionElement.dataset.moduleId || "political-compass");
   if (action === "start-politics") return startPolitics();
   if (action === "scroll-topics") return document.querySelector("#topics")?.scrollIntoView({ behavior: "smooth" });
   if (action === "toggle-hint") { state.hintOpen = !state.hintOpen; return renderQuiz(); }

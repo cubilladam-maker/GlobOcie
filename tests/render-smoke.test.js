@@ -24,6 +24,7 @@ class TestElement {
 
 const elements = Object.fromEntries(["#app", "#info-dialog", "#dialog-content", "#confirm-dialog", "#confirm-content", "#top-progress", "#owner-hotspot", "#owner-counter"].map(selector => [selector, new TestElement()]));
 const storage = new Map();
+const rootStyle = { setProperty() {} };
 const localStorage = {
   getItem: key => storage.get(key) ?? null,
   setItem: (key, value) => storage.set(key, String(value)),
@@ -36,6 +37,7 @@ const context = vm.createContext({
   localStorage,
   document: {
     body: new TestElement(),
+    documentElement: { style: rootStyle },
     querySelector: selector => elements[selector] || new TestElement(),
     addEventListener() {}
   },
@@ -58,6 +60,7 @@ const context = vm.createContext({
 });
 
 const appSource = fs.readFileSync(path.join(__dirname, "..", "app.js"), "utf8");
+const indexSource = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 vm.runInContext(appSource, context, { filename: "app.js" });
 
 const start = elements["#app"].innerHTML;
@@ -94,5 +97,9 @@ assert.equal((profile.match(/<article>/g) || []).length, 6);
 assert.match(profile, /Podsumowanie AI/);
 
 assert.match(appSource, /QUESTION_TRANSITION_MS = 540/);
+assert.match(appSource, /wersja v\$\{escapeHtml\(APP_VERSION\)\}/);
+assert.match(appSource, /startModule\("political-compass"\)/);
+assert.match(indexSource, /class="site-version"/);
+assert.match(indexSource, /Wersja strony: v2\.6/);
 assert.equal(elements["#owner-counter"].hidden, true, "Licznik ma znikać po zmianie ekranu");
 console.log("Render: start, quiz, wynik, pełny profil i reguły prywatnego licznika działają poprawnie.");
