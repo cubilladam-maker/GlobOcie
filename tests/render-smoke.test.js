@@ -1,0 +1,98 @@
+"use strict";
+
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const vm = require("node:vm");
+const { webcrypto } = require("node:crypto");
+const themeApi = require("../themes.js");
+
+class TestElement {
+  constructor() {
+    this.innerHTML = "";
+    this.hidden = false;
+    this.open = false;
+    this.dataset = {};
+    this.listeners = {};
+  }
+  addEventListener(name, callback) { this.listeners[name] = callback; }
+  querySelector() { return new TestElement(); }
+  showModal() { this.open = true; }
+  close() { this.open = false; }
+  classList = { add() {} };
+}
+
+const elements = Object.fromEntries(["#app", "#info-dialog", "#dialog-content", "#confirm-dialog", "#confirm-content", "#top-progress", "#owner-hotspot", "#owner-counter"].map(selector => [selector, new TestElement()]));
+const storage = new Map();
+const localStorage = {
+  getItem: key => storage.get(key) ?? null,
+  setItem: (key, value) => storage.set(key, String(value)),
+  removeItem: key => storage.delete(key)
+};
+
+const context = vm.createContext({
+  console,
+  crypto: webcrypto,
+  localStorage,
+  document: {
+    body: new TestElement(),
+    querySelector: selector => elements[selector] || new TestElement(),
+    addEventListener() {}
+  },
+  window: {
+    GLOBOCIE_THEME_API: themeApi,
+    GLOBOCIE_VISITOR_COUNTER: { endpoint: "", siteId: "globocie" },
+    prompt: () => null,
+    print() {}
+  },
+  location: { protocol: "file:" },
+  setTimeout,
+  clearTimeout,
+  TextDecoder,
+  TextEncoder,
+  Blob,
+  Response,
+  DecompressionStream,
+  atob,
+  fetch
+});
+
+const appSource = fs.readFileSync(path.join(__dirname, "..", "app.js"), "utf8");
+vm.runInContext(appSource, context, { filename: "app.js" });
+
+const start = elements["#app"].innerHTML;
+assert.match(start, /Odkryj swój[\s\S]*ukryty kod/);
+assert.match(start, /Twój kod jest niepowtarzalny/);
+assert.match(start, /Równowaga wolności i państwa/);
+assert.doesNotMatch(start, /kobiet|mężczy|wróż|przewodnicz|przewodnik/i);
+
+const answerScale = [
+  { value: -2, label: "Zdecydowanie się nie zgadzam" },
+  { value: -1, label: "Raczej się nie zgadzam" },
+  { value: 0, label: "Nie mam pewności / zależy" },
+  { value: 1, label: "Raczej się zgadzam" },
+  { value: 2, label: "Zdecydowanie się zgadzam" }
+];
+vm.runInContext(`state.package = ${JSON.stringify({ answerScale })}; state.questions = ${JSON.stringify([{ id: "q1", category: "Obyczaje", text: "Przykładowe pytanie testowe", axes: { social: 1 } }])}; state.currentIndex = 0; state.screen = "quiz"; render();`, context);
+const quiz = elements["#app"].innerHTML;
+assert.match(quiz, /Przykładowe pytanie testowe/);
+assert.equal((quiz.match(/class="answer"/g) || []).length, 5);
+assert.ok(quiz.indexOf("compact-answers") - quiz.indexOf("Przykładowe pytanie testowe") < 900, "Odpowiedzi powinny być bezpośrednio pod pytaniem");
+assert.doesNotMatch(quiz, /kobiet|mężczy|wróż|przewodnicz|przewodnik/i);
+
+vm.runInContext(`state.answers = [{ questionId: "q1", value: 2 }]; state.scores.social = { sum: 2, weight: 2 }; state.screen = "results"; render();`, context);
+const results = elements["#app"].innerHTML;
+assert.match(results, /Mapa Twojego profilu/);
+assert.match(results, /Analiza AI/);
+assert.match(results, /Zobacz pełny profil/);
+
+vm.runInContext(`state.screen = "profile"; render();`, context);
+const profile = elements["#app"].innerHTML;
+assert.match(profile, /Twój pełny profil/);
+assert.equal((profile.match(/class="profile-bar"/g) || []).length, 5);
+assert.equal((profile.match(/<article>/g) || []).length, 6);
+assert.match(profile, /Podsumowanie AI/);
+
+assert.match(appSource, /QUESTION_TRANSITION_MS = 540/);
+assert.equal(elements["#owner-counter"].hidden, true, "Licznik ma znikać po zmianie ekranu");
+console.log("Render: start, quiz, wynik, pełny profil i reguły prywatnego licznika działają poprawnie.");
