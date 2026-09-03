@@ -114,6 +114,8 @@ footer { padding: 9px 28px; border-top: 1px solid rgba(255, 255, 255, .06); colo
 .benefit-grid strong { font-size: 11px; }
 .benefit-grid small { color: var(--muted); font-size: 9px; margin-top: 2px; }
 .start-actions, .results-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.local-game-stat { display: inline-flex; align-items: baseline; gap: 7px; margin-top: 9px; color: #74809d; font-size: 9px; }
+.local-game-stat strong { color: var(--accent); font-size: 13px; }
 .start-stage { position: relative; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 22px 20px; background: radial-gradient(circle at 52% 43%, var(--module-bg-glow), transparent 38%), linear-gradient(165deg, rgba(3, 7, 23, .86), rgba(4, 9, 26, .97)); }
 .stage-glow { position: absolute; inset: 4% 6% 22%; background: radial-gradient(ellipse at center, var(--module-bg-glow-2), transparent 62%); filter: blur(18px); }
 .stage-caption { position: relative; z-index: 4; text-align: center; color: var(--muted); font-size: 10px; margin: -5px 0 16px; }

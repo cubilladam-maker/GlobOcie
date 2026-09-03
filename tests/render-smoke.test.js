@@ -97,9 +97,18 @@ assert.equal((profile.match(/<article>/g) || []).length, 6);
 assert.match(profile, /Podsumowanie AI/);
 
 assert.match(appSource, /QUESTION_TRANSITION_MS = 540/);
+assert.match(appSource, /LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1"/);
+assert.match(appSource, /recordLocalGameStart\(\);/);
 assert.match(appSource, /wersja v\$\{escapeHtml\(APP_VERSION\)\}/);
 assert.match(appSource, /startModule\("political-compass"\)/);
 assert.match(indexSource, /class="site-version"/);
-assert.match(indexSource, /Wersja strony: v2\.6/);
+assert.match(indexSource, /Wersja strony: v2\.7/);
+assert.match(start, /lokalne rozpoczęcia gry na tym urządzeniu/);
+assert.match(start, />0<\/strong><span>lokalne rozpoczęcia gry/);
 assert.equal(elements["#owner-counter"].hidden, true, "Licznik ma znikać po zmianie ekranu");
+
+vm.runInContext(`state.package = { questions: [{ difficulty: 1, id: "q1", axes: { social: 1 } }] }; beginSession(); state.screen = "start"; render();`, context);
+const startedAgain = elements["#app"].innerHTML;
+assert.match(startedAgain, />1<\/strong><span>lokalne rozpoczęcia gry/);
+assert.equal(storage.get("globocie-game-starts-v1"), "1");
 console.log("Render: start, quiz, wynik, pełny profil i reguły prywatnego licznika działają poprawnie.");

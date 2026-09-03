@@ -1,4 +1,4 @@
-GlobOcie v2.6 FULL
+GlobOcie v2.7 FULL
 
 Pełna paczka do testów lokalnych z dysku.
 Zawiera: index.html, app.js, styles.css, themes.js, sw.js, topics/, services/, docs/, tests/ oraz wzorce 01.png, 02.png, 03.png.

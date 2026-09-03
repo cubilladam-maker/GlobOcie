@@ -9,8 +9,9 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.6";
+const APP_VERSION = "2.7";
 const QUESTION_TRANSITION_MS = 540;
+const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const THEME_API = window.GLOBOCIE_THEME_API;
 
 const DIFFICULTIES = [
@@ -59,6 +60,17 @@ function freshScores() {
 }
 
 function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+
+function localGameStarts() {
+  const value = Number.parseInt(localStorage.getItem(LOCAL_GAME_STARTS_KEY) || "0", 10);
+  return Number.isFinite(value) && value >= 0 ? value : 0;
+}
+
+function recordLocalGameStart() {
+  const nextValue = localGameStarts() + 1;
+  localStorage.setItem(LOCAL_GAME_STARTS_KEY, String(nextValue));
+  return nextValue;
+}
 
 function escapeHtml(text) {
   return String(text).replace(/[&<>\"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" }[ch]));
@@ -147,6 +159,7 @@ function beginSession(level = state.difficulty) {
   state.difficultyChangeAttempted = false;
   state.hintOpen = false;
   state.sessionStartedMs = Date.now();
+  recordLocalGameStart();
   persistProgress();
 }
 
@@ -245,7 +258,7 @@ function renderStart() {
       <div class="code-space">${fingerprintVisual()}<div><strong>Twój kod jest niepowtarzalny</strong><span>Każda odpowiedź odsłania kolejny fragment Twojego sposobu myślenia.</span></div></div>
       <div class="start-settings">${axisSettingCard("start")}<section class="setting-box difficulty-box"><h3>Poziom trudności: <strong id="start-difficulty-label">${DIFFICULTIES[state.difficulty].label}</strong></h3><input id="start-difficulty" class="glow-range" type="range" min="0" max="10" step="1" value="${state.difficulty}">${difficultyTicks()}${difficultyLabels()}</section></div>
       <div class="benefit-grid"><div><b>◇</b><span><strong>Odkryjesz swój profil poglądów</strong><small>Zobaczysz, jak przekonania łączą się ze sobą.</small></span></div><div><b>☷</b><span><strong>Uporządkujesz odpowiedzi</strong><small>AI złoży je w czytelny, spójny profil.</small></span></div><div><b>⌘</b><span><strong>Poznasz styl myślenia</strong><small>Nie tylko „co”, ale również „jak” odpowiadasz.</small></span></div><div><b>✦</b><span><strong>Otrzymasz analizę AI</strong><small>Wynik pozostanie mapą, nie sztywną etykietą.</small></span></div></div>
-      <div class="start-actions"><button class="primary big" data-action="start-module" data-module-id="${escapeHtml(module.id)}">${escapeHtml(ui.startButton || "Rozpocznij darmowy quiz →")}</button><button class="secondary" data-action="scroll-topics">Wybierz temat</button></div>
+      <div class="start-actions"><button class="primary big" data-action="start-module" data-module-id="${escapeHtml(module.id)}">${escapeHtml(ui.startButton || "Rozpocznij darmowy quiz →")}</button><button class="secondary" data-action="scroll-topics">Wybierz temat</button></div><div class="local-game-stat" aria-live="polite"><strong>${localGameStarts()}</strong><span>lokalne rozpoczęcia gry na tym urządzeniu</span></div>
     </section>
     <section class="start-stage"><div class="stage-glow"></div>${aiHologram("start-ai")}<p class="stage-caption">${escapeHtml(ui.stageCaption || "AI i napis Sztuczna Inteligencja obracają się jako jeden hologram.")}</p><div class="module-row" id="topics"><article class="module available" data-action="start-module" data-module-id="${escapeHtml(module.id)}"><span>DARMOWY</span><h3>${escapeHtml(module.name || theme.name)}</h3><p>${escapeHtml(ui.cardDescription || "Odkryj swój punkt widzenia na scenie politycznej.")}</p></article><article class="module locked"><span>MODUŁ DODATKOWY</span><h3>Religia i światopogląd</h3><p>Wierzenia, wartości i światopogląd.</p></article><article class="module locked"><span>MODUŁ DODATKOWY</span><h3>Styl myślenia</h3><p>Sposób analizowania i podejmowania decyzji.</p></article><article class="module locked"><span>MODUŁ DODATKOWY</span><h3>Relacje i emocje</h3><p>Sposób budowania relacji i wyrażania emocji.</p></article></div></section>
   </section>`;
@@ -444,7 +457,7 @@ function showHelp() {
 }
 
 function showPrivacy() {
-  showInfo(`<h2>Prywatność</h2><p>Odpowiedzi i postęp quizu są przechowywane lokalnie w tej przeglądarce. Nie są wysyłane do zewnętrznego modelu językowego.</p><p>Opcjonalny licznik zapisuje wyłącznie losowy identyfikator przeglądarki, bez imienia, adresu e-mail i treści odpowiedzi.</p>`);
+  showInfo(`<h2>Prywatność</h2><p>Odpowiedzi, postęp quizu i liczba rozpoczęć gry są przechowywane lokalnie w tej przeglądarce. Liczba rozpoczęć nie jest wysyłana na serwer.</p><p>Opcjonalny licznik odwiedzin zapisuje wyłącznie losowy identyfikator przeglądarki, bez imienia, adresu e-mail i treści odpowiedzi.</p>`);
 }
 
 function showOwnerCounter(value, suffix) {
