@@ -1,3 +1,11 @@
+GLOBOCIE v2.4 — ODKRYJ SWÓJ WEWNĘTRZNY UKRYTY KOD
+
+Nowy interfejs quizu obejmuje ekran startowy, pytania, wynik i pełny profil.
+Test lokalny: otwórz index.html albo uruchom START-SERWER-LOCAL.bat.
+Publikacja GitHub Pages następuje dopiero po osobnym zatwierdzeniu użytkownika.
+
+ARCHIWALNY OPIS RDZENIA DANYCH
+
 QUIZ-DOWODOWY-CORE-2026 — CORE 2.1 GRAPH PLANNER
 
 NAJWAŻNIEJSZA ZMIANA

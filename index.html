@@ -7,16 +7,16 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <title>Kim naprawdę jestem — quiz AI</title>
-  <link rel="stylesheet" href="styles.css?v=0.2.2" />
+  <title>Odkryj swój wewnętrzny ukryty kod — quiz AI</title>
+  <link rel="stylesheet" href="styles.css?v=2.4" />
 </head>
-<body data-theme="female" data-screen="start">
+<body data-screen="start">
   <div class="app-shell">
     <header class="topbar">
       <button class="brand" data-action="home" aria-label="Strona główna">
         <span class="brand-mark"><i></i></span>
         <span>
-          <strong>Kim naprawdę jestem</strong>
+          <strong>Odkryj swój ukryty kod</strong>
           <small>quiz wspierany przez sztuczną inteligencję</small>
         </span>
       </button>
@@ -25,12 +25,14 @@
         <button class="ghost" data-action="privacy">♢ Prywatność</button>
         <div class="top-progress" id="top-progress" hidden></div>
       </nav>
+      <button class="owner-hotspot" id="owner-hotspot" aria-label=""></button>
+      <output class="owner-counter" id="owner-counter" hidden></output>
     </header>
 
     <main id="app" aria-live="polite"></main>
 
     <footer>
-      <span>Kim naprawdę jestem · v0.2.2</span>
+      <span>Odkryj swój ukryty kod · v2.4</span>
       <span>Brak Service Workera buforującego stary interfejs.</span>
     </footer>
   </div>
@@ -44,7 +46,9 @@
     <div id="confirm-content"></div>
   </dialog>
 
-  <script src="topics/polityka-pl.quiz.gz.js?v=0.2.2" defer></script>
-  <script src="app.js?v=0.2.2" defer></script>
+  <script src="themes.js?v=2.4" defer></script>
+  <script src="visitor-counter-config.js?v=2.4" defer></script>
+  <script src="topics/polityka-pl.quiz.gz.js?v=2.4" defer></script>
+  <script src="app.js?v=2.4" defer></script>
 </body>
 </html>
