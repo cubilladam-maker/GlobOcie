@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.7";
+const APP_VERSION = "2.8";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const THEME_API = window.GLOBOCIE_THEME_API;
@@ -461,7 +461,7 @@ function showPrivacy() {
 }
 
 function showOwnerCounter(value, suffix) {
-  ownerCounter.innerHTML = `<strong>${escapeHtml(value)}</strong><span>${escapeHtml(suffix)}</span><small>wersja v${escapeHtml(APP_VERSION)} · ${escapeHtml(currentModule().name)}</small>`;
+  ownerCounter.innerHTML = `<div class="counter-heading">Statystyki GlobOcie</div><div class="counter-grid"><div class="counter-block"><span>Odwiedziny online</span><strong>${escapeHtml(value)}</strong><small>${escapeHtml(suffix)}</small></div><div class="counter-block local"><span>Rozpoczęcia gry lokalnie</span><strong>${localGameStarts()}</strong><small>na tym urządzeniu</small></div></div><small class="counter-meta">wersja v${escapeHtml(APP_VERSION)} · ${escapeHtml(currentModule().name)}</small>`;
   ownerCounter.hidden = false;
 }
 
@@ -499,15 +499,15 @@ const visitorCounter = {
       }
       localStorage.setItem("globocie-owner-browser-v1", "1");
     }
-    let value = "0";
-    let suffix = "unikalnych przeglądarek";
+    let value = "—";
+    let suffix = "usługa online do podłączenia";
     if (this.config.endpoint) {
       try {
         const ownerKey = localStorage.getItem("globocie-owner-key-v1") || "";
         const data = await this.request(`/count?siteId=${encodeURIComponent(this.config.siteId)}`, { headers: { "X-Owner-Key": ownerKey } });
         value = String(data.count ?? 0);
       } catch (error) { value = "—"; suffix = "licznik chwilowo niedostępny"; }
-    } else suffix = "tryb lokalny — usługa do podłączenia";
+    }
     showOwnerCounter(value, suffix);
   }
 };
@@ -560,3 +560,4 @@ document.addEventListener("click", event => {
 ownerHotspot.addEventListener("click", () => visitorCounter.reveal());
 visitorCounter.registerVisit();
 render();
+
