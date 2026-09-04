@@ -138,7 +138,7 @@
       "id": "religion-worldview",
       "themeId": "worldview",
       "topicUrl": "topics/religia-swiatopoglad-pl.quiz.gz",
-      "name": "Religia i światopogląd",
+      "name": "Jaka religia/światopogląd tkwią w Twoim sercu?",
       "appearance": {
         "--module-accent": "#d9a85f",
         "--module-accent-2": "#8d79ff",
@@ -183,19 +183,19 @@
         }
       },
       "ui": {
-        "startEyebrow": "Religia i światopogląd · moduł ładowalny",
+        "startEyebrow": "Jaka religia/światopogląd tkwią w Twoim sercu? · moduł ładowalny",
         "aiLead": "AI porządkuje Twoje odpowiedzi o wartościach i przekonaniach.",
         "aiSubline": "Wynik jest mapą refleksji, nie oceną wiary.",
-        "startButton": "Rozpocznij: Religia i światopogląd →",
+        "startButton": "Rozpocznij: Jaka religia/światopogląd tkwią w Twoim sercu? →",
         "stageCaption": "Moduł zmienia pytania, akcenty i opis profilu po załadowaniu.",
         "cardDescription": "Zastanów się nad sensem, wartościami, tradycją i własną drogą."
       },
       "loading": {
-        "title": "Wczytuję Religia i światopogląd…",
+        "title": "Wczytuję Jaka religia/światopogląd tkwią w Twoim sercu?…",
         "description": "Przygotowuję pytania o wartościach, sensie i miejscu przekonań w życiu."
       },
       "quiz": {
-        "kicker": "Religia i światopogląd",
+        "kicker": "Jaka religia/światopogląd tkwią w Twoim sercu?",
         "aiStatus": "AI analizuje Twój profil światopoglądowy",
         "aiNote": "Pytania są zaproszeniem do refleksji, a nie testem poprawności przekonań."
       }
