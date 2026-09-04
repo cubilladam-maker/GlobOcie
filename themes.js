@@ -49,6 +49,53 @@
           { min: 61, max: 100, label: "Przewaga analizy", hint: "Najpierw porządkujesz dane, a dopiero potem wybierasz kierunek." }
         ]
       }
+    },
+    worldview: {
+      "id": "worldview",
+      "eyebrow": "Poznaj swoje wartości, przekonania i sposób widzenia świata",
+      "axis": {
+        "id": "worldview-balance",
+        "title": "Twoja oś światopoglądowa",
+        "purpose": "Punkt startowy pomaga porównać deklarowane wartości z odpowiedziami w quizie.",
+        "leftLabel": "Więcej autonomii",
+        "rightLabel": "Więcej zakorzenienia",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "defaultValue": 50,
+        "ranges": [
+          {
+            "min": 0,
+            "max": 19,
+            "label": "Silna autonomia",
+            "hint": "Najważniejsze są dla Ciebie osobiste wybory i niezależne poszukiwanie sensu."
+          },
+          {
+            "min": 20,
+            "max": 39,
+            "label": "Przewaga autonomii",
+            "hint": "Cenisz własną drogę, choć widzisz wartość we wspólnych tradycjach."
+          },
+          {
+            "min": 40,
+            "max": 60,
+            "label": "Równowaga autonomii i zakorzenienia",
+            "hint": "Łączysz osobiste poszukiwania z szacunkiem dla wspólnoty i tradycji."
+          },
+          {
+            "min": 61,
+            "max": 80,
+            "label": "Przewaga zakorzenienia",
+            "hint": "Wspólnota, ciągłość i odziedziczone znaczenia są dla Ciebie ważnymi punktami odniesienia."
+          },
+          {
+            "min": 81,
+            "max": 100,
+            "label": "Silne zakorzenienie",
+            "hint": "Największą wagę przywiązujesz do tradycji, wspólnoty i trwałych ram wartości."
+          }
+        ]
+      }
     }
   };
 
@@ -85,6 +132,72 @@
         kicker: "Kompas polityczny",
         aiStatus: "AI analizuje Twój kompas polityczny",
         aiNote: "Tempo, opisy osi i podpowiedzi należą do modułu Kompas polityczny."
+      }
+    },
+    "religion-worldview": {
+      "id": "religion-worldview",
+      "themeId": "worldview",
+      "topicUrl": "topics/religia-swiatopoglad-pl.quiz.gz",
+      "name": "Religia i światopogląd",
+      "appearance": {
+        "--module-accent": "#d9a85f",
+        "--module-accent-2": "#8d79ff",
+        "--module-cyan": "#72e0c1",
+        "--module-line": "rgba(217, 168, 95, .30)",
+        "--module-warning": "#d9a85f",
+        "--module-bg-glow": "rgba(104, 73, 179, .25)",
+        "--module-bg-glow-2": "rgba(217, 168, 95, .12)",
+        "--module-cyan-border": "rgba(114, 224, 193, .58)",
+        "--module-cyan-glow": "rgba(114, 224, 193, .18)"
+      },
+      "axisMeta": {
+        "economy": {
+          "name": "Stosunek do dóbr",
+          "left": "Prostota",
+          "right": "Materialny dobrobyt"
+        },
+        "social": {
+          "name": "Tradycja i zmiana",
+          "left": "Tradycja",
+          "right": "Otwartość"
+        },
+        "authority": {
+          "name": "Osobista autonomia",
+          "left": "Własne poszukiwanie",
+          "right": "Wspólne ramy"
+        },
+        "eu": {
+          "name": "Zakres wspólnoty",
+          "left": "Lokalność",
+          "right": "Uniwersalność"
+        },
+        "climate": {
+          "name": "Relacja z naturą",
+          "left": "Ostrożność",
+          "right": "Aktywna troska"
+        },
+        "centralization": {
+          "name": "Źródło sensu",
+          "left": "Osobiste doświadczenie",
+          "right": "Wspólnota i przekaz"
+        }
+      },
+      "ui": {
+        "startEyebrow": "Religia i światopogląd · moduł ładowalny",
+        "aiLead": "AI porządkuje Twoje odpowiedzi o wartościach i przekonaniach.",
+        "aiSubline": "Wynik jest mapą refleksji, nie oceną wiary.",
+        "startButton": "Rozpocznij: Religia i światopogląd →",
+        "stageCaption": "Moduł zmienia pytania, akcenty i opis profilu po załadowaniu.",
+        "cardDescription": "Zastanów się nad sensem, wartościami, tradycją i własną drogą."
+      },
+      "loading": {
+        "title": "Wczytuję Religia i światopogląd…",
+        "description": "Przygotowuję pytania o wartościach, sensie i miejscu przekonań w życiu."
+      },
+      "quiz": {
+        "kicker": "Religia i światopogląd",
+        "aiStatus": "AI analizuje Twój profil światopoglądowy",
+        "aiNote": "Pytania są zaproszeniem do refleksji, a nie testem poprawności przekonań."
       }
     }
   };

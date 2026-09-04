@@ -109,7 +109,7 @@ footer { padding: 9px 28px; border-top: 1px solid rgba(255, 255, 255, .06); colo
 .difficulty-ticks { display: grid; grid-template-columns: repeat(11, 1fr); height: 7px; margin: 0 7px; }
 .difficulty-ticks i { justify-self: center; width: 1px; height: 4px; background: rgba(255, 255, 255, .24); }
 .difficulty-ticks i.major { height: 7px; background: var(--accent); }
-.difficulty-labels { display: grid; grid-template-columns: repeat(4, 1fr); color: var(--muted); font-size: 8px; }
+.difficulty-labels { display: grid; grid-template-columns: repeat(2, 1fr); color: var(--muted); font-size: 8px; }
 .difficulty-labels span:nth-child(2), .difficulty-labels span:nth-child(3) { text-align: center; }
 .difficulty-labels span:last-child { text-align: right; }
 .benefit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 14px; border: 1px solid var(--line); border-radius: 13px; padding: 11px 13px; margin-top: 11px; }
@@ -128,6 +128,7 @@ footer { padding: 9px 28px; border-top: 1px solid rgba(255, 255, 255, .06); colo
 .module-row { position: relative; z-index: 4; display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
 .module { min-height: 130px; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: rgba(6, 13, 34, .82); position: relative; }
 .module.available { cursor: pointer; border-color: var(--module-cyan-border); }
+.module.available.active { box-shadow: 0 0 16px var(--module-cyan-glow); transform: translateY(-2px); }
 .module > span { color: var(--module-warning); font-size: 7px; }
 .module.available > span { color: var(--ok); }
 .module h3 { font: 500 16px/1.15 Georgia, serif; margin: 18px 0 6px; }

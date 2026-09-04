@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.8";
+const APP_VERSION = "2.9";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const THEME_API = window.GLOBOCIE_THEME_API;
@@ -55,8 +55,8 @@ const state = {
   sessionStartedMs: null
 };
 
-function freshScores() {
-  return Object.fromEntries(Object.keys(AXIS_META).map(key => [key, { sum: 0, weight: 0 }]));
+function freshScores(meta = AXIS_META) {
+  return Object.fromEntries(Object.keys(meta).map(key => [key, { sum: 0, weight: 0 }]));
 }
 
 function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
@@ -78,6 +78,7 @@ function escapeHtml(text) {
 
 function currentModule() { return THEME_API.getModule(state.moduleId); }
 function currentTheme() { return THEME_API.getTheme(currentModule().themeId || state.themeId); }
+function currentAxisMeta() { return currentModule().axisMeta || AXIS_META; }
 function axisDescription() { return THEME_API.describeAxis(currentModule().themeId || state.themeId, state.selfPosition); }
 
 function applyModuleAppearance() {
@@ -154,7 +155,7 @@ function beginSession(level = state.difficulty) {
   state.questions = topicQuestionsForDifficulty(state.difficulty);
   state.currentIndex = 0;
   state.answers = [];
-  state.scores = freshScores();
+  state.scores = freshScores(currentAxisMeta());
   state.answerLock = false;
   state.difficultyChangeAttempted = false;
   state.hintOpen = false;
@@ -246,6 +247,15 @@ function axisSettingCard(context = "start") {
   return `<section class="axis-setting ${isStart ? "" : "axis-readonly"}"><div class="axis-heading"><h3>${escapeHtml(theme.axis.title)}: <strong id="axis-live-label">${escapeHtml(description.label)}</strong></h3>${isStart ? "" : "<span>Ustawienie początkowe</span>"}</div>${isStart ? `<input id="start-self-position" class="glow-range" type="range" min="${theme.axis.min}" max="${theme.axis.max}" step="${theme.axis.step}" value="${state.selfPosition}">` : `<div class="readonly-range"><i style="left:${state.selfPosition}%"></i></div>`}<div class="range-labels"><span>${escapeHtml(theme.axis.leftLabel)}</span><span>${escapeHtml(theme.axis.rightLabel)}</span></div><p class="axis-hint" id="axis-live-hint">${escapeHtml(description.hint)}</p></section>`;
 }
 
+function moduleCards() {
+  return Object.values(THEME_API.modules).map(module => {
+    const theme = THEME_API.getTheme(module.themeId);
+    const ui = module.ui || {};
+    const active = state.moduleId === module.id ? " active" : "";
+    return `<article class="module available${active}" data-action="start-module" data-module-id="${escapeHtml(module.id)}" tabindex="0" role="button"><span>${active ? "AKTYWNY" : "DOSTĘPNY"}</span><h3>${escapeHtml(module.name || theme.name)}</h3><p>${escapeHtml(ui.cardDescription || theme.eyebrow)}</p></article>`;
+  }).join("");
+}
+
 function renderStart() {
   const module = currentModule();
   const theme = currentTheme();
@@ -260,7 +270,7 @@ function renderStart() {
       <div class="benefit-grid"><div><b>◇</b><span><strong>Odkryjesz swój profil poglądów</strong><small>Zobaczysz, jak przekonania łączą się ze sobą.</small></span></div><div><b>☷</b><span><strong>Uporządkujesz odpowiedzi</strong><small>AI złoży je w czytelny, spójny profil.</small></span></div><div><b>⌘</b><span><strong>Poznasz styl myślenia</strong><small>Nie tylko „co”, ale również „jak” odpowiadasz.</small></span></div><div><b>✦</b><span><strong>Otrzymasz analizę AI</strong><small>Wynik pozostanie mapą, nie sztywną etykietą.</small></span></div></div>
       <div class="start-actions"><button class="primary big" data-action="start-module" data-module-id="${escapeHtml(module.id)}">${escapeHtml(ui.startButton || "Rozpocznij darmowy quiz →")}</button><button class="secondary" data-action="scroll-topics">Wybierz temat</button></div><div class="local-game-stat" aria-live="polite"><strong>${localGameStarts()}</strong><span>lokalne rozpoczęcia gry na tym urządzeniu</span></div>
     </section>
-    <section class="start-stage"><div class="stage-glow"></div>${aiHologram("start-ai")}<p class="stage-caption">${escapeHtml(ui.stageCaption || "AI i napis Sztuczna Inteligencja obracają się jako jeden hologram.")}</p><div class="module-row" id="topics"><article class="module available" data-action="start-module" data-module-id="${escapeHtml(module.id)}"><span>DARMOWY</span><h3>${escapeHtml(module.name || theme.name)}</h3><p>${escapeHtml(ui.cardDescription || "Odkryj swój punkt widzenia na scenie politycznej.")}</p></article><article class="module locked"><span>MODUŁ DODATKOWY</span><h3>Religia i światopogląd</h3><p>Wierzenia, wartości i światopogląd.</p></article><article class="module locked"><span>MODUŁ DODATKOWY</span><h3>Styl myślenia</h3><p>Sposób analizowania i podejmowania decyzji.</p></article><article class="module locked"><span>MODUŁ DODATKOWY</span><h3>Relacje i emocje</h3><p>Sposób budowania relacji i wyrażania emocji.</p></article></div></section>
+    <section class="start-stage"><div class="stage-glow"></div>${aiHologram("start-ai")}<p class="stage-caption">${escapeHtml(ui.stageCaption || "AI i napis Sztuczna Inteligencja obracają się jako jeden hologram.")}</p><div class="module-row" id="topics">${moduleCards()}</div></section>
   </section>`;
 }
 
@@ -325,7 +335,7 @@ function requestDifficultyChange(requested) {
 }
 
 function requestReturnStart() {
-  showConfirm(`<div class="confirm-symbol">↻</div><h2>Powrót na początek gry</h2><p>Dotychczasowe odpowiedzi zostaną usunięte z bieżącej serii.</p>`, "Wróć na początek", () => { state.questions = []; state.currentIndex = 0; state.answers = []; state.scores = freshScores(); state.answerLock = false; state.hintOpen = false; state.screen = "start"; localStorage.removeItem("globocie-progress"); render(); });
+  showConfirm(`<div class="confirm-symbol">↻</div><h2>Powrót na początek gry</h2><p>Dotychczasowe odpowiedzi zostaną usunięte z bieżącej serii.</p>`, "Wróć na początek", () => { state.questions = []; state.currentIndex = 0; state.answers = []; state.scores = freshScores(currentAxisMeta()); state.answerLock = false; state.hintOpen = false; state.screen = "start"; localStorage.removeItem("globocie-progress"); render(); });
 }
 
 function elapsedMinutes() {
@@ -334,7 +344,7 @@ function elapsedMinutes() {
 }
 
 function strongestAxes() {
-  return Object.keys(AXIS_META).map(axis => ({ axis, value: axisPercent(axis), distance: Math.abs(axisPercent(axis) - 50) })).sort((a, b) => b.distance - a.distance).slice(0, 3);
+  return Object.keys(currentAxisMeta()).map(axis => ({ axis, value: axisPercent(axis), distance: Math.abs(axisPercent(axis) - 50) })).sort((a, b) => b.distance - a.distance).slice(0, 3);
 }
 
 function profileName() {
@@ -347,7 +357,7 @@ function profileName() {
 }
 
 function profileSummary() {
-  const names = strongestAxes().map(item => AXIS_META[item.axis].name.toLowerCase());
+  const names = strongestAxes().map(item => currentAxisMeta()[item.axis].name.toLowerCase());
   return `Najmocniej wyróżniają Cię: ${names.join(", ")}. To mapa tendencji, nie diagnoza ani sztywna etykieta.`;
 }
 
@@ -358,14 +368,14 @@ function radarPoint(percent, index, count, radius, cx, cy) {
 }
 
 function radarSvg(compact = false) {
-  const axes = Object.keys(AXIS_META);
+  const axes = Object.keys(currentAxisMeta());
   const values = axes.map(axisPercent);
   const cx = 210, cy = 185, radius = 124;
   const rings = [25, 50, 75, 100].map(percent => `<polygon points="${axes.map((_, index) => radarPoint(percent, index, axes.length, radius, cx, cy).join(",")).join(" ")}" class="radar-ring"/>`).join("");
   const spokes = axes.map((_, index) => { const [x, y] = radarPoint(100, index, axes.length, radius, cx, cy); return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" class="radar-spoke"/>`; }).join("");
   const points = values.map((value, index) => radarPoint(value, index, axes.length, radius, cx, cy));
   const profile = `<polygon points="${points.map(point => point.join(",")).join(" ")}" class="radar-profile"/>`;
-  const labels = compact ? "" : axes.map((axis, index) => { const [x, y] = radarPoint(119, index, axes.length, radius, cx, cy); return `<text x="${x}" y="${y}" text-anchor="middle" class="radar-label">${AXIS_META[axis].name} ${values[index]}%</text>`; }).join("");
+  const labels = compact ? "" : axes.map((axis, index) => { const [x, y] = radarPoint(119, index, axes.length, radius, cx, cy); return `<text x="${x}" y="${y}" text-anchor="middle" class="radar-label">${currentAxisMeta()[axis].name} ${values[index]}%</text>`; }).join("");
   return `<svg class="radar3d" viewBox="0 0 420 380" role="img" aria-label="Wykres profilu">${rings}${spokes}${profile}${labels}</svg>`;
 }
 
@@ -392,7 +402,7 @@ function renderResults() {
 }
 
 function profileBar(axis) {
-  const meta = AXIS_META[axis];
+  const meta = currentAxisMeta()[axis];
   const value = axisPercent(axis);
   return `<div class="profile-bar"><div><strong>${meta.name}</strong><span>${value}%</span></div><div class="bar-track"><i style="width:${value}%"></i></div><small><span>${meta.left}</span><span>${meta.right}</span></small></div>`;
 }
@@ -412,8 +422,8 @@ function profileDetailCards() {
 function renderFullProfile() {
   const module = currentModule();
   app.innerHTML = `<section class="panel full-profile">
-    <header class="profile-hero"><div><div class="eyebrow">Twój pełny profil · ${escapeHtml(module.name || "moduł")}</div><h1>${profileName()}</h1><p>${profileSummary()}</p><div class="chips">${strongestAxes().map(item => `<i>${AXIS_META[item.axis].name}</i>`).join("")}</div></div><div class="profile-radar">${radarSvg(true)}</div></header>
-    <section class="profile-content"><div class="profile-bars"><div class="section-title"><span>Twoje położenie na osiach</span><small>Wynik 50% oznacza środek danej osi</small></div>${Object.keys(AXIS_META).slice(0, 5).map(profileBar).join("")}</div><div class="profile-details"><div class="section-title"><span>Jak działa Twój wewnętrzny kod</span><small>Najważniejsze wzorce odpowiedzi</small></div><div class="profile-card-grid">${profileDetailCards()}</div></div></section>
+    <header class="profile-hero"><div><div class="eyebrow">Twój pełny profil · ${escapeHtml(module.name || "moduł")}</div><h1>${profileName()}</h1><p>${profileSummary()}</p><div class="chips">${strongestAxes().map(item => `<i>${currentAxisMeta()[item.axis].name}</i>`).join("")}</div></div><div class="profile-radar">${radarSvg(true)}</div></header>
+    <section class="profile-content"><div class="profile-bars"><div class="section-title"><span>Twoje położenie na osiach</span><small>Wynik 50% oznacza środek danej osi</small></div>${Object.keys(currentAxisMeta()).slice(0, 5).map(profileBar).join("")}</div><div class="profile-details"><div class="section-title"><span>Jak działa Twój wewnętrzny kod</span><small>Najważniejsze wzorce odpowiedzi</small></div><div class="profile-card-grid">${profileDetailCards()}</div></div></section>
     <section class="profile-conclusion"><b>✦</b><div><strong>Podsumowanie AI</strong><p>Największą wartością tego profilu jest jego wielowymiarowość. Traktuj go jak punkt startowy do dalszych pytań, a nie ostateczny opis siebie.</p></div></section>
     <div class="results-actions"><button class="primary" data-action="export-pdf">Pobierz pełny profil</button><button class="secondary" data-action="results">Wróć do podsumowania</button><button class="secondary" data-action="home">Ekran główny</button></div>
   </section>`;
