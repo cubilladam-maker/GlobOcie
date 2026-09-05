@@ -133,14 +133,15 @@ footer { padding: 9px 28px; border-top: 1px solid rgba(255, 255, 255, .06); colo
 .module-row { position: relative; z-index: 4; display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
 .module { min-height: 130px; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: rgba(6, 13, 34, .82); position: relative; }
 .module.available { cursor: pointer; border-color: var(--module-card-line, var(--module-cyan-border)); }
-.module.available.active { box-shadow: 0 0 16px var(--module-cyan-glow); transform: translateY(-2px); }
+.module.available:hover, .module.available.active { border-color: var(--module-card-accent, var(--module-cyan)); }
+.module.available.active { box-shadow: 0 0 16px var(--module-card-accent, var(--module-cyan-glow)); transform: translateY(-2px); }
 .module > span { color: var(--module-warning); font-size: 7px; }
-.module.available > span { color: var(--ok); }
+.module.available > span { color: var(--module-card-accent, var(--ok)); }
 .module h3 { font: 500 16px/1.15 Georgia, serif; margin: 18px 0 6px; }
 .module p { color: var(--muted); font-size: 9px; line-height: 1.35; }
 .module.locked::after { content: "▣"; color: var(--module-warning); position: absolute; right: 10px; top: 8px; font-size: 10px; }
 .module.available h3 { color: var(--module-card-cyan, var(--module-cyan)); }
-body[data-module-loaded="true"] .module.available { box-shadow: 0 0 18px var(--module-cyan-glow); }
+body[data-module-loaded="true"] .module.available.active { box-shadow: 0 0 18px var(--module-card-accent, var(--module-cyan-glow)); }
 .future-topics { position: relative; z-index: 5; display: flex; align-items: flex-start; gap: 8px; margin-top: 10px; }
 .future-toggle { min-width: 154px; display: grid; grid-template-columns: 1fr auto; gap: 3px 10px; align-items: center; text-align: left; border: 1px solid rgba(255, 255, 255, .16); border-radius: 13px; padding: 10px 12px; color: #dbe3f8; background: rgba(255, 255, 255, .045); cursor: pointer; }
 .future-toggle:hover { border-color: var(--accent); background: rgba(177, 60, 255, .09); }

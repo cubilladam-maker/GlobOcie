@@ -9,10 +9,18 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.11";
+const APP_VERSION = "2.12";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
+const AXIS_POSITION_KEY_PREFIX = "globocie-axis-position-v1:";
 const THEME_API = window.GLOBOCIE_THEME_API;
+const initialModuleId = localStorage.getItem("globocie-module") || THEME_API.defaultModule || "political-compass";
+const initialModule = THEME_API.getModule(initialModuleId);
+const initialAxis = THEME_API.getTheme(initialModule.themeId || "politics").axis;
+const initialStoredAxisPosition = localStorage.getItem(`${AXIS_POSITION_KEY_PREFIX}${initialModule.id}`) ?? (initialModule.id === THEME_API.defaultModule ? localStorage.getItem("globocie-axis-position") : null);
+const initialAxisFallback = Number(initialAxis.defaultValue ?? 50);
+const initialAxisCandidate = initialStoredAxisPosition !== null && initialStoredAxisPosition !== "" ? Number(initialStoredAxisPosition) : initialAxisFallback;
+const initialSelfPosition = clamp(Number.isFinite(initialAxisCandidate) ? initialAxisCandidate : initialAxisFallback, Number(initialAxis.min ?? 0), Number(initialAxis.max ?? 100));
 
 const DIFFICULTIES = [
   { id: "uczen", label: "Uczeń", sourceBand: 0 },
@@ -49,17 +57,19 @@ const NATURAL_QUESTION_REWRITES = new Map([
   ["Pluralizm liberalny wymaga, aby państwo nie uprzywilejowywało tradycyjnych norm moralnych wobec alternatywnych, dobrowolnych stylów życia dorosłych.", "Jeśli dorośli nikogo nie krzywdzą, państwo nie powinno faworyzować tradycyjnego stylu życia kosztem innych dobrowolnych wyborów."],
   ["Polityka klimatyczna powinna mocniej uwzględniać koszt krańcowy redukcji emisji i opóźniać działania, których koszt społeczny jest nieproporcjonalny do efektu.", "Polityka klimatyczna powinna brać pod uwagę koszt kolejnych redukcji emisji i opóźniać działania, które kosztują społeczeństwo dużo więcej, niż dają efekt."],
   ["Subsydiarność powinna ograniczać przenoszenie nowych kompetencji na poziom unijny, jeśli cele można skutecznie realizować krajowo.", "Nie warto przenosić kolejnych decyzji na poziom Unii, jeśli Polska potrafi skutecznie zająć się nimi sama."],
-  ["Zasada subsydiarności przemawia za przekazywaniem kompetencji możliwie najniższemu skutecznemu poziomowi władzy, nawet kosztem mniejszej jednolitości usług.", "Decyzje powinny zapadać możliwie blisko ludzi, jeśli niższy szczebel władzy potrafi skutecznie się nimi zająć — nawet gdy oznacza to mniej jednolite usługi."]
+  ["Zasada subsydiarności przemawia za przekazywaniem kompetencji możliwie najniższemu skutecznemu poziomowi władzy, nawet kosztem mniejszej jednolitości usług.", "Decyzje powinny zapadać możliwie blisko ludzi, jeśli niższy szczebel władzy potrafi skutecznie się nimi zająć — nawet gdy oznacza to mniej jednolite usługi."],
+  ["Silna ochrona wolności wypowiedzi powinna obejmować także treści uznawane przez większość za społecznie szkodliwe, o ile nie spełniają wąskich kryteriów bezpośredniego zagrożenia.", "Wolność słowa powinna chronić także treści, które większość uważa za szkodliwe, jeśli nie stanowią bezpośredniego zagrożenia."],
+  ["Redystrybucja powinna być ograniczana tam, gdzie osłabia krańcowe bodźce do pracy, oszczędzania i inwestowania bardziej niż poprawia dobrobyt społeczny.", "Redystrybucję warto ograniczać wtedy, gdy bardziej zniechęca do pracy, oszczędzania i inwestowania, niż poprawia życie społeczeństwa."]
 ]);
 
 const state = {
   screen: "start",
-  moduleId: localStorage.getItem("globocie-module") || THEME_API.defaultModule || "political-compass",
+  moduleId: initialModule.id,
   loadedModuleId: null,
-  themeId: localStorage.getItem("globocie-theme") || "politics",
+  themeId: initialModule.themeId || localStorage.getItem("globocie-theme") || "politics",
   package: null,
   difficulty: Number(localStorage.getItem("globocie-difficulty") || 1),
-  selfPosition: Number(localStorage.getItem("globocie-axis-position") || 50),
+  selfPosition: initialSelfPosition,
   questions: [],
   currentIndex: 0,
   answers: [],
@@ -96,7 +106,30 @@ function currentModule() { return THEME_API.getModule(state.moduleId); }
 function currentTheme() { return THEME_API.getTheme(currentModule().themeId || state.themeId); }
 function currentAxisMeta() { return currentModule().axisMeta || AXIS_META; }
 function axisDescription() { return THEME_API.describeAxis(currentModule().themeId || state.themeId, state.selfPosition); }
-function questionText(question) { return NATURAL_QUESTION_REWRITES.get(question?.text) || question?.text || "Pytanie"; }
+function axisPositionKey(moduleId) { return `${AXIS_POSITION_KEY_PREFIX}${moduleId}`; }
+function axisConfigForModule(module) { return THEME_API.getTheme(module.themeId || "politics").axis; }
+function normalizedAxisPosition(value, axis) {
+  const min = Number(axis?.min ?? 0);
+  const max = Number(axis?.max ?? 100);
+  const fallback = Number(axis?.defaultValue ?? 50);
+  const numeric = value === null || value === undefined || value === "" ? fallback : Number(value);
+  return clamp(Number.isFinite(numeric) ? numeric : fallback, min, max);
+}
+function loadAxisPosition(module) {
+  const specific = localStorage.getItem(axisPositionKey(module.id));
+  const legacy = module.id === THEME_API.defaultModule ? localStorage.getItem("globocie-axis-position") : null;
+  return normalizedAxisPosition(specific ?? legacy, axisConfigForModule(module));
+}
+function saveAxisPosition(module, value) {
+  const normalized = normalizedAxisPosition(value, axisConfigForModule(module));
+  localStorage.setItem(axisPositionKey(module.id), String(normalized));
+  localStorage.setItem("globocie-axis-position", String(normalized));
+  return normalized;
+}
+function questionText(question) {
+  const naturalText = typeof question?.naturalText === "string" ? question.naturalText.trim() : "";
+  return naturalText || NATURAL_QUESTION_REWRITES.get(question?.text) || question?.text || "Pytanie";
+}
 
 function applyModuleAppearance() {
   const module = currentModule();
@@ -109,8 +142,10 @@ function applyModuleAppearance() {
 function activateModule(moduleId) {
   const module = THEME_API.getModule(moduleId);
   if (state.moduleId !== module.id) {
+    saveAxisPosition(currentModule(), state.selfPosition);
     state.package = null;
     state.loadedModuleId = null;
+    state.selfPosition = loadAxisPosition(module);
   }
   state.moduleId = module.id;
   state.themeId = module.themeId || "politics";
@@ -590,8 +625,7 @@ app.addEventListener("click", event => {
 
 app.addEventListener("input", event => {
   if (event.target.id === "start-self-position") {
-    state.selfPosition = Number(event.target.value);
-    localStorage.setItem("globocie-axis-position", String(state.selfPosition));
+    state.selfPosition = saveAxisPosition(currentModule(), event.target.value);
     const description = axisDescription();
     document.querySelector("#axis-live-label").textContent = description.label;
     document.querySelector("#axis-live-hint").textContent = description.hint;

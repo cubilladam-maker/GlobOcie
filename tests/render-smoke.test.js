@@ -69,6 +69,17 @@ assert.match(start, /Twój kod jest niepowtarzalny/);
 assert.match(start, /Równowaga wolności i państwa/);
 assert.doesNotMatch(start, /kobiet|mężczy|wróż|przewodnicz|przewodnik/i);
 
+vm.runInContext(`activateModule("religion-worldview"); state.screen = "start"; render();`, context);
+const worldviewStart = elements["#app"].innerHTML;
+assert.match(worldviewStart, /Twoja oś światopoglądowa/);
+assert.match(worldviewStart, /Więcej autonomii/);
+assert.match(worldviewStart, /Więcej zakorzenienia/);
+assert.match(worldviewStart, /value="50"/);
+assert.match(worldviewStart, /--module-card-accent:#d9a85f/);
+assert.doesNotMatch(worldviewStart, /Twoja oś polityczna/);
+vm.runInContext(`activateModule("political-compass"); state.screen = "start"; render();`, context);
+assert.equal(storage.get("globocie-axis-position-v1:religion-worldview"), "50");
+
 const answerScale = [
   { value: -2, label: "Zdecydowanie się nie zgadzam" },
   { value: -1, label: "Raczej się nie zgadzam" },
@@ -89,6 +100,10 @@ vm.runInContext(`state.questions = ${JSON.stringify([{ id: "q-natural", category
 const naturalQuiz = elements["#app"].innerHTML;
 assert.match(naturalQuiz, /Rynek często lepiej sam ustala ceny/);
 assert.doesNotMatch(naturalQuiz, /Rozproszona wiedza uczestników rynku/);
+vm.runInContext(`state.questions = ${JSON.stringify([{ id: "q-natural-2", category: "Gospodarka", text: "Redystrybucja powinna być ograniczana tam, gdzie osłabia krańcowe bodźce do pracy, oszczędzania i inwestowania bardziej niż poprawia dobrobyt społeczny.", axes: { economy: -1 } }])}; state.currentIndex = 0; state.screen = "quiz"; render();`, context);
+const naturalQuizTwo = elements["#app"].innerHTML;
+assert.match(naturalQuizTwo, /Redystrybucję warto ograniczać/);
+assert.doesNotMatch(naturalQuizTwo, /krańcowe bodźce/);
 
 vm.runInContext(`state.answers = [{ questionId: "q1", value: 2 }]; state.scores.social = { sum: 2, weight: 2 }; state.screen = "results"; render();`, context);
 const results = elements["#app"].innerHTML;
@@ -106,6 +121,7 @@ assert.equal((profile.match(/<article>/g) || []).length, 6);
 assert.match(profile, /Podsumowanie AI/);
 
 assert.match(appSource, /QUESTION_TRANSITION_MS = 540/);
+assert.match(appSource, /APP_VERSION = "2\.12"/);
 assert.match(appSource, /LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1"/);
 assert.match(appSource, /recordLocalGameStart\(\);/);
 assert.match(appSource, /counter-grid/);
@@ -115,7 +131,7 @@ assert.match(appSource, /LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1"/);
 assert.match(appSource, /wersja v\$\{escapeHtml\(APP_VERSION\)\}/);
 assert.match(appSource, /startModule\("political-compass"\)/);
 assert.match(indexSource, /class="site-version"/);
-assert.match(indexSource, /Wersja strony: v2\.11/);
+assert.match(indexSource, /Wersja strony: v2\.12/);
 assert.match(start, /lokalne rozpoczęcia gry na tym urządzeniu/);
 assert.match(start, />0<\/strong><span>lokalne rozpoczęcia gry/);
 assert.equal(elements["#owner-counter"].hidden, true, "Licznik ma znikać po zmianie ekranu");

@@ -9,12 +9,32 @@ assert.equal(themeApi.describeAxis("politics", 70).label, "Więcej roli państwa
 assert.equal(themeApi.describeAxis("politics", 100).label, "Zdecydowanie więcej roli państwa");
 assert.equal(themeApi.getTheme("thinking").axis.leftLabel, "Więcej intuicji");
 assert.notEqual(themeApi.getTheme("thinking").axis.title, themeApi.getTheme("politics").axis.title);
+for (const theme of Object.values(themeApi.themes)) {
+  assert.ok(theme.axis.title);
+  assert.ok(theme.axis.purpose);
+  assert.ok(theme.axis.leftLabel);
+  assert.ok(theme.axis.rightLabel);
+  assert.equal(typeof theme.axis.min, "number");
+  assert.equal(typeof theme.axis.max, "number");
+  assert.equal(typeof theme.axis.step, "number");
+  assert.equal(typeof theme.axis.defaultValue, "number");
+  assert.ok(Array.isArray(theme.axis.ranges) && theme.axis.ranges.length > 0);
+}
 assert.equal(themeApi.getModule("political-compass").name, "Kompas polityczny");
 assert.equal(themeApi.getModule("political-compass").themeId, "politics");
 assert.equal(themeApi.getModule("political-compass").topicUrl, "topics/polityka-pl.quiz.gz");
 assert.equal(themeApi.getModule("political-compass").appearance["--module-accent"], "#f0b74c");
 assert.equal(themeApi.futureTopics[0].name, "Poszukiwania Boga. Nauka, mity a rzeczywistość");
 assert.equal(themeApi.futureTopics[1].name, "Globalne ocieplenie — naukowa prawda czy fake?");
+assert.deepEqual(themeApi.futureTopics.map(topic => topic.name), [
+  "Poszukiwania Boga. Nauka, mity a rzeczywistość",
+  "Globalne ocieplenie — naukowa prawda czy fake?",
+  "Styl myślenia",
+  "Relacje i emocje",
+  "Moralność i sumienie",
+  "Człowiek i sztuczna inteligencja",
+  "Sens życia i szczęście"
+]);
 assert.ok(!themeApi.futureTopics.some(topic => topic.name === "Nauka, wiara i rzeczywistość"));
 const extraModule = themeApi.registerModule({ id: "future-module", topicUrl: "topics/future.quiz.gz", ui: { startButton: "Uruchom przyszły moduł" }, appearance: { "--module-accent": "#123456" } });
 assert.equal(extraModule.themeId, "politics");
