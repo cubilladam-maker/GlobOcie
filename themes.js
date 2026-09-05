@@ -55,7 +55,11 @@
     "--module-radar-glow": "rgba(167, 77, 255, .6)",
     "--module-analysis-start": "rgba(177, 60, 255, .09)",
     "--module-analysis-end": "rgba(44, 85, 255, .035)",
-    "--module-dialog-bg": "#081126"
+    "--module-dialog-bg": "#081126",
+    "--module-heart-color": "#ff72b6",
+    "--module-heart-core": "#ffd8ec",
+    "--module-heart-glow": "rgba(255, 79, 164, .68)",
+    "--module-heart-ring": "rgba(255, 130, 193, .72)"
   };
 
   const themes = {
@@ -149,12 +153,34 @@
           }
         ]
       }
+    },
+    climate: {
+      id: "climate",
+      name: "Globalne ocieplenie, prawda czy fake?",
+      eyebrow: "Sprawdź dowody, mechanizmy i jakość argumentów klimatycznych",
+      axis: {
+        id: "climate-evidence-balance",
+        title: "Twoja oś klimatyczna",
+        purpose: "Punkt startowy opisuje, jak ważysz siłę dowodów, tempo zmian i koszty działania.",
+        leftLabel: "Więcej ostrożności",
+        rightLabel: "Szybsza transformacja",
+        min: 0,
+        max: 100,
+        step: 5,
+        defaultValue: 50,
+        ranges: [
+          { min: 0, max: 19, label: "Silna ostrożność", hint: "Najpierw chcesz sprawdzać jakość danych, niepewności i koszty proponowanych działań." },
+          { min: 20, max: 39, label: "Przewaga ostrożności", hint: "Dopuszczasz działania klimatyczne, ale oczekujesz mocnego uzasadnienia i proporcjonalnych kosztów." },
+          { min: 40, max: 60, label: "Równowaga dowodów i działania", hint: "Łączysz sprawdzanie dowodów z oceną praktycznych skutków transformacji." },
+          { min: 61, max: 80, label: "Przewaga tempa zmian", hint: "Uważasz, że spójne dowody uzasadniają szybsze ograniczanie ryzyk klimatycznych." },
+          { min: 81, max: 100, label: "Silne tempo transformacji", hint: "Największą wagę przywiązujesz do szybkiego działania opartego na konwergencji dowodów." }
+        ]
+      }
     }
   };
 
   const futureTopics = [
     { id: "searching-god", name: "Poszukiwania Boga. Nauka, mity a rzeczywistość" },
-    { id: "global-warming", name: "Globalne ocieplenie — naukowa prawda czy fake?" },
     { id: "thinking-style", name: "Styl myślenia" },
     { id: "relationships-emotions", name: "Relacje i emocje" },
     { id: "morality-conscience", name: "Moralność i sumienie" },
@@ -293,7 +319,11 @@
         "--module-radar-glow": "rgba(166, 83, 255, .68)",
         "--module-analysis-start": "rgba(183, 89, 255, .12)",
         "--module-analysis-end": "rgba(105, 78, 255, .07)",
-        "--module-dialog-bg": "#13091f"
+        "--module-dialog-bg": "#13091f",
+        "--module-heart-color": "#ff5f9d",
+        "--module-heart-core": "#ffe1ee",
+        "--module-heart-glow": "rgba(255, 66, 139, .78)",
+        "--module-heart-ring": "rgba(255, 128, 181, .78)"
       },
       "axisMeta": {
         "economy": {
@@ -343,6 +373,89 @@
         "kicker": "Jaka religia/światopogląd tkwią w Twoim sercu?",
         "aiStatus": "AI analizuje Twój profil światopoglądowy",
         "aiNote": "Pytania są zaproszeniem do refleksji, a nie testem poprawności przekonań."
+      }
+    },
+    "global-warming": {
+      id: "global-warming",
+      themeId: "climate",
+      topicUrl: "topics/global-warming-pl.quiz.gz",
+      name: "Globalne ocieplenie, prawda czy fake?",
+      appearance: {
+        ...neutralAppearance,
+        "--module-accent": "#ff735c",
+        "--module-accent-2": "#42e8d5",
+        "--module-cyan": "#8aefff",
+        "--module-line": "rgba(138, 239, 255, .34)",
+        "--module-warning": "#ffc15a",
+        "--module-bg-glow": "rgba(33, 180, 170, .30)",
+        "--module-bg-glow-2": "rgba(255, 108, 74, .18)",
+        "--module-cyan-border": "rgba(138, 239, 255, .62)",
+        "--module-cyan-glow": "rgba(138, 239, 255, .18)",
+        "--module-page-bg-1": "#031218",
+        "--module-page-bg-2": "#07343b",
+        "--module-page-bg-3": "#02090e",
+        "--module-panel-start": "rgba(8, 47, 56, .95)",
+        "--module-panel-end": "rgba(3, 17, 25, .97)",
+        "--module-title-start": "rgba(8, 55, 64, .98)",
+        "--module-title-end": "rgba(5, 27, 34, .96)",
+        "--module-copy-start": "rgba(8, 48, 57, .98)",
+        "--module-copy-end": "rgba(3, 17, 25, .97)",
+        "--module-stage-start": "rgba(2, 20, 28, .92)",
+        "--module-stage-end": "rgba(2, 10, 15, .98)",
+        "--module-primary-start": "#ff6b5c",
+        "--module-primary-mid": "#ef9a48",
+        "--module-primary-end": "#22cdbd",
+        "--module-primary-shadow": "rgba(255, 108, 74, .28)",
+        "--module-soft-accent": "rgba(255, 115, 92, .10)",
+        "--module-soft-accent-strong": "rgba(255, 193, 90, .16)",
+        "--module-holo-filter": "rgba(42, 218, 203, .35)",
+        "--module-holo-core-top": "#efffff",
+        "--module-holo-core-mid": "#66f3e1",
+        "--module-holo-core-bottom": "#ff795d",
+        "--module-holo-core-shadow": "rgba(65, 232, 213, .40)",
+        "--module-holo-orbit": "rgba(138, 239, 255, .62)",
+        "--module-holo-orbit-shadow": "rgba(42, 218, 203, .44)",
+        "--module-holo-inset": "rgba(255, 115, 92, .25)",
+        "--module-holo-text": "#a8fff2",
+        "--module-holo-text-shadow": "#20cfc0",
+        "--module-holo-base": "rgba(255, 115, 92, .58)",
+        "--module-holo-base-shadow": "rgba(42, 218, 203, .26)",
+        "--module-holo-base-inset": "rgba(138, 239, 255, .34)",
+        "--module-answer-letter-start": "rgba(255, 115, 92, .30)",
+        "--module-answer-letter-end": "rgba(38, 145, 147, .24)",
+        "--module-radar-fill": "rgba(66, 232, 213, .07)",
+        "--module-radar-stroke": "rgba(138, 239, 255, .40)",
+        "--module-radar-profile-fill": "rgba(255, 115, 92, .23)",
+        "--module-radar-profile-stroke": "#ffae70",
+        "--module-radar-glow": "rgba(66, 232, 213, .56)",
+        "--module-analysis-start": "rgba(255, 115, 92, .11)",
+        "--module-analysis-end": "rgba(66, 232, 213, .06)",
+        "--module-dialog-bg": "#06232b"
+      },
+      axisMeta: {
+        climate: { name: "Klimat", left: "Ostrożność", right: "Tempo zmian" },
+        economy: { name: "Koszt i sprawiedliwość", left: "Ostrożność kosztowa", right: "Inwestycje" },
+        social: { name: "Zgoda społeczna", left: "Stopniowo", right: "Pilnie" },
+        authority: { name: "Rola państwa", left: "Dobrowolność", right: "Reguły" },
+        eu: { name: "Współpraca", left: "Samodzielność", right: "Wspólne działanie" },
+        centralization: { name: "Skala działania", left: "Lokalnie", right: "Koordynacja" }
+      },
+      ui: {
+        startEyebrow: "Globalne ocieplenie, prawda czy fake? · moduł aktywny",
+        aiLead: "AI porządkuje Twoje odpowiedzi o dowodach klimatycznych.",
+        aiSubline: "Wynik pokazuje sposób ważenia dowodów, ryzyka i działania.",
+        startButton: "Rozpocznij: Globalne ocieplenie, prawda czy fake? →",
+        stageCaption: "Moduł łączy pomiary, fizykę CO₂ i testowanie konkurencyjnych wyjaśnień.",
+        cardDescription: "Sprawdź, jak oceniasz pomiary, mechanizmy i decyzje klimatyczne."
+      },
+      loading: {
+        title: "Wczytuję Globalne ocieplenie, prawda czy fake?…",
+        description: "Przygotowuję pytania o pomiarach, CO₂, lodzie, oceanach i atrybucji."
+      },
+      quiz: {
+        kicker: "Globalne ocieplenie, prawda czy fake?",
+        aiStatus: "AI analizuje Twoje rozumowanie klimatyczne",
+        aiNote: "Pytania prowadzą przez dane, mechanizmy i jakość argumentów — bez etykietowania osoby."
       }
     }
   };

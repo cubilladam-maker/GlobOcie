@@ -56,6 +56,7 @@
       questionFallback: "Pytanie",
       aiHologramAria: "Animowany symbol sztucznej inteligencji",
       artificialIntelligenceOrbit: "Sztuczna Inteligencja",
+      heartAnimationAria: "Pulsujące serce aktywnego modułu światopoglądowego",
       questionHint: "AI podpowiedź",
       hide: "ukryj",
       show: "pokaż",
@@ -203,6 +204,7 @@
       questionFallback: "Question",
       aiHologramAria: "Animated artificial intelligence symbol",
       artificialIntelligenceOrbit: "Artificial Intelligence",
+      heartAnimationAria: "Pulsing heart of the active worldview module",
       questionHint: "AI hint",
       hide: "hide",
       show: "show",
@@ -361,6 +363,25 @@
           ]
         }
       }
+    },
+    climate: {
+      en: {
+        name: "Global warming, scientific truth or fake?",
+        eyebrow: "Check climate evidence, mechanisms, and argument quality",
+        axis: {
+          title: "Your climate axis",
+          purpose: "Your starting point describes how you weigh evidence strength, pace of change, and the cost of action.",
+          leftLabel: "More caution",
+          rightLabel: "Faster transition",
+          ranges: [
+            { min: 0, max: 19, label: "Strong caution", hint: "You want to check data quality, uncertainty, and the proportionality of proposed actions first." },
+            { min: 20, max: 39, label: "Caution leads", hint: "You allow climate action but expect strong justification and proportionate costs." },
+            { min: 40, max: 60, label: "Evidence and action in balance", hint: "You combine checking evidence with assessing the practical effects of transition." },
+            { min: 61, max: 80, label: "Change pace leads", hint: "You believe converging evidence justifies faster action to reduce climate risks." },
+            { min: 81, max: 100, label: "Strong transition pace", hint: "You give the greatest weight to quick action grounded in converging evidence." }
+          ]
+        }
+      }
     }
   };
 
@@ -383,6 +404,16 @@
         eu: { name: "Community scope", left: "Locality", right: "Universality" },
         climate: { name: "Relationship with nature", left: "Caution", right: "Active care" },
         centralization: { name: "Source of meaning", left: "Personal experience", right: "Community and transmission" }
+      }
+    },
+    climate: {
+      en: {
+        climate: { name: "Climate", left: "Caution", right: "Pace of change" },
+        economy: { name: "Cost and fairness", left: "Cost caution", right: "Investment" },
+        social: { name: "Social agreement", left: "Gradual", right: "Urgent" },
+        authority: { name: "Role of government", left: "Voluntary", right: "Rules" },
+        eu: { name: "Cooperation", left: "Self-reliance", right: "Joint action" },
+        centralization: { name: "Scale of action", left: "Local", right: "Coordination" }
       }
     }
   };
@@ -431,6 +462,28 @@
           aiNote: "These questions invite reflection; they do not test whether your beliefs are correct."
         }
       }
+    },
+    "global-warming": {
+      en: {
+        name: "Global warming, scientific truth or fake?",
+        ui: {
+          startEyebrow: "Global warming, scientific truth or fake? · active module",
+          aiLead: "AI organizes your answers about climate evidence.",
+          aiSubline: "The result shows how you weigh evidence, risk, and action.",
+          startButton: "Start: Global warming, scientific truth or fake? →",
+          stageCaption: "This module connects measurements, CO₂ physics, and tests of competing explanations.",
+          cardDescription: "Explore how you assess measurements, mechanisms, and climate decisions."
+        },
+        loading: {
+          title: "Loading Global warming, scientific truth or fake?…",
+          description: "Preparing questions about measurements, CO₂, ice, oceans, and attribution."
+        },
+        quiz: {
+          kicker: "Global warming, scientific truth or fake?",
+          aiStatus: "AI is analyzing your climate reasoning",
+          aiNote: "The questions move through data, mechanisms, and argument quality without labeling you."
+        }
+      }
     }
   };
 
@@ -452,6 +505,10 @@
     "religia-swiatopoglad-pl": {
       pl: ["Zdecydowanie bliżej lewej", "Raczej bliżej lewej", "Pośrodku", "Raczej bliżej prawej", "Zdecydowanie bliżej prawej"],
       en: ["Definitely closer to the left", "Rather closer to the left", "In the middle", "Rather closer to the right", "Definitely closer to the right"]
+    },
+    "GLOBAL-WARMING-PL": {
+      pl: ["Zdecydowanie się nie zgadzam", "Raczej się nie zgadzam", "Nie mam zdania", "Raczej się zgadzam", "Zdecydowanie się zgadzam"],
+      en: ["Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree"]
     }
   };
 
@@ -463,6 +520,10 @@
     "religia-swiatopoglad-pl": {
       pl: { Wartości: "Wartości", Wspólnota: "Wspólnota", Różnorodność: "Różnorodność", Natura: "Natura", Sumienie: "Sumienie", Tradycja: "Tradycja", Granice: "Granice", Odpowiedzialność: "Odpowiedzialność", Zmiana: "Zmiana", Prawda: "Prawda", "Wspólne dobro": "Wspólne dobro", Sens: "Sens" },
       en: { Wartości: "Values", Wspólnota: "Community", Różnorodność: "Diversity", Natura: "Nature", Sumienie: "Conscience", Tradycja: "Tradition", Granice: "Boundaries", Odpowiedzialność: "Responsibility", Zmiana: "Change", Prawda: "Truth", "Wspólne dobro": "Common good", Sens: "Meaning" }
+    },
+    "GLOBAL-WARMING-PL": {
+      pl: { "Pomiary globalne": "Pomiary globalne", "Fizyka CO₂": "Fizyka CO₂", "Niezależne wskaźniki": "Niezależne wskaźniki", "Zmienność naturalna": "Zmienność naturalna", "Pochodzenie CO₂": "Pochodzenie CO₂", "Atrybucja przyczyn": "Atrybucja przyczyn", "Oceany i energia": "Oceany i energia", "Polityka klimatyczna": "Polityka klimatyczna", "Widmo promieniowania": "Widmo promieniowania", "Testowanie hipotez": "Testowanie hipotez", "Jakość danych": "Jakość danych", "Pewność naukowa": "Pewność naukowa" },
+      en: { "Pomiary globalne": "Global measurements", "Fizyka CO₂": "CO₂ physics", "Niezależne wskaźniki": "Independent indicators", "Zmienność naturalna": "Natural variability", "Pochodzenie CO₂": "CO₂ origins", "Atrybucja przyczyn": "Causal attribution", "Oceany i energia": "Oceans and energy", "Polityka klimatyczna": "Climate policy", "Widmo promieniowania": "Radiation spectrum", "Testowanie hipotez": "Hypothesis testing", "Jakość danych": "Data quality", "Pewność naukowa": "Scientific confidence" }
     }
   };
 
@@ -524,6 +585,20 @@
       "rw-010": "Important beliefs should be ready to engage in conversation with facts and experience.",
       "rw-011": "Differences in worldview should not prevent us from building shared principles for living together fairly.",
       "rw-012": "Questions without a final answer can be very valuable for human growth."
+    },
+    "GLOBAL-WARMING-PL": {
+      "gw-u01": "A long series of measurements from many regions is a better basis for assessing a temperature trend than a single season.",
+      "gw-u02": "Some gases, including CO₂, absorb and emit infrared radiation, affecting the flow of energy from Earth to space.",
+      "gw-u03": "Agreement between temperature changes and independent indicators such as ice, oceans, and sea level strengthens the conclusion that the climate is changing.",
+      "gw-u04": "One cooler year is not enough to reject a multi-decade climate trend.",
+      "gw-s01": "Emission inventories, carbon-isotope changes, and observed uptake together test the origin of additional CO₂ better than a single chart.",
+      "gw-s02": "Attribution should compare predicted signatures of multiple causes with many observations, rather than rely on one correlation.",
+      "gw-s03": "Energy stored in the oceans can delay the surface-temperature response and does not mean that Earth has no energy imbalance.",
+      "gw-s04": "Climate policy should combine the expected emissions-reduction effect with social costs, technology, and a fair transition.",
+      "gw-p01": "Observed changes in outgoing radiation spectra can test whether greenhouse-gas signatures agree with physical predictions.",
+      "gw-p02": "A strong causal argument requires a mechanism, predictions, the correct causal sequence, and tests of competing explanations.",
+      "gw-p03": "Choosing only a convenient beginning and end of a temperature series can distort the trend, so the result should be checked across a fuller period.",
+      "gw-p04": "High scientific confidence in attribution means a strong and coherent evidence base, not logical absoluteness or zero uncertainty."
     }
   };
 

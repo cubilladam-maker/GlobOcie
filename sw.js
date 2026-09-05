@@ -1,4 +1,4 @@
-/* v2.17 — bez trwałego cache aplikacji.
+/* v2.19 — bez trwałego cache aplikacji.
    Ten plik służy wyłącznie do posprzątania ewentualnego starego Service Workera. */
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", event => {

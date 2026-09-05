@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.17";
+const APP_VERSION = "2.19";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const AXIS_POSITION_KEY_PREFIX = "globocie-axis-position-v1:";
@@ -299,9 +299,17 @@ function difficultyLabels() {
   return `<div class="difficulty-labels"><span>${escapeHtml(difficultyLabel(0))}</span><span>${escapeHtml(difficultyLabel(1))}</span><span>${escapeHtml(difficultyLabel(9))}</span><span>${escapeHtml(difficultyLabel(10))}</span></div>`;
 }
 
+function heartAnimationMarkup() {
+  return `<div class="heart-animation" data-heart-animation="true" aria-hidden="true"><span class="heart-ripple heart-ripple-a"></span><span class="heart-ripple heart-ripple-b"></span><span class="heart-core">♥</span></div>`;
+}
+
 function aiHologram(extraClass = "") {
   const orbitLabel = t("artificialIntelligenceOrbit");
-  return `<div class="ai-hologram ${extraClass}" aria-label="${escapeHtml(t("aiHologramAria"))}"><div class="ai-assembly"><div class="ai-orbit orbit-a"></div><div class="ai-orbit orbit-b"></div><div class="ai-orbit orbit-c"></div><div class="ai-core"><span>A</span><span>I</span></div><div class="ai-text-orbit"><span>${escapeHtml(orbitLabel)}&nbsp; • &nbsp;${escapeHtml(orbitLabel)}&nbsp; • &nbsp;</span></div></div><div class="ai-base"></div></div>`;
+  const heartMode = currentModule().id === "religion-worldview";
+  const heartClass = heartMode ? " heart-mode" : "";
+  const heartMarkup = heartMode ? heartAnimationMarkup() : "";
+  const ariaLabel = heartMode ? `${t("aiHologramAria")}. ${t("heartAnimationAria")}` : t("aiHologramAria");
+  return `<div class="ai-hologram ${extraClass}${heartClass}"${heartMode ? ` data-heart-animation="true"` : ""} aria-label="${escapeHtml(ariaLabel)}">${heartMarkup}<div class="ai-assembly"><div class="ai-orbit orbit-a"></div><div class="ai-orbit orbit-b"></div><div class="ai-orbit orbit-c"></div><div class="ai-core"><span>A</span><span>I</span></div><div class="ai-text-orbit"><span>${escapeHtml(orbitLabel)}&nbsp; • &nbsp;${escapeHtml(orbitLabel)}&nbsp; • &nbsp;</span></div></div><div class="ai-base"></div></div>`;
 }
 
 function fingerprintVisual() {
@@ -412,6 +420,11 @@ function aiHintForQuestion() {
 
 function shouldOfferHint() { return state.difficulty >= 3 || state.currentIndex % 3 === 2; }
 
+function climateQuestionArtwork(module = currentModule()) {
+  if (module.id !== "global-warming") return "";
+  return `<div class="climate-question-artwork" aria-hidden="true"><img src="assets/climate-atlas.svg?v=${APP_VERSION}" alt=""><span class="climate-signal climate-signal-one"></span><span class="climate-signal climate-signal-two"></span></div>`;
+}
+
 function renderQuiz() {
   const module = currentLocalizedModule();
   const quizUi = module.quiz || {};
@@ -424,7 +437,7 @@ function renderQuiz() {
   const offerHint = shouldOfferHint();
   app.innerHTML = `<section class="quiz-page">
     <aside class="panel quiz-settings-panel"><div class="eyebrow">${escapeHtml(t("settings"))}</div>${axisSettingCard("quiz")}<section class="quiz-setting-section"><div class="difficulty-heading"><h3>${escapeHtml(t("difficulty"))}</h3><span>${escapeHtml(t("difficultyCanChange"))}</span></div><input id="difficulty-live" class="glow-range" type="range" min="0" max="10" step="1" value="${state.difficulty}" ${state.difficultyChangeAttempted ? "disabled" : ""}>${difficultyTicks()}${difficultyLabels()}<p>${escapeHtml(state.difficultyChangeAttempted ? t("difficultyAttemptUsed") : t("difficultyShiftRequiresNew"))}</p></section><section class="locked-summary"><div>◉</div><div><strong>${escapeHtml(t("startConfigured"))}</strong><span>${escapeHtml(axisDescription().label)}</span><span>${escapeHtml(t("levelPrefix"))}: ${escapeHtml(difficultyLabel(state.difficulty))}</span></div><b>🔒</b></section><section class="ai-tip-mini"><b>${escapeHtml(t("aiHintLabel"))}</b><p>${escapeHtml(t("aiHintBody"))}</p></section><button class="return-start" data-action="return-start">↻ <span><strong>${escapeHtml(t("returnStart"))}</strong><small>${escapeHtml(t("resetQuiz"))}</small></span></button></aside>
-    <main class="panel quiz-question-panel"><div class="question-kicker">${escapeHtml(quizUi.kicker || questionCategory(question) || t("questionFallback"))}</div><h2>${escapeHtml(questionText(question))}</h2><div class="answers compact-answers">${answers.map((answer, index) => `<button class="answer" data-answer="${answer.value}" ${state.answerLock ? "disabled" : ""}><span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${escapeHtml(answer.label)}</span></button>`).join("")}</div>${offerHint ? `<button class="hint-row" data-action="toggle-hint"><span>✦</span><strong>${escapeHtml(t("questionHint"))}</strong><small>${escapeHtml(t(state.hintOpen ? "hide" : "show"))}</small><b>${state.hintOpen ? "⌃" : "⌄"}</b></button>` : ""}${offerHint && state.hintOpen ? `<div class="hint-box">${escapeHtml(aiHintForQuestion())}</div>` : ""}<div class="question-footnote">${escapeHtml(t("questionFootnote"))}</div></main>
+    <main class="panel quiz-question-panel">${climateQuestionArtwork()}<div class="question-kicker">${escapeHtml(quizUi.kicker || questionCategory(question) || t("questionFallback"))}</div><h2>${escapeHtml(questionText(question))}</h2><div class="answers compact-answers">${answers.map((answer, index) => `<button class="answer" data-answer="${answer.value}" ${state.answerLock ? "disabled" : ""}><span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${escapeHtml(answer.label)}</span></button>`).join("")}</div>${offerHint ? `<button class="hint-row" data-action="toggle-hint"><span>✦</span><strong>${escapeHtml(t("questionHint"))}</strong><small>${escapeHtml(t(state.hintOpen ? "hide" : "show"))}</small><b>${state.hintOpen ? "⌃" : "⌄"}</b></button>` : ""}${offerHint && state.hintOpen ? `<div class="hint-box">${escapeHtml(aiHintForQuestion())}</div>` : ""}<div class="question-footnote">${escapeHtml(t("questionFootnote"))}</div></main>
     <aside class="panel quiz-ai-panel">${aiHologram("quiz-ai")}<div class="ai-status"><strong>${escapeHtml(quizUi.aiStatus || t("aiStatusFallback"))}</strong><span>${escapeHtml(quizUi.aiNote || t("aiNoteFallback"))}</span></div></aside>
   </section>`;
 }

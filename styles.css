@@ -179,7 +179,7 @@ footer { padding: 9px 28px; border-top: 1px solid rgba(255, 255, 255, .06); colo
 .stage-caption { position: relative; z-index: 4; text-align: center; color: var(--muted); font-size: 10px; margin: -5px 0 16px; }
 .stage-caption strong { color: var(--accent); }
 .topic-selector { position: relative; z-index: 4; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 9px; align-items: start; min-width: 0; }
-.module-row { position: relative; z-index: 4; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; min-width: 0; }
+.module-row { position: relative; z-index: 4; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; min-width: 0; }
 .module { min-height: 130px; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: linear-gradient(155deg, var(--module-card-bg, rgba(6, 13, 34, .82)), var(--module-card-bg-2, rgba(4, 10, 28, .9))); position: relative; }
 .module.available { cursor: pointer; border-color: var(--module-card-line, var(--module-cyan-border)); }
 .module.available:hover, .module.available.active { border-color: var(--module-card-accent, var(--module-cyan)); }
@@ -215,8 +215,17 @@ body[data-module-loaded="true"] .module.available.active { box-shadow: 0 0 18px 
 .ai-text-orbit { position: absolute; width: 96%; height: 35%; border-radius: 50%; transform: rotateX(67deg) translateZ(5px); border-bottom: 1px solid var(--module-holo-orbit); display: flex; align-items: flex-end; justify-content: center; overflow: hidden; }
 .ai-text-orbit span { color: var(--module-holo-text); font-size: clamp(10px, 1vw, 15px); letter-spacing: .06em; white-space: nowrap; text-shadow: 0 0 9px var(--module-holo-text-shadow); transform: translateY(2px); }
 .ai-base { position: absolute; bottom: 3%; width: 48%; height: 15%; border-radius: 50%; border: 2px solid var(--module-holo-base); box-shadow: 0 0 38px 12px var(--module-holo-base-shadow), inset 0 0 26px var(--module-holo-base-inset); }
+.heart-animation { position: absolute; z-index: 5; left: 50%; top: 48%; width: clamp(108px, 30%, 190px); aspect-ratio: 1; transform: translate(-50%, -54%); display: grid; place-items: center; pointer-events: none; }
+.heart-animation::before { content: ""; position: absolute; inset: 16%; border-radius: 50%; background: radial-gradient(circle, var(--module-heart-glow, var(--module-holo-filter)) 0, transparent 68%); filter: blur(14px); opacity: .78; animation: heartAura 2.8s ease-in-out infinite; }
+.heart-core { position: relative; z-index: 2; display: grid; place-items: center; color: var(--module-heart-core, var(--module-heart-color, var(--accent))); font: 400 clamp(70px, 10vw, 130px)/.8 Georgia, serif; text-shadow: 0 0 8px var(--module-heart-color, var(--accent)), 0 0 25px var(--module-heart-glow, var(--module-holo-filter)), 0 0 48px var(--module-heart-glow, var(--module-holo-filter)); transform-origin: center; animation: heartBeat 1.55s ease-in-out infinite; }
+.heart-ripple { position: absolute; inset: 14%; border: 1.5px solid var(--module-heart-ring, var(--module-holo-orbit)); border-radius: 50%; opacity: 0; animation: heartRipple 2.9s ease-out infinite; }
+.heart-ripple-b { animation-delay: 1.45s; }
+.ai-hologram.heart-mode .ai-core { opacity: .2; transition: opacity .35s ease; }
 .start-ai { position: relative; z-index: 3; width: min(660px, 93%); margin-bottom: auto; }
 @keyframes assemblyTurn { to { transform: rotateY(360deg); } }
+@keyframes heartBeat { 0%, 100% { transform: scale(.9); } 14% { transform: scale(1.04); } 28% { transform: scale(.94); } 42% { transform: scale(1.12); } 58% { transform: scale(.92); } }
+@keyframes heartRipple { 0% { transform: scale(.54); opacity: .76; } 68% { opacity: .2; } 100% { transform: scale(1.42); opacity: 0; } }
+@keyframes heartAura { 0%, 100% { transform: scale(.82); opacity: .48; } 50% { transform: scale(1.18); opacity: .9; } }
 
 /* Quiz */
 .quiz-page { display: grid; grid-template-columns: 1.02fr .9fr 1fr; gap: 13px; min-height: calc(100vh - 108px); }
@@ -240,7 +249,14 @@ body[data-module-loaded="true"] .module.available.active { box-shadow: 0 0 18px 
 .return-start > span { display: flex; flex-direction: column; }
 .return-start strong { color: var(--accent); }
 .return-start small { color: var(--muted); font-size: 10px; }
-.quiz-question-panel { padding: 28px 27px; display: flex; flex-direction: column; transform-style: preserve-3d; perspective: 1100px; transition: opacity var(--question-transition) ease, transform var(--question-transition) cubic-bezier(.4, 0, .2, 1), filter var(--question-transition) ease; animation: questionEnter var(--question-transition) cubic-bezier(.22, 1, .36, 1) both; }
+.quiz-question-panel { position: relative; overflow: hidden; padding: 28px 27px; display: flex; flex-direction: column; transform-style: preserve-3d; perspective: 1100px; transition: opacity var(--question-transition) ease, transform var(--question-transition) cubic-bezier(.4, 0, .2, 1), filter var(--question-transition) ease; animation: questionEnter var(--question-transition) cubic-bezier(.22, 1, .36, 1) both; }
+.quiz-question-panel > :not(.climate-question-artwork) { position: relative; z-index: 2; }
+.climate-question-artwork { position: absolute; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; opacity: .42; }
+.climate-question-artwork::after { content: ""; position: absolute; inset: 0; background: linear-gradient(145deg, rgba(3, 14, 20, .92) 0%, rgba(3, 14, 20, .58) 45%, rgba(3, 14, 20, .82) 100%); }
+.climate-question-artwork img { position: absolute; right: -12%; top: 4%; width: 86%; min-width: 480px; max-width: 880px; opacity: .42; mix-blend-mode: screen; filter: drop-shadow(0 0 26px var(--module-cyan-glow)); transform: rotate(-5deg); animation: climateAtlasDrift 18s ease-in-out infinite alternate; }
+.climate-signal { position: absolute; display: block; border: 1px solid var(--module-accent); border-radius: 50%; opacity: .34; box-shadow: 0 0 18px var(--module-accent); }
+.climate-signal-one { width: 170px; height: 48px; right: 12%; bottom: 17%; transform: rotate(-12deg); }
+.climate-signal-two { width: 92px; height: 92px; left: 7%; top: 15%; border-color: var(--module-cyan); opacity: .22; }
 .quiz-question-panel.question-leaving { opacity: 0; transform: rotateY(-82deg) translateX(-16px); filter: blur(1px); pointer-events: none; }
 .question-kicker { align-self: flex-start; border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: 10px; }
 .quiz-question-panel h2 { font: 500 clamp(27px, 2.25vw, 41px)/1.22 Georgia, serif; margin: 15px 0 13px; }
@@ -253,6 +269,7 @@ body[data-module-loaded="true"] .module.available.active { box-shadow: 0 0 18px 
 .hint-box { margin-top: 7px; border-left: 3px solid var(--accent); padding: 11px 13px; background: var(--module-soft-accent); color: #dfe5f6; font-size: 11px; line-height: 1.48; }
 .question-footnote { margin-top: auto; padding-top: 15px; color: #76829e; font-size: 9px; }
 @keyframes questionEnter { from { opacity: 0; transform: rotateY(82deg) translateX(16px); filter: blur(1px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes climateAtlasDrift { from { transform: translate3d(0, 0, 0) rotate(-5deg); } to { transform: translate3d(-18px, 10px, 0) rotate(-2deg); } }
 .quiz-ai-panel { display: flex; flex-direction: column; justify-content: center; align-items: center; background: radial-gradient(circle at 50% 48%, var(--module-bg-glow-2), transparent 44%), linear-gradient(180deg, var(--module-stage-start), var(--module-stage-end)); }
 .quiz-ai { width: min(470px, 93%); }
 .quiz-ai .ai-core { font-size: clamp(105px, 10vw, 195px); }
@@ -393,6 +410,8 @@ body[data-module-loaded="true"] .module.available.active { box-shadow: 0 0 18px 
   .quiz-question-panel { animation: none; transition-duration: 1ms; }
   .quiz-question-panel.question-leaving { filter: none; transform: none; }
   .ai-assembly { animation-duration: 1ms !important; animation-iteration-count: 1 !important; }
+  .heart-animation::before, .heart-core, .heart-ripple { animation-duration: 1ms !important; animation-iteration-count: 1 !important; }
+  .climate-question-artwork img { animation: none; }
 }
 
 @media print {
