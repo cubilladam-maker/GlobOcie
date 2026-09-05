@@ -61,10 +61,14 @@ const context = vm.createContext({
 
 const appSource = fs.readFileSync(path.join(__dirname, "..", "app.js"), "utf8");
 const indexSource = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
+const stylesSource = fs.readFileSync(path.join(__dirname, "..", "styles.css"), "utf8");
 vm.runInContext(appSource, context, { filename: "app.js" });
 
 const start = elements["#app"].innerHTML;
 assert.match(start, /Odkryj swój[\s\S]*ukryty kod/);
+assert.equal((start.match(/class="title-segment(?: title-segment-accent)?"/g) || []).length, 3);
+assert.match(start, /class="topic-selector" id="topics"/);
+assert.ok(start.indexOf("class=\"module-row\"") < start.indexOf("class=\"future-topics"), "Przyszłe tematy są przy aktywnych modułach");
 assert.match(start, /Twój kod jest niepowtarzalny/);
 assert.match(start, /Równowaga wolności i państwa/);
 assert.doesNotMatch(start, /kobiet|mężczy|wróż|przewodnicz|przewodnik/i);
@@ -121,7 +125,7 @@ assert.equal((profile.match(/<article>/g) || []).length, 6);
 assert.match(profile, /Podsumowanie AI/);
 
 assert.match(appSource, /QUESTION_TRANSITION_MS = 540/);
-assert.match(appSource, /APP_VERSION = "2\.12"/);
+assert.match(appSource, /APP_VERSION = "2\.13"/);
 assert.match(appSource, /LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1"/);
 assert.match(appSource, /recordLocalGameStart\(\);/);
 assert.match(appSource, /counter-grid/);
@@ -131,7 +135,10 @@ assert.match(appSource, /LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1"/);
 assert.match(appSource, /wersja v\$\{escapeHtml\(APP_VERSION\)\}/);
 assert.match(appSource, /startModule\("political-compass"\)/);
 assert.match(indexSource, /class="site-version"/);
-assert.match(indexSource, /Wersja strony: v2\.12/);
+assert.match(indexSource, /Wersja strony: v2\.13/);
+assert.match(stylesSource, /grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
+assert.match(stylesSource, /\.topic-selector \{[^}]*grid-template-columns: minmax\(0, 1fr\) minmax\(0, 1fr\)/s);
+assert.match(stylesSource, /body\[data-screen="start"\] \{ overflow: hidden; \}/);
 assert.match(start, /lokalne rozpoczęcia gry na tym urządzeniu/);
 assert.match(start, />0<\/strong><span>lokalne rozpoczęcia gry/);
 assert.equal(elements["#owner-counter"].hidden, true, "Licznik ma znikać po zmianie ekranu");

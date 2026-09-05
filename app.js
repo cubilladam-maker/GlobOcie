@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.12";
+const APP_VERSION = "2.13";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const AXIS_POSITION_KEY_PREFIX = "globocie-axis-position-v1:";
@@ -321,7 +321,7 @@ function renderStart() {
   const theme = currentTheme();
   const ui = module.ui || {};
   app.innerHTML = `<section class="start-page panel">
-    <header class="start-title-block"><div class="eyebrow">${escapeHtml(ui.startEyebrow || theme.eyebrow)}</div><h1>Odkryj swój<br>wewnętrzny<br><span>ukryty kod</span></h1></header>
+    <header class="start-title-block"><div class="eyebrow">${escapeHtml(ui.startEyebrow || theme.eyebrow)}</div><h1><span class="title-segment">Odkryj swój</span><span class="title-segment">wewnętrzny</span><span class="title-segment title-segment-accent">ukryty kod</span></h1></header>
     <section class="start-copy">
       <div class="start-ai-note"><b>✦</b><span><strong>${escapeHtml(ui.aiLead || "Jestem Twoją Sztuczną Inteligencją (AI).")}</strong><small>${escapeHtml(ui.aiSubline || "Od teraz prowadzę Cię przez quiz.")}</small></span></div>
       <div class="code-space">${fingerprintVisual()}<div><strong>Twój kod jest niepowtarzalny</strong><span>Każda odpowiedź odsłania kolejny fragment Twojego sposobu myślenia.</span></div></div>
@@ -329,7 +329,7 @@ function renderStart() {
       <div class="benefit-grid"><div><b>◇</b><span><strong>Odkryjesz swój profil poglądów</strong><small>Zobaczysz, jak przekonania łączą się ze sobą.</small></span></div><div><b>☷</b><span><strong>Uporządkujesz odpowiedzi</strong><small>AI złoży je w czytelny, spójny profil.</small></span></div><div><b>⌘</b><span><strong>Poznasz styl myślenia</strong><small>Nie tylko „co”, ale również „jak” odpowiadasz.</small></span></div><div><b>✦</b><span><strong>Otrzymasz analizę AI</strong><small>Wynik pozostanie mapą, nie sztywną etykietą.</small></span></div></div>
       <div class="start-actions"><button class="primary big" data-action="start-module" data-module-id="${escapeHtml(module.id)}">${escapeHtml(ui.startButton || "Rozpocznij darmowy quiz →")}</button><button class="secondary" data-action="scroll-topics">Wybierz temat</button></div><div class="local-game-stat" aria-live="polite"><strong>${localGameStarts()}</strong><span>lokalne rozpoczęcia gry na tym urządzeniu</span></div>
     </section>
-    <section class="start-stage"><div class="stage-glow"></div>${aiHologram("start-ai")}<p class="stage-caption">${escapeHtml(ui.stageCaption || "AI i napis Sztuczna Inteligencja obracają się jako jeden hologram.")}</p><div class="module-row" id="topics">${moduleCards()}</div>${futureTopicsPanel()}</section>
+    <section class="start-stage"><div class="stage-glow"></div>${aiHologram("start-ai")}<p class="stage-caption">${escapeHtml(ui.stageCaption || "AI i napis Sztuczna Inteligencja obracają się jako jeden hologram.")}</p><div class="topic-selector" id="topics"><div class="module-row">${moduleCards()}</div>${futureTopicsPanel()}</div></section>
   </section>`;
 }
 
