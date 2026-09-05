@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.16";
+const APP_VERSION = "2.17";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const AXIS_POSITION_KEY_PREFIX = "globocie-axis-position-v1:";
@@ -385,8 +385,9 @@ function renderStart() {
   const module = currentLocalizedModule();
   const theme = currentLocalizedTheme();
   const ui = module.ui || {};
+  const bilingualTitle = I18N.getLanguage() === "pl" ? `<p class="start-title-english" lang="en">${escapeHtml(t("titleEnglish"))}</p>` : "";
   app.innerHTML = `<section class="start-page panel">
-    <header class="start-title-block"><div class="eyebrow">${escapeHtml(ui.startEyebrow || theme.eyebrow)}</div><h1><span class="title-segment">${escapeHtml(t("titleSegment1"))}</span><span class="title-segment">${escapeHtml(t("titleSegment2"))}</span><span class="title-segment title-segment-accent">${escapeHtml(t("titleSegment3"))}</span></h1></header>
+    <header class="start-title-block"><div class="eyebrow">${escapeHtml(ui.startEyebrow || theme.eyebrow)}</div><h1><span class="title-segment">${escapeHtml(t("titleSegment1"))}</span><span class="title-segment">${escapeHtml(t("titleSegment2"))}</span><span class="title-segment title-segment-accent">${escapeHtml(t("titleSegment3"))}</span></h1>${bilingualTitle}</header>
     <section class="start-copy">
       <div class="start-ai-note"><b>✦</b><span><strong>${escapeHtml(ui.aiLead || t("genericAiLead"))}</strong><small>${escapeHtml(ui.aiSubline || t("genericAiSubline"))}</small></span></div>
       <div class="code-space">${fingerprintVisual()}<div><strong>${escapeHtml(t("uniqueTitle"))}</strong><span>${escapeHtml(t("uniqueBody"))}</span></div></div>

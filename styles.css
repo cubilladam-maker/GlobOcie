@@ -127,11 +127,12 @@ footer { padding: 9px 28px; border-top: 1px solid rgba(255, 255, 255, .06); colo
 
 /* Start */
 .start-page { display: grid; grid-template-columns: .91fr 1.19fr; grid-template-areas: "title title" "copy stage"; grid-template-rows: auto 1fr; min-height: calc(100vh - 112px); overflow: hidden; }
-.start-title-block { grid-area: title; padding: 26px 32px 18px; background: linear-gradient(160deg, var(--module-title-start), var(--module-title-end)); border-bottom: 1px solid rgba(255, 255, 255, .07); }
+.start-title-block { grid-area: title; padding: 22px 32px 14px; background: linear-gradient(160deg, var(--module-title-start), var(--module-title-end)); border-bottom: 1px solid rgba(255, 255, 255, .07); }
 .start-title-block h1 { display: grid; grid-template-columns: auto auto auto; justify-content: center; align-items: baseline; column-gap: clamp(8px, 1.4vw, 24px); width: 100%; font: 500 clamp(45px, 4.1vw, 76px)/.94 Georgia, serif; margin: 11px 0 0; letter-spacing: -.035em; }
 .start-title-block h1 .title-segment { display: block; min-width: 0; color: #f1f3ff; white-space: nowrap; }
 .start-title-block h1 .title-segment:nth-child(2) { text-align: center; }
 .start-title-block h1 .title-segment-accent { color: var(--accent); text-align: right; text-shadow: 0 0 30px var(--module-holo-filter); }
+.start-title-english { margin: 8px auto 0; color: var(--module-cyan); font-size: clamp(15px, 1.45vw, 25px); font-weight: 700; letter-spacing: .035em; line-height: 1.15; text-align: center; text-shadow: 0 0 18px var(--module-holo-filter); }
 .start-copy { padding: 28px 32px 24px; position: relative; z-index: 2; background: linear-gradient(160deg, var(--module-copy-start), var(--module-copy-end)); }
 .start-copy { grid-area: copy; }
 .start-copy h1 { font: 500 clamp(49px, 4.5vw, 82px)/.92 Georgia, serif; margin: 13px 0 19px; letter-spacing: -.035em; }
@@ -369,6 +370,7 @@ body[data-module-loaded="true"] .module.available.active { box-shadow: 0 0 18px 
   .start-title-block h1 { font-size: 47px; }
   .start-title-block h1 { grid-template-columns: 1fr; gap: 0; }
   .start-title-block h1 .title-segment, .start-title-block h1 .title-segment:nth-child(2), .start-title-block h1 .title-segment-accent { text-align: left; white-space: normal; }
+  .start-title-english { margin-top: 7px; font-size: 16px; letter-spacing: .015em; }
   .code-space { grid-template-columns: 75px 1fr; }
   .fingerprint { transform: scale(.78); transform-origin: left center; }
   .start-stage { min-height: 570px; padding: 16px 12px; }
