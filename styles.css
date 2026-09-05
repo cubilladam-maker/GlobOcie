@@ -83,7 +83,7 @@ footer { padding: 9px 28px; border-top: 1px solid rgba(255, 255, 255, .06); colo
 /* Start */
 .start-page { display: grid; grid-template-columns: .91fr 1.19fr; grid-template-areas: "title title" "copy stage"; grid-template-rows: auto 1fr; min-height: calc(100vh - 112px); overflow: hidden; }
 .start-title-block { grid-area: title; padding: 26px 32px 18px; background: linear-gradient(160deg, rgba(14, 27, 65, .97), rgba(9, 18, 46, .93)); border-bottom: 1px solid rgba(255, 255, 255, .07); }
-.start-title-block h1 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: baseline; gap: clamp(10px, 2.2vw, 38px); width: 100%; font: 500 clamp(45px, 4.1vw, 76px)/.94 Georgia, serif; margin: 11px 0 0; letter-spacing: -.035em; }
+.start-title-block h1 { display: grid; grid-template-columns: auto auto auto; justify-content: center; align-items: baseline; column-gap: clamp(8px, 1.4vw, 24px); width: 100%; font: 500 clamp(45px, 4.1vw, 76px)/.94 Georgia, serif; margin: 11px 0 0; letter-spacing: -.035em; }
 .start-title-block h1 .title-segment { display: block; min-width: 0; color: #f1f3ff; white-space: nowrap; }
 .start-title-block h1 .title-segment:nth-child(2) { text-align: center; }
 .start-title-block h1 .title-segment-accent { color: var(--accent); text-align: right; text-shadow: 0 0 30px rgba(177, 60, 255, .45); }
