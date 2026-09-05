@@ -469,7 +469,7 @@ function printChanges(changes) {
 
 function validateSite(siteRoot, version) {
   console.log("Walidacja kodu i wersjonowania cache...");
-  const syntaxFiles = ["app.js", "themes.js", "sw.js", "visitor-counter-config.js"];
+  const syntaxFiles = ["app.js", "i18n.js", "themes.js", "sw.js", "visitor-counter-config.js"];
   for (const relative of syntaxFiles) {
     const file = path.join(siteRoot, relative);
     if (!exists(file)) continue;

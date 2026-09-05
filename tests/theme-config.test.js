@@ -23,7 +23,15 @@ for (const theme of Object.values(themeApi.themes)) {
 assert.equal(themeApi.getModule("political-compass").name, "Kompas polityczny");
 assert.equal(themeApi.getModule("political-compass").themeId, "politics");
 assert.equal(themeApi.getModule("political-compass").topicUrl, "topics/polityka-pl.quiz.gz");
-assert.equal(themeApi.getModule("political-compass").appearance["--module-accent"], "#f0b74c");
+assert.equal(themeApi.getModule("political-compass").appearance["--module-accent"], "#f2b84b");
+assert.notEqual(themeApi.getModule("political-compass").appearance["--module-page-bg-2"], themeApi.getModule("religion-worldview").appearance["--module-page-bg-2"]);
+assert.equal(themeApi.neutralAppearance["--module-page-bg-1"], "#02050e");
+assert.ok(themeApi.getModule("political-compass").appearance["--module-primary-start"]);
+assert.ok(themeApi.getModule("religion-worldview").appearance["--module-primary-start"]);
+const appearanceKeys = ["--module-page-bg-1", "--module-page-bg-2", "--module-panel-start", "--module-primary-start", "--module-holo-core-bottom", "--module-radar-profile-stroke"];
+for (const appearance of [themeApi.neutralAppearance, ...Object.values(themeApi.modules).map(module => module.appearance)]) {
+  for (const key of appearanceKeys) assert.ok(appearance[key], `Brak zmiennej motywu ${key}`);
+}
 assert.equal(themeApi.futureTopics[0].name, "Poszukiwania Boga. Nauka, mity a rzeczywistość");
 assert.equal(themeApi.futureTopics[1].name, "Globalne ocieplenie — naukowa prawda czy fake?");
 assert.deepEqual(themeApi.futureTopics.map(topic => topic.name), [

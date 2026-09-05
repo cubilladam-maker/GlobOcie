@@ -7,39 +7,44 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <title>Odkryj swój wewnętrzny ukryty kod — quiz AI</title>
-  <link rel="stylesheet" href="styles.css?v=2.14" />
+<title>Odkryj swój wewnętrzny ukryty kod — quiz AI</title>
+  <link rel="stylesheet" href="styles.css?v=2.16" />
 </head>
 <body data-screen="start">
   <div class="app-shell">
     <header class="topbar">
-      <button class="brand" data-action="home" aria-label="Strona główna">
+      <button class="brand" data-action="home" aria-label="Strona główna" data-i18n-aria="homeAria">
         <span class="brand-mark"><i></i></span>
         <span>
-          <strong>Odkryj swój ukryty kod</strong>
-          <small>quiz wspierany przez sztuczną inteligencję</small>
+          <strong data-i18n="brandName">Odkryj swój ukryty kod</strong>
+          <small data-i18n="brandTagline">quiz wspierany przez sztuczną inteligencję</small>
         </span>
       </button>
       <nav>
-        <button class="ghost" data-action="help">ⓘ Jak to działa?</button>
-        <button class="ghost" data-action="privacy">♢ Prywatność</button>
+        <button class="ghost" data-action="help" data-i18n="help">ⓘ Jak to działa?</button>
+        <button class="ghost" data-action="privacy" data-i18n="privacy">♢ Prywatność</button>
+        <div class="language-switch" role="group" aria-label="Wybór języka" data-i18n-aria="languageGroupAria">
+          <span data-i18n="languageLabel">Język</span>
+          <button type="button" data-language="pl" aria-pressed="true">PL</button>
+          <button type="button" data-language="en" aria-pressed="false">EN</button>
+        </div>
         <div class="top-progress" id="top-progress" hidden></div>
       </nav>
-      <button class="owner-hotspot" id="owner-hotspot" aria-label=""></button>
+      <button class="owner-hotspot" id="owner-hotspot" aria-label="Otwórz statystyki właściciela" data-i18n-aria="ownerHotspot"></button>
       <output class="owner-counter" id="owner-counter" hidden></output>
     </header>
 
     <main id="app" aria-live="polite"></main>
 
     <footer>
-      <span>Odkryj swój ukryty kod</span>
-      <span class="site-version" id="site-version" aria-label="Wersja strony v2.14">Wersja strony: v2.14</span>
-      <span>Brak Service Workera buforującego stary interfejs.</span>
+      <span data-i18n="footerBrand">Odkryj swój ukryty kod</span>
+      <span class="site-version" id="site-version" aria-label="Wersja strony v2.16" data-i18n="siteVersion" data-i18n-aria="siteVersionAria">Wersja strony: v2.16</span>
+      <span data-i18n="footerService">Brak Service Workera buforującego stary interfejs.</span>
     </footer>
   </div>
 
   <dialog id="info-dialog">
-    <button class="dialog-close" data-action="close-dialog" aria-label="Zamknij">×</button>
+    <button class="dialog-close" data-action="close-dialog" aria-label="Zamknij" data-i18n-aria="closeDialog">×</button>
     <div id="dialog-content"></div>
   </dialog>
 
@@ -47,10 +52,11 @@
     <div id="confirm-content"></div>
   </dialog>
 
-  <script src="themes.js?v=2.14" defer></script>
-  <script src="visitor-counter-config.js?v=2.14" defer></script>
-  <script src="topics/polityka-pl.quiz.gz.js?v=2.14" defer></script>
-  <script src="topics/religia-swiatopoglad-pl.quiz.gz.js?v=2.14" defer></script>
-  <script src="app.js?v=2.14" defer></script>
+  <script src="themes.js?v=2.16" defer></script>
+  <script src="i18n.js?v=2.16" defer></script>
+  <script src="visitor-counter-config.js?v=2.16" defer></script>
+  <script src="topics/polityka-pl.quiz.gz.js?v=2.16" defer></script>
+  <script src="topics/religia-swiatopoglad-pl.quiz.gz.js?v=2.16" defer></script>
+  <script src="app.js?v=2.16" defer></script>
 </body>
 </html>
