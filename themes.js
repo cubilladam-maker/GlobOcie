@@ -99,6 +99,16 @@
     }
   };
 
+  const futureTopics = [
+    { id: "searching-god", name: "Poszukiwania Boga. Nauka, mity a rzeczywistość" },
+    { id: "global-warming", name: "Globalne ocieplenie — naukowa prawda czy fake?" },
+    { id: "thinking-style", name: "Styl myślenia" },
+    { id: "relationships-emotions", name: "Relacje i emocje" },
+    { id: "morality-conscience", name: "Moralność i sumienie" },
+    { id: "human-ai", name: "Człowiek i sztuczna inteligencja" },
+    { id: "meaning-happiness", name: "Sens życia i szczęście" }
+  ];
+
   const modules = {
     "political-compass": {
       id: "political-compass",
@@ -235,5 +245,5 @@
     return axis.ranges.find(range => safe >= range.min && safe <= range.max) || axis.ranges[0];
   }
 
-  return { themes, modules, defaultModule, getTheme, getModule, registerModule, describeAxis };
+  return { themes, modules, futureTopics, defaultModule, getTheme, getModule, registerModule, describeAxis };
 });

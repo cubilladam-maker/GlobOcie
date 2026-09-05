@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.10";
+const APP_VERSION = "2.11";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const THEME_API = window.GLOBOCIE_THEME_API;
@@ -37,6 +37,21 @@ const AXIS_META = {
   centralization: { name: "Państwo", left: "Samorząd", right: "Centralizacja" }
 };
 
+const NATURAL_QUESTION_REWRITES = new Map([
+  ["Wysoka progresja podatkowa jest uzasadniona nie tylko fiskalnie, lecz także jako narzędzie ograniczania koncentracji wpływu ekonomicznego na życie publiczne.", "Wyższe podatki dla najbogatszych mogą być potrzebne nie tylko dla budżetu, ale też po to, żeby pieniądze nie dawały zbyt dużego wpływu na życie publiczne."],
+  ["W liberalnej demokracji prewencyjne rozszerzanie kompetencji aparatu bezpieczeństwa bywa akceptowalne, nawet jeśli osłabia zasadę minimalnej ingerencji państwa w sferę prywatną.", "W demokracji państwo może czasem z wyprzedzeniem poszerzać uprawnienia służb, nawet jeśli oznacza to większą ingerencję w prywatność."],
+  ["Neutralność światopoglądowa państwa powinna oznaczać aktywne usuwanie historycznych przywilejów dominujących norm kulturowych z prawa publicznego.", "Państwo powinno usuwać z prawa dawne przywileje jednej dominującej tradycji, jeśli chce być naprawdę neutralne światopoglądowo."],
+  ["Dalsza integracja europejska powinna obejmować więcej decyzji podejmowanych większościowo na poziomie ponadnarodowym, nawet gdy pojedyncze państwo traci możliwość weta.", "Unia Europejska mogłaby podejmować więcej wspólnych decyzji większością, nawet jeśli pojedyncze państwo nie zawsze mogłoby je zablokować."],
+  ["Koszty zewnętrzne emisji powinny być internalizowane regulacyjnie lub cenowo, nawet jeśli krótkookresowo obniża to konkurencyjność części energochłonnych sektorów.", "Firmy zanieczyszczające powinny ponosić koszt emisji w przepisach lub cenach, nawet jeśli na krótko pogorszy to sytuację części energochłonnych branż."],
+  ["Równość dostępu do usług publicznych uzasadnia centralne standardy i redystrybucję między regionami, nawet kosztem fiskalnej autonomii samorządów.", "Jeśli wszyscy mają mieć podobny dostęp do usług publicznych, państwo może wyrównywać różnice między regionami, nawet kosztem części finansowej samodzielności samorządów."],
+  ["Rozproszona wiedza uczestników rynku sprawia, że administracyjne korygowanie struktury cen i inwestycji częściej tworzy nowe zniekształcenia niż usuwa istniejące.", "Rynek często lepiej sam ustala ceny i kierunki inwestycji niż administracja państwowa."],
+  ["Domniemanie wolności jednostki powinno ograniczać prewencyjne uprawnienia państwa także wtedy, gdy część ryzyka bezpieczeństwa pozostaje nieusunięta.", "Państwo powinno powstrzymywać się od wyprzedzającej kontroli ludzi, nawet jeśli nie da się w ten sposób usunąć całego ryzyka."],
+  ["Pluralizm liberalny wymaga, aby państwo nie uprzywilejowywało tradycyjnych norm moralnych wobec alternatywnych, dobrowolnych stylów życia dorosłych.", "Jeśli dorośli nikogo nie krzywdzą, państwo nie powinno faworyzować tradycyjnego stylu życia kosztem innych dobrowolnych wyborów."],
+  ["Polityka klimatyczna powinna mocniej uwzględniać koszt krańcowy redukcji emisji i opóźniać działania, których koszt społeczny jest nieproporcjonalny do efektu.", "Polityka klimatyczna powinna brać pod uwagę koszt kolejnych redukcji emisji i opóźniać działania, które kosztują społeczeństwo dużo więcej, niż dają efekt."],
+  ["Subsydiarność powinna ograniczać przenoszenie nowych kompetencji na poziom unijny, jeśli cele można skutecznie realizować krajowo.", "Nie warto przenosić kolejnych decyzji na poziom Unii, jeśli Polska potrafi skutecznie zająć się nimi sama."],
+  ["Zasada subsydiarności przemawia za przekazywaniem kompetencji możliwie najniższemu skutecznemu poziomowi władzy, nawet kosztem mniejszej jednolitości usług.", "Decyzje powinny zapadać możliwie blisko ludzi, jeśli niższy szczebel władzy potrafi skutecznie się nimi zająć — nawet gdy oznacza to mniej jednolite usługi."]
+]);
+
 const state = {
   screen: "start",
   moduleId: localStorage.getItem("globocie-module") || THEME_API.defaultModule || "political-compass",
@@ -52,6 +67,7 @@ const state = {
   answerLock: false,
   difficultyChangeAttempted: false,
   hintOpen: false,
+  futureTopicsOpen: false,
   sessionStartedMs: null
 };
 
@@ -80,6 +96,7 @@ function currentModule() { return THEME_API.getModule(state.moduleId); }
 function currentTheme() { return THEME_API.getTheme(currentModule().themeId || state.themeId); }
 function currentAxisMeta() { return currentModule().axisMeta || AXIS_META; }
 function axisDescription() { return THEME_API.describeAxis(currentModule().themeId || state.themeId, state.selfPosition); }
+function questionText(question) { return NATURAL_QUESTION_REWRITES.get(question?.text) || question?.text || "Pytanie"; }
 
 function applyModuleAppearance() {
   const module = currentModule();
@@ -244,7 +261,8 @@ function axisSettingCard(context = "start") {
   const theme = currentTheme();
   const description = axisDescription();
   const isStart = context === "start";
-  return `<section class="axis-setting ${isStart ? "" : "axis-readonly"}"><div class="axis-heading"><h3>${escapeHtml(theme.axis.title)}: <strong id="axis-live-label">${escapeHtml(description.label)}</strong></h3>${isStart ? "" : "<span>Ustawienie początkowe</span>"}</div>${isStart ? `<input id="start-self-position" class="glow-range" type="range" min="${theme.axis.min}" max="${theme.axis.max}" step="${theme.axis.step}" value="${state.selfPosition}">` : `<div class="readonly-range"><i style="left:${state.selfPosition}%"></i></div>`}<div class="range-labels"><span>${escapeHtml(theme.axis.leftLabel)}</span><span>${escapeHtml(theme.axis.rightLabel)}</span></div><p class="axis-hint" id="axis-live-hint">${escapeHtml(description.hint)}</p></section>`;
+  const intro = isStart ? `<p class="axis-intro">Zanim rozpoczniesz, ustaw suwak w miejscu, które najlepiej opisuje Twoje obecne podejście. To tylko punkt wyjścia do quizu — możesz wybrać dowolne położenie.</p>` : "";
+  return `<section class="axis-setting ${isStart ? "" : "axis-readonly"}"><div class="axis-heading"><h3>${escapeHtml(theme.axis.title)}: <strong id="axis-live-label">${escapeHtml(description.label)}</strong></h3>${isStart ? "" : "<span>Ustawienie początkowe</span>"}</div>${intro}${isStart ? `<input id="start-self-position" class="glow-range" type="range" min="${theme.axis.min}" max="${theme.axis.max}" step="${theme.axis.step}" value="${state.selfPosition}">` : `<div class="readonly-range"><i style="left:${state.selfPosition}%"></i></div>`}<div class="range-labels"><span>${escapeHtml(theme.axis.leftLabel)}</span><span>${escapeHtml(theme.axis.rightLabel)}</span></div><p class="axis-hint" id="axis-live-hint">${escapeHtml(description.hint)}</p></section>`;
 }
 
 function moduleCards() {
@@ -252,8 +270,15 @@ function moduleCards() {
     const theme = THEME_API.getTheme(module.themeId);
     const ui = module.ui || {};
     const active = state.moduleId === module.id ? " active" : "";
-    return `<article class="module available${active}" data-action="start-module" data-module-id="${escapeHtml(module.id)}" tabindex="0" role="button"><span>${active ? "AKTYWNY" : "DOSTĘPNY"}</span><h3>${escapeHtml(module.name || theme.name)}</h3><p>${escapeHtml(ui.cardDescription || theme.eyebrow)}</p></article>`;
+    const appearance = module.appearance || {};
+    const cardStyle = `--module-card-accent:${escapeHtml(appearance["--module-accent"] || "#b13cff")};--module-card-cyan:${escapeHtml(appearance["--module-cyan"] || "#24d8ff")};--module-card-line:${escapeHtml(appearance["--module-cyan-border"] || "rgba(36,216,255,.58)")}`;
+    return `<article class="module available${active}" style="${cardStyle}" data-action="start-module" data-module-id="${escapeHtml(module.id)}" tabindex="0" role="button"><span>${active ? "AKTYWNY" : "DOSTĘPNY"}</span><h3>${escapeHtml(module.name || theme.name)}</h3><p>${escapeHtml(ui.cardDescription || theme.eyebrow)}</p></article>`;
   }).join("");
+}
+
+function futureTopicsPanel() {
+  const topics = THEME_API.futureTopics || [];
+  return `<section class="future-topics ${state.futureTopicsOpen ? "open" : ""}"><button class="future-toggle" data-action="toggle-future-topics" aria-expanded="${state.futureTopicsOpen}"><span>Przyszłe tematy</span><small>W przygotowaniu</small><b>${state.futureTopicsOpen ? "←" : "→"}</b></button><div class="future-topic-list" ${state.futureTopicsOpen ? "" : "hidden"} aria-label="Przyszłe tematy">${topics.map(topic => `<button class="future-topic" type="button" disabled><strong>${escapeHtml(topic.name)}</strong><span>Wkrótce</span></button>`).join("")}</div></section>`;
 }
 
 function renderStart() {
@@ -261,16 +286,15 @@ function renderStart() {
   const theme = currentTheme();
   const ui = module.ui || {};
   app.innerHTML = `<section class="start-page panel">
+    <header class="start-title-block"><div class="eyebrow">${escapeHtml(ui.startEyebrow || theme.eyebrow)}</div><h1>Odkryj swój<br>wewnętrzny<br><span>ukryty kod</span></h1></header>
     <section class="start-copy">
-      <div class="eyebrow">${escapeHtml(ui.startEyebrow || theme.eyebrow)}</div>
-      <h1>Odkryj swój<br>wewnętrzny<br><span>ukryty kod</span></h1>
       <div class="start-ai-note"><b>✦</b><span><strong>${escapeHtml(ui.aiLead || "Jestem Twoją Sztuczną Inteligencją (AI).")}</strong><small>${escapeHtml(ui.aiSubline || "Od teraz prowadzę Cię przez quiz.")}</small></span></div>
       <div class="code-space">${fingerprintVisual()}<div><strong>Twój kod jest niepowtarzalny</strong><span>Każda odpowiedź odsłania kolejny fragment Twojego sposobu myślenia.</span></div></div>
       <div class="start-settings">${axisSettingCard("start")}<section class="setting-box difficulty-box"><h3>Poziom trudności: <strong id="start-difficulty-label">${DIFFICULTIES[state.difficulty].label}</strong></h3><input id="start-difficulty" class="glow-range" type="range" min="0" max="10" step="1" value="${state.difficulty}">${difficultyTicks()}${difficultyLabels()}</section></div>
       <div class="benefit-grid"><div><b>◇</b><span><strong>Odkryjesz swój profil poglądów</strong><small>Zobaczysz, jak przekonania łączą się ze sobą.</small></span></div><div><b>☷</b><span><strong>Uporządkujesz odpowiedzi</strong><small>AI złoży je w czytelny, spójny profil.</small></span></div><div><b>⌘</b><span><strong>Poznasz styl myślenia</strong><small>Nie tylko „co”, ale również „jak” odpowiadasz.</small></span></div><div><b>✦</b><span><strong>Otrzymasz analizę AI</strong><small>Wynik pozostanie mapą, nie sztywną etykietą.</small></span></div></div>
       <div class="start-actions"><button class="primary big" data-action="start-module" data-module-id="${escapeHtml(module.id)}">${escapeHtml(ui.startButton || "Rozpocznij darmowy quiz →")}</button><button class="secondary" data-action="scroll-topics">Wybierz temat</button></div><div class="local-game-stat" aria-live="polite"><strong>${localGameStarts()}</strong><span>lokalne rozpoczęcia gry na tym urządzeniu</span></div>
     </section>
-    <section class="start-stage"><div class="stage-glow"></div>${aiHologram("start-ai")}<p class="stage-caption">${escapeHtml(ui.stageCaption || "AI i napis Sztuczna Inteligencja obracają się jako jeden hologram.")}</p><div class="module-row" id="topics">${moduleCards()}</div></section>
+    <section class="start-stage"><div class="stage-glow"></div>${aiHologram("start-ai")}<p class="stage-caption">${escapeHtml(ui.stageCaption || "AI i napis Sztuczna Inteligencja obracają się jako jeden hologram.")}</p><div class="module-row" id="topics">${moduleCards()}</div>${futureTopicsPanel()}</section>
   </section>`;
 }
 
@@ -299,7 +323,7 @@ function renderQuiz() {
   const offerHint = shouldOfferHint();
   app.innerHTML = `<section class="quiz-page">
     <aside class="panel quiz-settings-panel"><div class="eyebrow">Ustawienia</div>${axisSettingCard("quiz")}<section class="quiz-setting-section"><div class="difficulty-heading"><h3>Poziom trudności</h3><span>Możesz zmienić w każdej chwili</span></div><input id="difficulty-live" class="glow-range" type="range" min="0" max="10" step="1" value="${state.difficulty}" ${state.difficultyChangeAttempted ? "disabled" : ""}>${difficultyTicks()}${difficultyLabels()}<p>${state.difficultyChangeAttempted ? "Na tym pytaniu wykorzystano próbę zmiany poziomu." : "Przesunięcie o jedną pozycję wymaga rozpoczęcia nowej gry."}</p></section><section class="locked-summary"><div>◉</div><div><strong>Ustawione na start</strong><span>${escapeHtml(axisDescription().label)}</span><span>Poziom: ${DIFFICULTIES[state.difficulty].label}</span></div><b>🔒</b></section><section class="ai-tip-mini"><b>✦ Wskazówka AI</b><p>AI dopasowuje tempo i podpowiedzi do przebiegu quizu.</p></section><button class="return-start" data-action="return-start">↻ <span><strong>Powrót na początek gry</strong><small>Zresetuj quiz i rozpocznij od nowa</small></span></button></aside>
-    <main class="panel quiz-question-panel"><div class="question-kicker">${escapeHtml(quizUi.kicker || question.category || "Pytanie")}</div><h2>${escapeHtml(question.text)}</h2><div class="answers compact-answers">${answers.map((answer, index) => `<button class="answer" data-answer="${answer.value}" ${state.answerLock ? "disabled" : ""}><span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${escapeHtml(answer.label)}</span></button>`).join("")}</div>${offerHint ? `<button class="hint-row" data-action="toggle-hint"><span>✦</span><strong>AI podpowiedź</strong><small>${state.hintOpen ? "ukryj" : "pokaż"}</small><b>${state.hintOpen ? "⌃" : "⌄"}</b></button>` : ""}${offerHint && state.hintOpen ? `<div class="hint-box">${escapeHtml(aiHintForQuestion())}</div>` : ""}<div class="question-footnote">Po wyborze odpowiedzi kolejne pytanie pojawi się automatycznie.</div></main>
+    <main class="panel quiz-question-panel"><div class="question-kicker">${escapeHtml(quizUi.kicker || question.category || "Pytanie")}</div><h2>${escapeHtml(questionText(question))}</h2><div class="answers compact-answers">${answers.map((answer, index) => `<button class="answer" data-answer="${answer.value}" ${state.answerLock ? "disabled" : ""}><span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${escapeHtml(answer.label)}</span></button>`).join("")}</div>${offerHint ? `<button class="hint-row" data-action="toggle-hint"><span>✦</span><strong>AI podpowiedź</strong><small>${state.hintOpen ? "ukryj" : "pokaż"}</small><b>${state.hintOpen ? "⌃" : "⌄"}</b></button>` : ""}${offerHint && state.hintOpen ? `<div class="hint-box">${escapeHtml(aiHintForQuestion())}</div>` : ""}<div class="question-footnote">Po wyborze odpowiedzi kolejne pytanie pojawi się automatycznie.</div></main>
     <aside class="panel quiz-ai-panel">${aiHologram("quiz-ai")}<div class="ai-status"><strong>${escapeHtml(quizUi.aiStatus || "AI analizuje przebieg quizu")}</strong><span>${escapeHtml(quizUi.aiNote || "Spokojny obrót oznacza aktywną analizę.")}</span></div></aside>
   </section>`;
 }
@@ -379,6 +403,26 @@ function radarSvg(compact = false) {
   return `<svg class="radar3d" viewBox="0 0 420 380" role="img" aria-label="Wykres profilu">${rings}${spokes}${profile}${labels}</svg>`;
 }
 
+function axisBarChart() {
+  const axes = Object.keys(currentAxisMeta());
+  return `<div class="axis-chart" role="group" aria-label="Poziome porównanie wyników na osiach"><ol class="axis-chart-list">${axes.map(axis => {
+    const meta = currentAxisMeta()[axis];
+    const value = axisPercent(axis);
+    return `<li class="axis-chart-row"><div class="axis-chart-heading"><strong>${escapeHtml(meta.name)}</strong><b>${value}%</b></div><div class="axis-chart-track"><i style="width:${value}%"></i><span style="left:${value}%"></span></div><div class="axis-chart-scale"><span>${escapeHtml(meta.left)}</span><span>${escapeHtml(meta.right)}</span></div></li>`;
+  }).join("")}</ol></div>`;
+}
+
+function analysisMarkup() {
+  const axes = Object.keys(currentAxisMeta()).map(axis => ({ axis, value: axisPercent(axis) }));
+  const strongest = [...axes].sort((a, b) => Math.abs(b.value - 50) - Math.abs(a.value - 50))[0];
+  const weakest = [...axes].sort((a, b) => Math.abs(a.value - 50) - Math.abs(b.value - 50))[0];
+  const average = Math.round(axes.reduce((sum, item) => sum + item.value, 0) / Math.max(1, axes.length));
+  const strongestName = currentAxisMeta()[strongest.axis].name;
+  const weakestName = currentAxisMeta()[weakest.axis].name;
+  const direction = average >= 50 ? "prawą stronę swoich osi" : "lewą stronę swoich osi";
+  return `<p>Najwyraźniej zaznacza się u Ciebie oś <strong>${escapeHtml(strongestName)}</strong> — wynik ${strongest.value}%. Najbardziej wyśrodkowana pozostaje oś <strong>${escapeHtml(weakestName)}</strong> (${weakest.value}%), więc właśnie tam Twoje odpowiedzi są najbardziej elastyczne.</p><p>Średnia wszystkich osi wynosi ${average}%, co wskazuje na ogólną skłonność ku ${direction}. Traktuj ten rezultat jako mapę aktualnych tendencji: odpowiedzi mogą zmieniać się wraz z doświadczeniem, wiedzą i sytuacją.</p>`;
+}
+
 function insightCards() {
   const cards = [
     ["✦", "Analityczne podejście", "Decyzje opierasz na argumentach i szukasz konsekwencji różnych rozwiązań."],
@@ -395,8 +439,8 @@ function renderResults() {
   const total = state.questions.length || completed;
   app.innerHTML = `<section class="panel result-dashboard">
     <header class="result-heading"><div><div class="eyebrow">${escapeHtml(module.name || "Twój profil")}</div><h1>${profileName()}</h1><p>${profileSummary()}</p></div><div class="score-ring" style="--score:${confidence * 3.6}deg"><strong>${confidence}%</strong><span>spójność</span></div></header>
-    <section class="result-main"><div class="radar-card"><div class="card-heading"><span>Mapa Twojego profilu</span><small>${completed}/${total} odpowiedzi · ${elapsedMinutes()} min</small></div>${radarSvg()}</div><div class="insight-stack"><div class="card-heading"><span>Najważniejsze obserwacje</span><small>na podstawie odpowiedzi</small></div>${insightCards()}</div></section>
-    <section class="ai-analysis"><b>✦</b><div><span>Analiza AI</span><p>Twój profil łączy potrzebę samodzielnego rozumowania z gotowością do sprawdzania różnych perspektyw. Najciekawsze są nie skrajne wyniki, lecz napięcia między osiami — to one pokazują Twój indywidualny kod.</p></div></section>
+    <section class="result-main"><div class="radar-card"><div class="card-heading"><span>Mapa Twojego profilu</span><small>${completed}/${total} odpowiedzi · ${elapsedMinutes()} min</small></div>${radarSvg()}</div><div class="axis-chart-card"><div class="card-heading"><span>Porównanie osi</span><small>środek osi = 50%</small></div>${axisBarChart()}</div><div class="insight-stack"><div class="card-heading"><span>Najważniejsze obserwacje</span><small>na podstawie odpowiedzi</small></div>${insightCards()}</div></section>
+    <section class="ai-analysis"><b>✦</b><div><span>Analiza AI</span>${analysisMarkup()}</div></section>
     <div class="results-actions"><button class="primary" data-action="details">Zobacz pełny profil →</button><button class="secondary" data-action="export-pdf">Pobierz wynik</button><button class="secondary" data-action="restart-topic">Powtórz quiz</button></div>
   </section>`;
 }
@@ -423,7 +467,7 @@ function renderFullProfile() {
   const module = currentModule();
   app.innerHTML = `<section class="panel full-profile">
     <header class="profile-hero"><div><div class="eyebrow">Twój pełny profil · ${escapeHtml(module.name || "moduł")}</div><h1>${profileName()}</h1><p>${profileSummary()}</p><div class="chips">${strongestAxes().map(item => `<i>${currentAxisMeta()[item.axis].name}</i>`).join("")}</div></div><div class="profile-radar">${radarSvg(true)}</div></header>
-    <section class="profile-content"><div class="profile-bars"><div class="section-title"><span>Twoje położenie na osiach</span><small>Wynik 50% oznacza środek danej osi</small></div>${Object.keys(currentAxisMeta()).slice(0, 5).map(profileBar).join("")}</div><div class="profile-details"><div class="section-title"><span>Jak działa Twój wewnętrzny kod</span><small>Najważniejsze wzorce odpowiedzi</small></div><div class="profile-card-grid">${profileDetailCards()}</div></div></section>
+    <section class="profile-content"><div class="profile-bars"><div class="section-title"><span>Twoje położenie na osiach</span><small>Wynik 50% oznacza środek danej osi</small></div>${Object.keys(currentAxisMeta()).map(profileBar).join("")}</div><div class="profile-details"><div class="section-title"><span>Jak działa Twój wewnętrzny kod</span><small>Najważniejsze wzorce odpowiedzi</small></div><div class="profile-card-grid">${profileDetailCards()}</div></div></section>
     <section class="profile-conclusion"><b>✦</b><div><strong>Podsumowanie AI</strong><p>Największą wartością tego profilu jest jego wielowymiarowość. Traktuj go jak punkt startowy do dalszych pytań, a nie ostateczny opis siebie.</p></div></section>
     <div class="results-actions"><button class="primary" data-action="export-pdf">Pobierz pełny profil</button><button class="secondary" data-action="results">Wróć do podsumowania</button><button class="secondary" data-action="home">Ekran główny</button></div>
   </section>`;
@@ -463,7 +507,7 @@ function requestHome() {
 }
 
 function showHelp() {
-  showInfo(`<h2>Jak to działa?</h2><p>Wybierz pozycję początkową i poziom trudności. Po kliknięciu odpowiedzi kolejne pytanie pojawi się automatycznie w płynnym przejściu.</p><p>Na końcu otrzymasz wielowymiarowy profil. To narzędzie do autorefleksji, nie diagnoza psychologiczna.</p>`);
+  showInfo(`<h2>Jak to działa?</h2><p>Wybierz pozycję początkową i poziom trudności. Po kliknięciu odpowiedzi kolejne pytanie pojawi się automatycznie w płynnym obrocie karty.</p><p>Na końcu zobaczysz mapę 3D oraz poziome porównanie osi. To narzędzie do autorefleksji, nie diagnoza psychologiczna.</p>`);
 }
 
 function showPrivacy() {
@@ -531,6 +575,7 @@ app.addEventListener("click", event => {
   if (action === "start-module") return startModule(actionElement.dataset.moduleId || "political-compass");
   if (action === "start-politics") return startPolitics();
   if (action === "scroll-topics") return document.querySelector("#topics")?.scrollIntoView({ behavior: "smooth" });
+  if (action === "toggle-future-topics") { state.futureTopicsOpen = !state.futureTopicsOpen; return renderStart(); }
   if (action === "toggle-hint") { state.hintOpen = !state.hintOpen; return renderQuiz(); }
   if (action === "return-start") return requestReturnStart();
   if (action === "home") return requestHome();
@@ -570,4 +615,3 @@ document.addEventListener("click", event => {
 ownerHotspot.addEventListener("click", () => visitorCounter.reveal());
 visitorCounter.registerVisit();
 render();
-
