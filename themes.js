@@ -460,6 +460,67 @@
     }
   };
 
+  themes.electricity = {
+  "id": "electricity",
+  "name": "Wiedza z zakresu elektryczności",
+  "eyebrow": "Sprawdź wiedzę z elektrotechniki — poziom III roku",
+  "axis": {
+    "id": "electricity-scope",
+    "title": "Zakres testu",
+    "purpose": "Test poprawności odpowiedzi, bez osi przekonań.",
+    "leftLabel": "Obwody",
+    "rightLabel": "Maszyny i przekształtniki",
+    "min": 0,
+    "max": 100,
+    "step": 5,
+    "defaultValue": 50,
+    "ranges": [
+      {
+        "min": 0,
+        "max": 100,
+        "label": "III rok elektrotechniki",
+        "hint": "Obwody AC, rezonans, układy trójfazowe, moce, harmoniczne, maszyny, transformator i DC/DC."
+      }
+    ]
+  }
+};
+  modules["electricity-knowledge"] = {
+  "id": "electricity-knowledge",
+  "themeId": "electricity",
+  "topicUrl": "topics/electricity-student.quiz.gz",
+  "name": "Wiedza z zakresu elektryczności",
+  "mode": "knowledge",
+  "fixedDifficulty": 1,
+  "appearance": {
+    "--module-accent": "#7fe5b4",
+    "--module-accent-2": "#49a8ff",
+    "--module-cyan": "#a2f4dc",
+    "--module-primary-start": "#176b51",
+    "--module-primary-mid": "#14796e",
+    "--module-primary-end": "#2577bf",
+    "--module-page-bg-2": "#082b25",
+    "--module-panel-start": "rgba(8, 43, 37, .95)"
+  },
+  "ui": {
+    "startEyebrow": "Wiedza z zakresu elektryczności · moduł aktywny",
+    "aiLead": "Sprawdź obliczenia i rozumienie elektrotechniki.",
+    "aiSubline": "Wynik pochodzi ze stałego, sprawdzonego klucza odpowiedzi.",
+    "startButton": "Rozpocznij test wiedzy z elektryczności →",
+    "stageCaption": "30 pytań w banku · 10 pytań w sesji · jedno z każdego działu",
+    "cardDescription": "III rok elektrotechniki. Pytania obliczeniowe, cztery odpowiedzi i wyjaśnienia."
+  },
+  "loading": {
+    "title": "Wczytuję test wiedzy z elektryczności…",
+    "description": "Losuję po jednym pytaniu z dziesięciu działów."
+  },
+  "quiz": {
+    "kicker": "Wiedza z zakresu elektryczności",
+    "aiStatus": "Sprawdzony klucz odpowiedzi",
+    "aiNote": "Jedna poprawna odpowiedź. Wynik i rozwiązania zobaczysz po zakończeniu testu."
+  }
+};
+  modules["electricity-knowledge"].appearance = { ...neutralAppearance, ...modules["electricity-knowledge"].appearance };
+
   const defaultModule = "political-compass";
 
   function getTheme(id) {

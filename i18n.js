@@ -602,6 +602,87 @@
     }
   };
 
+  Object.assign(common.pl, {
+  "knowledgeLevel": "🔒 Student — III rok elektrotechniki",
+  "knowledgeScope": "Zakres testu",
+  "knowledgeScopeBody": "Obwody, rezonans, układy trójfazowe, kompensacja, harmoniczne, silniki, transformatory, DC/DC i dopasowanie impedancji.",
+  "knowledgeLocked": "Poziom jest ustalony dla tego tematu: III rok elektrotechniki.",
+  "knowledgeInstructions": "Wybierz jedną z czterech odpowiedzi. Możesz korzystać z kalkulatora i podpowiedzi ze wzorem. Wynik: 1 punkt za poprawną odpowiedź, 0 za błędną.",
+  "knowledgeResult": "Wynik testu wiedzy",
+  "knowledgeScore": "poprawnych",
+  "knowledgeSummary": "{correct}/{total} poprawnych odpowiedzi ({percent}%). Wynik dotyczy tylko tego zestawu pytań; nie potwierdza kwalifikacji zawodowych.",
+  "knowledgeReview": "Odpowiedzi i rozwiązania",
+  "knowledgeChosen": "Twoja odpowiedź",
+  "knowledgeCorrect": "Poprawna odpowiedź",
+  "knowledgeYes": "Poprawnie",
+  "knowledgeNo": "Błędnie",
+  "knowledgeMissing": "Brak odpowiedzi",
+  "knowledgeSources": "Źródła podstaw teoretycznych",
+  "knowledgeSourceNote": "Liczby w zadaniach są autorskimi danymi ćwiczeniowymi. Podane wyniki wynikają z opisanych modeli i założeń.",
+  "knowledgeHint": "Podpowiedź ze wzorem",
+  "knowledgeHelp": "Ten moduł sprawdza wiedzę, a nie przekonania. Każde pytanie ma dokładnie jedną poprawną odpowiedź. Sesja zawiera 10 pytań losowanych z banku 30, po jednym z każdego działu. Poziom jest zablokowany na III rok elektrotechniki. Wyjaśnienia i źródła są dostępne w wynikach.",
+  "knowledgeUniqueTitle": "Sprawdź swoją wiedzę techniczną",
+  "knowledgeUniqueBody": "10 działów, jawne założenia i sprawdzony klucz odpowiedzi.",
+  "knowledgeBenefitProfile": "Obwody i moce",
+  "knowledgeBenefitProfileBody": "Wartości RMS, rezonans, układy trójfazowe.",
+  "knowledgeBenefitAnswers": "Maszyny elektryczne",
+  "knowledgeBenefitAnswersBody": "Poślizg, bilans mocy i sprawność.",
+  "knowledgeBenefitThinking": "Przekształtniki",
+  "knowledgeBenefitThinkingBody": "Buck, harmoniczne i współczynnik mocy.",
+  "knowledgeBenefitAnalysis": "Wynik z wyjaśnieniem",
+  "knowledgeBenefitAnalysisBody": "Poprawne odpowiedzi, wzory i źródła."
+});
+  Object.assign(common.en, {
+  "knowledgeLevel": "🔒 Student — third-year electrical engineering",
+  "knowledgeScope": "Test scope",
+  "knowledgeScopeBody": "Circuits, resonance, three-phase systems, compensation, harmonics, motors, transformers, DC/DC and impedance matching.",
+  "knowledgeLocked": "This topic has a fixed level: third-year electrical engineering.",
+  "knowledgeInstructions": "Choose one of four answers. A calculator and formula hints are allowed. Scoring: 1 point for a correct answer, 0 for an incorrect answer.",
+  "knowledgeResult": "Knowledge test result",
+  "knowledgeScore": "correct",
+  "knowledgeSummary": "{correct}/{total} correct answers ({percent}%). This score applies only to this question set; it does not certify professional competence.",
+  "knowledgeReview": "Answers and worked solutions",
+  "knowledgeChosen": "Your answer",
+  "knowledgeCorrect": "Correct answer",
+  "knowledgeYes": "Correct",
+  "knowledgeNo": "Incorrect",
+  "knowledgeMissing": "No answer",
+  "knowledgeSources": "Sources for the theoretical principles",
+  "knowledgeSourceNote": "Numerical inputs are original exercise data. Results follow from the stated models and assumptions.",
+  "knowledgeHint": "Formula hint",
+  "knowledgeHelp": "This module tests knowledge, not beliefs. Each question has exactly one correct answer. A session contains 10 questions selected from a bank of 30, one from each area. The level is locked to third-year electrical engineering. Explanations and sources are available in the results.",
+  "knowledgeUniqueTitle": "Test your technical knowledge",
+  "knowledgeUniqueBody": "10 areas, explicit assumptions and a verified answer key.",
+  "knowledgeBenefitProfile": "Circuits and power",
+  "knowledgeBenefitProfileBody": "RMS values, resonance, three-phase systems.",
+  "knowledgeBenefitAnswers": "Electric machines",
+  "knowledgeBenefitAnswersBody": "Slip, power balance and efficiency.",
+  "knowledgeBenefitThinking": "Power converters",
+  "knowledgeBenefitThinkingBody": "Buck, harmonics and power factor.",
+  "knowledgeBenefitAnalysis": "Score with explanations",
+  "knowledgeBenefitAnalysisBody": "Correct answers, equations and sources."
+});
+  moduleCopy["electricity-knowledge"] = { en: {
+  "name": "Electrical engineering knowledge",
+  "ui": {
+    "startEyebrow": "Electrical engineering knowledge · active module",
+    "aiLead": "Test calculations and understanding of electrical engineering.",
+    "aiSubline": "Your score is calculated using a fixed, verified answer key.",
+    "startButton": "Start the electrical engineering knowledge test →",
+    "stageCaption": "30 questions in the bank · 10 per session · one from each area",
+    "cardDescription": "Third-year electrical engineering. Calculation questions, four options and worked explanations."
+  },
+  "loading": {
+    "title": "Loading the electrical engineering knowledge test…",
+    "description": "Selecting one question from each of ten areas."
+  },
+  "quiz": {
+    "kicker": "Electrical engineering knowledge",
+    "aiStatus": "Verified answer key",
+    "aiNote": "One correct answer. Your score and worked solutions appear after the test."
+  }
+} };
+
   function currentStorage() {
     try { return root.localStorage || globalThis.localStorage; } catch (_) { return null; }
   }

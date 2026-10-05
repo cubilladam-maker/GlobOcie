@@ -422,3 +422,48 @@ body[data-module-loaded="true"] .module.available.active { box-shadow: 0 0 18px 
   .radar-ring, .radar-spoke { stroke: #777; }
   .radar-profile { stroke: #5420a3; fill: rgba(100, 50, 180, .12); }
 }
+
+/* Knowledge module: objective scoring and worked solutions. */
+.glow-range:disabled { opacity: .65; cursor: not-allowed; }
+.locked-level, .knowledge-scope p { color: var(--muted); font-size: 11px; line-height: 1.45; }
+body[data-module="electricity-knowledge"] .quiz-page { grid-template-columns: .75fr 1.6fr .65fr; }
+body[data-module="electricity-knowledge"] .quiz-question-panel h2 { font-family: system-ui, sans-serif; font-size: clamp(20px, 1.65vw, 28px); line-height: 1.45; }
+body[data-module="electricity-knowledge"] .answer { font-size: 15px; line-height: 1.45; }
+.knowledge-area-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 24px 0; }
+.knowledge-area { display: flex; justify-content: space-between; gap: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 10px; }
+.knowledge-area strong { color: var(--accent); white-space: nowrap; }
+.knowledge-review { display: grid; gap: 16px; margin-top: 24px; }
+.knowledge-review-item { border: 1px solid var(--line); border-left: 4px solid var(--module-warning); border-radius: 12px; padding: 20px; }
+.knowledge-review-item.correct { border-left-color: var(--module-cyan); }
+.knowledge-review-heading { display: flex; justify-content: space-between; gap: 12px; color: var(--accent); }
+.knowledge-review-item h3 { font-size: 18px; line-height: 1.45; }
+.knowledge-review-item p, .knowledge-sources p { font-size: 15px; line-height: 1.6; overflow-wrap: anywhere; }
+.worked-solution { padding: 14px; background: var(--module-soft-accent); border-radius: 8px; }
+.knowledge-sources { margin-top: 28px; }
+.knowledge-sources li { margin: 10px 0; }
+.knowledge-sources a { color: var(--cyan); }
+/* Four available topics remain reachable; on narrow or short screens use normal page flow. */
+.module-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.module { min-height: 96px; }
+.topic-selector { grid-template-columns: minmax(0, 1fr) minmax(100px, .42fr); }
+@media (max-width: 1260px) {
+  body[data-module="electricity-knowledge"] .quiz-page { grid-template-columns: 1fr 1.8fr; }
+  body[data-module="electricity-knowledge"] .quiz-settings-panel { grid-column: auto; }
+  body[data-module="electricity-knowledge"] .quiz-ai-panel { display: none; }
+}
+@media (max-width: 820px) {
+  body[data-module="electricity-knowledge"] .quiz-page, .topic-selector { grid-template-columns: 1fr; }
+  .knowledge-area-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) { .module-row { grid-template-columns: 1fr; } }
+@media (min-width: 1261px) and (max-height: 880px) {
+  body[data-screen="start"] { overflow: auto; }
+  body[data-screen="start"] .start-page { height: auto; min-height: calc(100svh - 140px); }
+  body[data-screen="start"] .start-stage .ai-hologram { height: 250px; }
+}
+@media print {
+  .topbar, footer, .results-actions { display: none !important; }
+  .knowledge-review-item { break-inside: avoid; }
+  .knowledge-results { color: #111; background: white; box-shadow: none; }
+  .knowledge-results p, .knowledge-results strong, .knowledge-sources a, .knowledge-review-heading { color: #111; }
+}

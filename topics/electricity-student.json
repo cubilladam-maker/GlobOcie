@@ -1,0 +1,1557 @@
+{
+  "manifest": {
+    "id": "ELECTRICITY-STUDENT",
+    "version": "1.0.0",
+    "title": "Wiedza z zakresu elektryczności",
+    "created": "2026-10-05",
+    "mode": "knowledge",
+    "languages": [
+      "pl",
+      "en"
+    ],
+    "questionCount": 30,
+    "level": "Third-year electrical engineering; author-selected scope, not an official examination"
+  },
+  "settings": {
+    "questionCountByDifficulty": {
+      "1": 10
+    },
+    "onePerGroup": true
+  },
+  "sources": [
+    {
+      "id": "threephase",
+      "title": "MIT 6.061: Polyphase Networks",
+      "url": "https://ocw.mit.edu/courses/6-061-introduction-to-electric-power-systems-spring-2011/c6393a58319200a5344752de0cf47ec4_MIT6_061S11_ch3.pdf"
+    },
+    {
+      "id": "pf",
+      "title": "Texas Instruments: Power factor and harmonic distortion",
+      "url": "https://www.ti.com/document-viewer/lit/html/SSZTDA4/GUID-74DF7FDF-F08C-47CF-951A-00619A2BE84E"
+    },
+    {
+      "id": "transformer",
+      "title": "IIT Madras / NPTEL: Transformer efficiency",
+      "url": "https://archive.nptel.ac.in/content/storage2/courses/108106071/pdfs/1_10.pdf"
+    },
+    {
+      "id": "matching",
+      "title": "MIT: Maximum Power Transfer in a Circuit",
+      "url": "https://ocw.mit.edu/courses/6-101-introductory-analog-electronics-laboratory-spring-2007/7faf76f06ceb6721c2071a3e7ff9776e_max_power.pdf"
+    },
+    {
+      "id": "ac",
+      "title": "MIT: AC circuits, resonance and power",
+      "url": "https://ocw.mit.edu/courses/8-02t-electricity-and-magnetism-spring-2005/77f396b6d9907db677e2b94da90613be_cha12ac_circuits.pdf"
+    },
+    {
+      "id": "machines",
+      "title": "MIT 6.061: induction machines",
+      "url": "https://ocw.mit.edu/courses/6-061-introduction-to-electric-power-systems-spring-2011/01f878366fe651f1b95e9ed7fc24c644_MIT6_061S11_ch10.pdf"
+    },
+    {
+      "id": "buck",
+      "title": "Texas Instruments: Basic Calculation of a Buck Converter Power Stage",
+      "url": "https://www.ti.com/lit/an/slva477b/slva477b.pdf"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ee-ac-1",
+      "group": "ac",
+      "difficulty": 1,
+      "category": "Obwody AC",
+      "text": "Szeregowy odbiornik ma Z = 8 + j6 Ω i jest zasilany napięciem sinusoidalnym 100 V RMS. Jakie są I RMS, moc czynna P i moc bierna Q?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "I = 12.5 A; P = 1250 W; Q = 0 var"
+        },
+        {
+          "id": "o1",
+          "label": "I = 10 A; P = 600 W; Q = +800 var"
+        },
+        {
+          "id": "o2",
+          "label": "I = 10 A; P = 800 W; Q = −600 var"
+        },
+        {
+          "id": "o3",
+          "label": "I = 10 A; P = 800 W; Q = +600 var"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "|Z| = √(8² + 6²) = 10 Ω. I = U/|Z| = 10 A. P = I²R = 800 W; Q = I²X = +600 var (indukcyjna).",
+      "hint": "Policz moduł impedancji; moce wyznacz z I²R oraz I²X.",
+      "sourceIds": [
+        "ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 100,
+          "r": 8,
+          "x": 6
+        },
+        "expected": {
+          "i": 10.0,
+          "p": 800.0,
+          "q": 600.0
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "AC circuits",
+          "text": "A series load has Z = 8 + j6 Ω and a sinusoidal supply of 100 V RMS. What are I RMS, active power P and reactive power Q?",
+          "hint": "Find the impedance magnitude; use I²R and I²X.",
+          "explanation": "|Z| = √(8² + 6²) = 10 Ω. I = U/|Z| = 10 A. P = I²R = 800 W; Q = I²X = +600 var (inductive)."
+        }
+      }
+    },
+    {
+      "id": "ee-ac-2",
+      "group": "ac",
+      "difficulty": 1,
+      "category": "Obwody AC",
+      "text": "Szeregowy odbiornik ma Z = 12 + j16 Ω i jest zasilany napięciem sinusoidalnym 200 V RMS. Jakie są I RMS, moc czynna P i moc bierna Q?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "I = 10 A; P = 1600 W; Q = +1200 var"
+        },
+        {
+          "id": "o1",
+          "label": "I = 10 A; P = 1200 W; Q = −1600 var"
+        },
+        {
+          "id": "o2",
+          "label": "I = 10 A; P = 1200 W; Q = +1600 var"
+        },
+        {
+          "id": "o3",
+          "label": "I = 16.67 A; P = 3333.33 W; Q = 0 var"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "|Z| = √(12² + 16²) = 20 Ω. I = U/|Z| = 10 A. P = I²R = 1200 W; Q = I²X = +1600 var (indukcyjna).",
+      "hint": "Policz moduł impedancji; moce wyznacz z I²R oraz I²X.",
+      "sourceIds": [
+        "ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 200,
+          "r": 12,
+          "x": 16
+        },
+        "expected": {
+          "i": 10.0,
+          "p": 1200.0,
+          "q": 1600.0
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "AC circuits",
+          "text": "A series load has Z = 12 + j16 Ω and a sinusoidal supply of 200 V RMS. What are I RMS, active power P and reactive power Q?",
+          "hint": "Find the impedance magnitude; use I²R and I²X.",
+          "explanation": "|Z| = √(12² + 16²) = 20 Ω. I = U/|Z| = 10 A. P = I²R = 1200 W; Q = I²X = +1600 var (inductive)."
+        }
+      }
+    },
+    {
+      "id": "ee-ac-3",
+      "group": "ac",
+      "difficulty": 1,
+      "category": "Obwody AC",
+      "text": "Szeregowy odbiornik ma Z = 6 + j8 Ω i jest zasilany napięciem sinusoidalnym 120 V RMS. Jakie są I RMS, moc czynna P i moc bierna Q?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "I = 12 A; P = 864 W; Q = −1152 var"
+        },
+        {
+          "id": "o1",
+          "label": "I = 12 A; P = 864 W; Q = +1152 var"
+        },
+        {
+          "id": "o2",
+          "label": "I = 20 A; P = 2400 W; Q = 0 var"
+        },
+        {
+          "id": "o3",
+          "label": "I = 12 A; P = 1152 W; Q = +864 var"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "|Z| = √(6² + 8²) = 10 Ω. I = U/|Z| = 12 A. P = I²R = 864 W; Q = I²X = +1152 var (indukcyjna).",
+      "hint": "Policz moduł impedancji; moce wyznacz z I²R oraz I²X.",
+      "sourceIds": [
+        "ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 120,
+          "r": 6,
+          "x": 8
+        },
+        "expected": {
+          "i": 12.0,
+          "p": 864.0,
+          "q": 1152.0
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "AC circuits",
+          "text": "A series load has Z = 6 + j8 Ω and a sinusoidal supply of 120 V RMS. What are I RMS, active power P and reactive power Q?",
+          "hint": "Find the impedance magnitude; use I²R and I²X.",
+          "explanation": "|Z| = √(6² + 8²) = 10 Ω. I = U/|Z| = 12 A. P = I²R = 864 W; Q = I²X = +1152 var (inductive)."
+        }
+      }
+    },
+    {
+      "id": "ee-rlc-1",
+      "group": "rlc",
+      "difficulty": 1,
+      "category": "Rezonans",
+      "text": "Idealne L = 100 mH i C = 10 µF połączono szeregowo z R = 10 Ω. Oblicz częstotliwość rezonansu i dobroć Q tego obwodu RLC.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "f₀ ≈ 159.15 Hz; Q = 10"
+        },
+        {
+          "id": "o1",
+          "label": "f₀ ≈ 318.31 Hz; Q = 10"
+        },
+        {
+          "id": "o2",
+          "label": "f₀ ≈ 159.15 Hz; Q = 0.1"
+        },
+        {
+          "id": "o3",
+          "label": "f₀ ≈ 79.58 Hz; Q = 20"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "f₀ = 1/(2π√LC) ≈ 159.15 Hz. Q = ω₀L/R = √(L/C)/R = 10. Tutaj Q oznacza dobroć, nie moc bierną.",
+      "hint": "W rezonansie ωL = 1/(ωC). Uwzględnij przeliczenie mH i µF.",
+      "sourceIds": [
+        "ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "r": 10,
+          "l": 0.1,
+          "c": 1e-05
+        },
+        "expected": {
+          "f": 159.15494309189532,
+          "quality": 10.0
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Resonance",
+          "text": "Ideal L = 100 mH and C = 10 µF are in series with R = 10 Ω. Find the resonance frequency and quality factor Q of this RLC circuit.",
+          "hint": "At resonance ωL = 1/(ωC). Convert mH and µF to SI units.",
+          "explanation": "f₀ = 1/(2π√LC) ≈ 159.15 Hz. Q = ω₀L/R = √(L/C)/R = 10. Here Q denotes quality factor, not reactive power."
+        }
+      }
+    },
+    {
+      "id": "ee-rlc-2",
+      "group": "rlc",
+      "difficulty": 1,
+      "category": "Rezonans",
+      "text": "Idealne L = 50 mH i C = 5 µF połączono szeregowo z R = 20 Ω. Oblicz częstotliwość rezonansu i dobroć Q tego obwodu RLC.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "f₀ ≈ 636.62 Hz; Q = 5"
+        },
+        {
+          "id": "o1",
+          "label": "f₀ ≈ 318.31 Hz; Q = 0.2"
+        },
+        {
+          "id": "o2",
+          "label": "f₀ ≈ 159.15 Hz; Q = 10"
+        },
+        {
+          "id": "o3",
+          "label": "f₀ ≈ 318.31 Hz; Q = 5"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "f₀ = 1/(2π√LC) ≈ 318.31 Hz. Q = ω₀L/R = √(L/C)/R = 5. Tutaj Q oznacza dobroć, nie moc bierną.",
+      "hint": "W rezonansie ωL = 1/(ωC). Uwzględnij przeliczenie mH i µF.",
+      "sourceIds": [
+        "ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "r": 20,
+          "l": 0.05,
+          "c": 5e-06
+        },
+        "expected": {
+          "f": 318.30988618379064,
+          "quality": 5.0
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Resonance",
+          "text": "Ideal L = 50 mH and C = 5 µF are in series with R = 20 Ω. Find the resonance frequency and quality factor Q of this RLC circuit.",
+          "hint": "At resonance ωL = 1/(ωC). Convert mH and µF to SI units.",
+          "explanation": "f₀ = 1/(2π√LC) ≈ 318.31 Hz. Q = ω₀L/R = √(L/C)/R = 5. Here Q denotes quality factor, not reactive power."
+        }
+      }
+    },
+    {
+      "id": "ee-rlc-3",
+      "group": "rlc",
+      "difficulty": 1,
+      "category": "Rezonans",
+      "text": "Idealne L = 20 mH i C = 20 µF połączono szeregowo z R = 5 Ω. Oblicz częstotliwość rezonansu i dobroć Q tego obwodu RLC.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "f₀ ≈ 251.65 Hz; Q = 0.16"
+        },
+        {
+          "id": "o1",
+          "label": "f₀ ≈ 125.82 Hz; Q = 12.65"
+        },
+        {
+          "id": "o2",
+          "label": "f₀ ≈ 251.65 Hz; Q = 6.32"
+        },
+        {
+          "id": "o3",
+          "label": "f₀ ≈ 503.29 Hz; Q = 6.32"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "f₀ = 1/(2π√LC) ≈ 251.65 Hz. Q = ω₀L/R = √(L/C)/R = 6.32. Tutaj Q oznacza dobroć, nie moc bierną.",
+      "hint": "W rezonansie ωL = 1/(ωC). Uwzględnij przeliczenie mH i µF.",
+      "sourceIds": [
+        "ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "r": 5,
+          "l": 0.02,
+          "c": 2e-05
+        },
+        "expected": {
+          "f": 251.6460605224352,
+          "quality": 6.324555320336758
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Resonance",
+          "text": "Ideal L = 20 mH and C = 20 µF are in series with R = 5 Ω. Find the resonance frequency and quality factor Q of this RLC circuit.",
+          "hint": "At resonance ωL = 1/(ωC). Convert mH and µF to SI units.",
+          "explanation": "f₀ = 1/(2π√LC) ≈ 251.65 Hz. Q = ω₀L/R = √(L/C)/R = 6.32. Here Q denotes quality factor, not reactive power."
+        }
+      }
+    },
+    {
+      "id": "ee-threephase-1",
+      "group": "threephase",
+      "difficulty": 1,
+      "category": "Układy trójfazowe",
+      "text": "Symetryczny odbiornik w gwiazdę ma impedancję każdej fazy 12 + j9 Ω. Sinusoidalne napięcie międzyfazowe wynosi 400 V RMS. Oblicz prąd przewodowy i łączną moc czynną.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "I = 8.89 A; P = 2.84 kW"
+        },
+        {
+          "id": "o1",
+          "label": "I = 15.4 A; P = 8.53 kW"
+        },
+        {
+          "id": "o2",
+          "label": "I = 26.67 A; P = 25.6 kW"
+        },
+        {
+          "id": "o3",
+          "label": "I = 15.4 A; P = 2.84 kW"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "Uf = ULL/√3. I = Uf/|Zf| ≈ 15.4 A. P = 3I²R ≈ 8.53 kW. W gwieździe prąd przewodowy jest równy fazowemu.",
+      "hint": "Rozróżnij napięcie międzyfazowe i fazowe.",
+      "sourceIds": [
+        "threephase"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 400,
+          "r": 12,
+          "x": 9
+        },
+        "expected": {
+          "i": 15.396007178390022,
+          "p": 8.533333333333333
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Three-phase systems",
+          "text": "A balanced star-connected load has a per-phase impedance of 12 + j9 Ω. The sinusoidal line-to-line voltage is 400 V RMS. Find the line current and total active power.",
+          "hint": "Distinguish line-to-line voltage from phase voltage.",
+          "explanation": "Vphase = VLL/√3. I = Vphase/|Zphase| ≈ 15.4 A. P = 3I²R ≈ 8.53 kW. In star, line current equals phase current."
+        }
+      }
+    },
+    {
+      "id": "ee-threephase-2",
+      "group": "threephase",
+      "difficulty": 1,
+      "category": "Układy trójfazowe",
+      "text": "Symetryczny odbiornik w gwiazdę ma impedancję każdej fazy 8 + j6 Ω. Sinusoidalne napięcie międzyfazowe wynosi 400 V RMS. Oblicz prąd przewodowy i łączną moc czynną.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "I = 23.09 A; P = 12.8 kW"
+        },
+        {
+          "id": "o1",
+          "label": "I = 40 A; P = 38.4 kW"
+        },
+        {
+          "id": "o2",
+          "label": "I = 23.09 A; P = 4.27 kW"
+        },
+        {
+          "id": "o3",
+          "label": "I = 13.33 A; P = 4.27 kW"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "Uf = ULL/√3. I = Uf/|Zf| ≈ 23.09 A. P = 3I²R ≈ 12.8 kW. W gwieździe prąd przewodowy jest równy fazowemu.",
+      "hint": "Rozróżnij napięcie międzyfazowe i fazowe.",
+      "sourceIds": [
+        "threephase"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 400,
+          "r": 8,
+          "x": 6
+        },
+        "expected": {
+          "i": 23.094010767585033,
+          "p": 12.800000000000002
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Three-phase systems",
+          "text": "A balanced star-connected load has a per-phase impedance of 8 + j6 Ω. The sinusoidal line-to-line voltage is 400 V RMS. Find the line current and total active power.",
+          "hint": "Distinguish line-to-line voltage from phase voltage.",
+          "explanation": "Vphase = VLL/√3. I = Vphase/|Zphase| ≈ 23.09 A. P = 3I²R ≈ 12.8 kW. In star, line current equals phase current."
+        }
+      }
+    },
+    {
+      "id": "ee-threephase-3",
+      "group": "threephase",
+      "difficulty": 1,
+      "category": "Układy trójfazowe",
+      "text": "Symetryczny odbiornik w gwiazdę ma impedancję każdej fazy 24 + j18 Ω. Sinusoidalne napięcie międzyfazowe wynosi 400 V RMS. Oblicz prąd przewodowy i łączną moc czynną.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "I = 13.33 A; P = 12.8 kW"
+        },
+        {
+          "id": "o1",
+          "label": "I = 7.7 A; P = 1.42 kW"
+        },
+        {
+          "id": "o2",
+          "label": "I = 4.44 A; P = 1.42 kW"
+        },
+        {
+          "id": "o3",
+          "label": "I = 7.7 A; P = 4.27 kW"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "Uf = ULL/√3. I = Uf/|Zf| ≈ 7.7 A. P = 3I²R ≈ 4.27 kW. W gwieździe prąd przewodowy jest równy fazowemu.",
+      "hint": "Rozróżnij napięcie międzyfazowe i fazowe.",
+      "sourceIds": [
+        "threephase"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 400,
+          "r": 24,
+          "x": 18
+        },
+        "expected": {
+          "i": 7.698003589195011,
+          "p": 4.266666666666667
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Three-phase systems",
+          "text": "A balanced star-connected load has a per-phase impedance of 24 + j18 Ω. The sinusoidal line-to-line voltage is 400 V RMS. Find the line current and total active power.",
+          "hint": "Distinguish line-to-line voltage from phase voltage.",
+          "explanation": "Vphase = VLL/√3. I = Vphase/|Zphase| ≈ 7.7 A. P = 3I²R ≈ 4.27 kW. In star, line current equals phase current."
+        }
+      }
+    },
+    {
+      "id": "ee-compensation-1",
+      "group": "compensation",
+      "difficulty": 1,
+      "category": "Kompensacja mocy biernej",
+      "text": "Odbiornik sinusoidalny pobiera P = 10 kW przy cosφ = 0.8, indukcyjnie. Jaką moc bierną pojemnościową powinna dostarczyć idealna bateria kondensatorów, aby uzyskać cosφ = 0.95, przy niezmienionej P i napięciu?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "3.29 kvar"
+        },
+        {
+          "id": "o1",
+          "label": "1.5 kvar"
+        },
+        {
+          "id": "o2",
+          "label": "4.21 kvar"
+        },
+        {
+          "id": "o3",
+          "label": "7.5 kvar"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "Qc = P[tan(arccos(0.8)) − tan(arccos(0.95))] ≈ 4.21 kvar. Jest to wartość mocy dostarczanej przez kondensatory; nie całkowita moc bierna odbiornika przed kompensacją.",
+      "hint": "Porównaj moc bierną przed kompensacją i po niej: Q = P tanφ.",
+      "sourceIds": [
+        "ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "p": 10,
+          "a": 0.8,
+          "b": 0.95
+        },
+        "expected": {
+          "q": 4.213158948211365
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Reactive power compensation",
+          "text": "A sinusoidal load draws P = 10 kW at lagging cosφ = 0.8. What capacitive reactive power must an ideal capacitor bank supply to reach cosφ = 0.95, with P and voltage unchanged?",
+          "hint": "Compare reactive power before and after compensation: Q = P tanφ.",
+          "explanation": "Qc = P[tan(arccos(0.8)) − tan(arccos(0.95))] ≈ 4.21 kvar. This is the capacitor bank contribution, not the original load reactive power."
+        }
+      }
+    },
+    {
+      "id": "ee-compensation-2",
+      "group": "compensation",
+      "difficulty": 1,
+      "category": "Kompensacja mocy biernej",
+      "text": "Odbiornik sinusoidalny pobiera P = 20 kW przy cosφ = 0.75, indukcyjnie. Jaką moc bierną pojemnościową powinna dostarczyć idealna bateria kondensatorów, aby uzyskać cosφ = 0.95, przy niezmienionej P i napięciu?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "4 kvar"
+        },
+        {
+          "id": "o1",
+          "label": "11.06 kvar"
+        },
+        {
+          "id": "o2",
+          "label": "17.64 kvar"
+        },
+        {
+          "id": "o3",
+          "label": "6.57 kvar"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "Qc = P[tan(arccos(0.75)) − tan(arccos(0.95))] ≈ 11.06 kvar. Jest to wartość mocy dostarczanej przez kondensatory; nie całkowita moc bierna odbiornika przed kompensacją.",
+      "hint": "Porównaj moc bierną przed kompensacją i po niej: Q = P tanφ.",
+      "sourceIds": [
+        "ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "p": 20,
+          "a": 0.75,
+          "b": 0.95
+        },
+        "expected": {
+          "q": 11.064659970186677
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Reactive power compensation",
+          "text": "A sinusoidal load draws P = 20 kW at lagging cosφ = 0.75. What capacitive reactive power must an ideal capacitor bank supply to reach cosφ = 0.95, with P and voltage unchanged?",
+          "hint": "Compare reactive power before and after compensation: Q = P tanφ.",
+          "explanation": "Qc = P[tan(arccos(0.75)) − tan(arccos(0.95))] ≈ 11.06 kvar. This is the capacitor bank contribution, not the original load reactive power."
+        }
+      }
+    },
+    {
+      "id": "ee-compensation-3",
+      "group": "compensation",
+      "difficulty": 1,
+      "category": "Kompensacja mocy biernej",
+      "text": "Odbiornik sinusoidalny pobiera P = 15 kW przy cosφ = 0.85, indukcyjnie. Jaką moc bierną pojemnościową powinna dostarczyć idealna bateria kondensatorów, aby uzyskać cosφ = 0.98, przy niezmienionej P i napięciu?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "6.25 kvar"
+        },
+        {
+          "id": "o1",
+          "label": "9.3 kvar"
+        },
+        {
+          "id": "o2",
+          "label": "3.05 kvar"
+        },
+        {
+          "id": "o3",
+          "label": "1.95 kvar"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "Qc = P[tan(arccos(0.85)) − tan(arccos(0.98))] ≈ 6.25 kvar. Jest to wartość mocy dostarczanej przez kondensatory; nie całkowita moc bierna odbiornika przed kompensacją.",
+      "hint": "Porównaj moc bierną przed kompensacją i po niej: Q = P tanφ.",
+      "sourceIds": [
+        "ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "p": 15,
+          "a": 0.85,
+          "b": 0.98
+        },
+        "expected": {
+          "q": 6.2502851665364725
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Reactive power compensation",
+          "text": "A sinusoidal load draws P = 15 kW at lagging cosφ = 0.85. What capacitive reactive power must an ideal capacitor bank supply to reach cosφ = 0.98, with P and voltage unchanged?",
+          "hint": "Compare reactive power before and after compensation: Q = P tanφ.",
+          "explanation": "Qc = P[tan(arccos(0.85)) − tan(arccos(0.98))] ≈ 6.25 kvar. This is the capacitor bank contribution, not the original load reactive power."
+        }
+      }
+    },
+    {
+      "id": "ee-harmonics-1",
+      "group": "harmonics",
+      "difficulty": 1,
+      "category": "Harmoniczne i współczynnik mocy",
+      "text": "Napięcie ma wyłącznie sinusoidalną składową podstawową 230 V RMS. Prąd zawiera tylko składową podstawową 10 A RMS w fazie z napięciem i trzecią harmoniczną 5 A RMS. Oblicz P i całkowity PF = P/(U RMS · I RMS).",
+      "options": [
+        {
+          "id": "o0",
+          "label": "P = 2571.48 W; PF = 1"
+        },
+        {
+          "id": "o1",
+          "label": "P = 2300 W; PF = 1"
+        },
+        {
+          "id": "o2",
+          "label": "P = 3450 W; PF ≈ 0.667"
+        },
+        {
+          "id": "o3",
+          "label": "P = 2300 W; PF ≈ 0.894"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "I RMS = √(I₁² + I₃²) ≈ 11.18 A. Przy czysto sinusoidalnym napięciu trzecia harmoniczna prądu nie wnosi średniej mocy czynnej: P = UI₁ = 2300 W. PF = I₁/I RMS ≈ 0.894; cosφ₁ = 1 nie oznacza PF = 1.",
+      "hint": "Składowe różnych harmonicznych sumują się kwadratowo w wartości RMS.",
+      "sourceIds": [
+        "pf"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 230,
+          "i1": 10,
+          "i3": 5
+        },
+        "expected": {
+          "p": 2300,
+          "irms": 11.180339887498949,
+          "pf": 0.8944271909999159
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Harmonics and power factor",
+          "text": "The voltage consists solely of a sinusoidal fundamental of 230 V RMS. Current contains only a fundamental of 10 A RMS in phase with voltage and a third harmonic of 5 A RMS. Find P and total PF = P/(V RMS · I RMS).",
+          "hint": "Different harmonic components add in quadrature for RMS.",
+          "explanation": "I RMS = √(I₁² + I₃²) ≈ 11.18 A. With purely sinusoidal voltage, the third current harmonic contributes no average active power: P = VI₁ = 2300 W. PF = I₁/I RMS ≈ 0.894; cosφ₁ = 1 does not imply PF = 1."
+        }
+      }
+    },
+    {
+      "id": "ee-harmonics-2",
+      "group": "harmonics",
+      "difficulty": 1,
+      "category": "Harmoniczne i współczynnik mocy",
+      "text": "Napięcie ma wyłącznie sinusoidalną składową podstawową 230 V RMS. Prąd zawiera tylko składową podstawową 8 A RMS w fazie z napięciem i trzecią harmoniczną 6 A RMS. Oblicz P i całkowity PF = P/(U RMS · I RMS).",
+      "options": [
+        {
+          "id": "o0",
+          "label": "P = 1840 W; PF = 1"
+        },
+        {
+          "id": "o1",
+          "label": "P = 3220 W; PF ≈ 0.571"
+        },
+        {
+          "id": "o2",
+          "label": "P = 1840 W; PF ≈ 0.8"
+        },
+        {
+          "id": "o3",
+          "label": "P = 2300 W; PF = 1"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "I RMS = √(I₁² + I₃²) ≈ 10 A. Przy czysto sinusoidalnym napięciu trzecia harmoniczna prądu nie wnosi średniej mocy czynnej: P = UI₁ = 1840 W. PF = I₁/I RMS ≈ 0.8; cosφ₁ = 1 nie oznacza PF = 1.",
+      "hint": "Składowe różnych harmonicznych sumują się kwadratowo w wartości RMS.",
+      "sourceIds": [
+        "pf"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 230,
+          "i1": 8,
+          "i3": 6
+        },
+        "expected": {
+          "p": 1840,
+          "irms": 10.0,
+          "pf": 0.8
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Harmonics and power factor",
+          "text": "The voltage consists solely of a sinusoidal fundamental of 230 V RMS. Current contains only a fundamental of 8 A RMS in phase with voltage and a third harmonic of 6 A RMS. Find P and total PF = P/(V RMS · I RMS).",
+          "hint": "Different harmonic components add in quadrature for RMS.",
+          "explanation": "I RMS = √(I₁² + I₃²) ≈ 10 A. With purely sinusoidal voltage, the third current harmonic contributes no average active power: P = VI₁ = 1840 W. PF = I₁/I RMS ≈ 0.8; cosφ₁ = 1 does not imply PF = 1."
+        }
+      }
+    },
+    {
+      "id": "ee-harmonics-3",
+      "group": "harmonics",
+      "difficulty": 1,
+      "category": "Harmoniczne i współczynnik mocy",
+      "text": "Napięcie ma wyłącznie sinusoidalną składową podstawową 120 V RMS. Prąd zawiera tylko składową podstawową 12 A RMS w fazie z napięciem i trzecią harmoniczną 9 A RMS. Oblicz P i całkowity PF = P/(U RMS · I RMS).",
+      "options": [
+        {
+          "id": "o0",
+          "label": "P = 2520 W; PF ≈ 0.571"
+        },
+        {
+          "id": "o1",
+          "label": "P = 1440 W; PF ≈ 0.8"
+        },
+        {
+          "id": "o2",
+          "label": "P = 1800 W; PF = 1"
+        },
+        {
+          "id": "o3",
+          "label": "P = 1440 W; PF = 1"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "I RMS = √(I₁² + I₃²) ≈ 15 A. Przy czysto sinusoidalnym napięciu trzecia harmoniczna prądu nie wnosi średniej mocy czynnej: P = UI₁ = 1440 W. PF = I₁/I RMS ≈ 0.8; cosφ₁ = 1 nie oznacza PF = 1.",
+      "hint": "Składowe różnych harmonicznych sumują się kwadratowo w wartości RMS.",
+      "sourceIds": [
+        "pf"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 120,
+          "i1": 12,
+          "i3": 9
+        },
+        "expected": {
+          "p": 1440,
+          "irms": 15.0,
+          "pf": 0.8
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Harmonics and power factor",
+          "text": "The voltage consists solely of a sinusoidal fundamental of 120 V RMS. Current contains only a fundamental of 12 A RMS in phase with voltage and a third harmonic of 9 A RMS. Find P and total PF = P/(V RMS · I RMS).",
+          "hint": "Different harmonic components add in quadrature for RMS.",
+          "explanation": "I RMS = √(I₁² + I₃²) ≈ 15 A. With purely sinusoidal voltage, the third current harmonic contributes no average active power: P = VI₁ = 1440 W. PF = I₁/I RMS ≈ 0.8; cosφ₁ = 1 does not imply PF = 1."
+        }
+      }
+    },
+    {
+      "id": "ee-slip-1",
+      "group": "slip",
+      "difficulty": 1,
+      "category": "Poślizg silnika",
+      "text": "Silnik indukcyjny: liczba biegunów 4, zasilanie 50 Hz i prędkość wirnika 1440 obr./min. Jakie są poślizg i częstotliwość prądów wirnika?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "s = 4%; f₂ = 2 Hz"
+        },
+        {
+          "id": "o1",
+          "label": "s = 4%; f₂ = 50 Hz"
+        },
+        {
+          "id": "o2",
+          "label": "s = 96%; f₂ = 48 Hz"
+        },
+        {
+          "id": "o3",
+          "label": "s = 2%; f₂ = 1 Hz"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "ns = 120f/liczba biegunów = 1500 obr./min. s = (ns − n)/ns = 4%. f₂ = sf = 2 Hz.",
+      "hint": "Liczba biegunów to dwukrotność liczby par biegunów.",
+      "sourceIds": [
+        "machines"
+      ],
+      "calculation": {
+        "inputs": {
+          "freq": 50,
+          "poles": 4,
+          "speed": 1440
+        },
+        "expected": {
+          "ns": 1500.0,
+          "s": 0.04,
+          "fr": 2.0
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Motor slip",
+          "text": "An induction motor has 4 poles, a 50 Hz supply and a rotor speed of 1440 rpm. What are the slip and rotor-current frequency?",
+          "hint": "The number of poles is twice the number of pole pairs.",
+          "explanation": "ns = 120f/number of poles = 1500 rpm. s = (ns − n)/ns = 4%. f₂ = sf = 2 Hz."
+        }
+      }
+    },
+    {
+      "id": "ee-slip-2",
+      "group": "slip",
+      "difficulty": 1,
+      "category": "Poślizg silnika",
+      "text": "Silnik indukcyjny: liczba biegunów 6, zasilanie 50 Hz i prędkość wirnika 960 obr./min. Jakie są poślizg i częstotliwość prądów wirnika?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "s = 4%; f₂ = 50 Hz"
+        },
+        {
+          "id": "o1",
+          "label": "s = 96%; f₂ = 48 Hz"
+        },
+        {
+          "id": "o2",
+          "label": "s = 2%; f₂ = 1 Hz"
+        },
+        {
+          "id": "o3",
+          "label": "s = 4%; f₂ = 2 Hz"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "ns = 120f/liczba biegunów = 1000 obr./min. s = (ns − n)/ns = 4%. f₂ = sf = 2 Hz.",
+      "hint": "Liczba biegunów to dwukrotność liczby par biegunów.",
+      "sourceIds": [
+        "machines"
+      ],
+      "calculation": {
+        "inputs": {
+          "freq": 50,
+          "poles": 6,
+          "speed": 960
+        },
+        "expected": {
+          "ns": 1000.0,
+          "s": 0.04,
+          "fr": 2.0
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Motor slip",
+          "text": "An induction motor has 6 poles, a 50 Hz supply and a rotor speed of 960 rpm. What are the slip and rotor-current frequency?",
+          "hint": "The number of poles is twice the number of pole pairs.",
+          "explanation": "ns = 120f/number of poles = 1000 rpm. s = (ns − n)/ns = 4%. f₂ = sf = 2 Hz."
+        }
+      }
+    },
+    {
+      "id": "ee-slip-3",
+      "group": "slip",
+      "difficulty": 1,
+      "category": "Poślizg silnika",
+      "text": "Silnik indukcyjny: liczba biegunów 4, zasilanie 60 Hz i prędkość wirnika 1746 obr./min. Jakie są poślizg i częstotliwość prądów wirnika?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "s = 97%; f₂ = 58.2 Hz"
+        },
+        {
+          "id": "o1",
+          "label": "s = 1.5%; f₂ = 0.9 Hz"
+        },
+        {
+          "id": "o2",
+          "label": "s = 3%; f₂ = 1.8 Hz"
+        },
+        {
+          "id": "o3",
+          "label": "s = 3%; f₂ = 60 Hz"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "ns = 120f/liczba biegunów = 1800 obr./min. s = (ns − n)/ns = 3%. f₂ = sf = 1.8 Hz.",
+      "hint": "Liczba biegunów to dwukrotność liczby par biegunów.",
+      "sourceIds": [
+        "machines"
+      ],
+      "calculation": {
+        "inputs": {
+          "freq": 60,
+          "poles": 4,
+          "speed": 1746
+        },
+        "expected": {
+          "ns": 1800.0,
+          "s": 0.03,
+          "fr": 1.7999999999999998
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Motor slip",
+          "text": "An induction motor has 4 poles, a 60 Hz supply and a rotor speed of 1746 rpm. What are the slip and rotor-current frequency?",
+          "hint": "The number of poles is twice the number of pole pairs.",
+          "explanation": "ns = 120f/number of poles = 1800 rpm. s = (ns − n)/ns = 3%. f₂ = sf = 1.8 Hz."
+        }
+      }
+    },
+    {
+      "id": "ee-motorpower-1",
+      "group": "motorpower",
+      "difficulty": 1,
+      "category": "Bilans mocy silnika",
+      "text": "W uproszczonym modelu silnika indukcyjnego łączna moc przekazana przez szczelinę wynosi 20 kW, a poślizg 3%. Oblicz straty miedziane wirnika i moc mechaniczną rozwijaną wewnętrznie, przed stratami mechanicznymi. Pomijamy dodatkowe straty wirnika.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "ΔPcu₂ = 19400 W; Pmech = 0.6 kW"
+        },
+        {
+          "id": "o1",
+          "label": "ΔPcu₂ = 600 W; Pmech = 19.4 kW"
+        },
+        {
+          "id": "o2",
+          "label": "ΔPcu₂ = 600 W; Pmech = 20 kW"
+        },
+        {
+          "id": "o3",
+          "label": "ΔPcu₂ = 1800 W; Pmech = 18.2 kW"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "ΔPcu₂ = sPδ = 600 W. Pmech = (1 − s)Pδ = 19.4 kW. Moc na wale jest jeszcze mniejsza o straty mechaniczne.",
+      "hint": "Poślizg wyznacza udział strat miedzianych wirnika w mocy szczeliny.",
+      "sourceIds": [
+        "machines"
+      ],
+      "calculation": {
+        "inputs": {
+          "p": 20,
+          "s": 0.03
+        },
+        "expected": {
+          "loss": 600.0,
+          "mech": 19.4
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Motor power balance",
+          "text": "In a simplified induction-motor model, total air-gap power is 20 kW and slip is 3%. Find rotor copper losses and internally developed mechanical power before mechanical losses. Additional rotor losses are neglected.",
+          "hint": "Slip gives the rotor-copper-loss fraction of air-gap power.",
+          "explanation": "ΔPcu₂ = sPgap = 600 W. Pmech = (1 − s)Pgap = 19.4 kW. Shaft power is further reduced by mechanical losses."
+        }
+      }
+    },
+    {
+      "id": "ee-motorpower-2",
+      "group": "motorpower",
+      "difficulty": 1,
+      "category": "Bilans mocy silnika",
+      "text": "W uproszczonym modelu silnika indukcyjnego łączna moc przekazana przez szczelinę wynosi 30 kW, a poślizg 4%. Oblicz straty miedziane wirnika i moc mechaniczną rozwijaną wewnętrznie, przed stratami mechanicznymi. Pomijamy dodatkowe straty wirnika.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "ΔPcu₂ = 1200 W; Pmech = 28.8 kW"
+        },
+        {
+          "id": "o1",
+          "label": "ΔPcu₂ = 1200 W; Pmech = 30 kW"
+        },
+        {
+          "id": "o2",
+          "label": "ΔPcu₂ = 3600 W; Pmech = 26.4 kW"
+        },
+        {
+          "id": "o3",
+          "label": "ΔPcu₂ = 28800 W; Pmech = 1.2 kW"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "ΔPcu₂ = sPδ = 1200 W. Pmech = (1 − s)Pδ = 28.8 kW. Moc na wale jest jeszcze mniejsza o straty mechaniczne.",
+      "hint": "Poślizg wyznacza udział strat miedzianych wirnika w mocy szczeliny.",
+      "sourceIds": [
+        "machines"
+      ],
+      "calculation": {
+        "inputs": {
+          "p": 30,
+          "s": 0.04
+        },
+        "expected": {
+          "loss": 1200.0,
+          "mech": 28.799999999999997
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Motor power balance",
+          "text": "In a simplified induction-motor model, total air-gap power is 30 kW and slip is 4%. Find rotor copper losses and internally developed mechanical power before mechanical losses. Additional rotor losses are neglected.",
+          "hint": "Slip gives the rotor-copper-loss fraction of air-gap power.",
+          "explanation": "ΔPcu₂ = sPgap = 1200 W. Pmech = (1 − s)Pgap = 28.8 kW. Shaft power is further reduced by mechanical losses."
+        }
+      }
+    },
+    {
+      "id": "ee-motorpower-3",
+      "group": "motorpower",
+      "difficulty": 1,
+      "category": "Bilans mocy silnika",
+      "text": "W uproszczonym modelu silnika indukcyjnego łączna moc przekazana przez szczelinę wynosi 15 kW, a poślizg 5%. Oblicz straty miedziane wirnika i moc mechaniczną rozwijaną wewnętrznie, przed stratami mechanicznymi. Pomijamy dodatkowe straty wirnika.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "ΔPcu₂ = 750 W; Pmech = 15 kW"
+        },
+        {
+          "id": "o1",
+          "label": "ΔPcu₂ = 2250 W; Pmech = 12.75 kW"
+        },
+        {
+          "id": "o2",
+          "label": "ΔPcu₂ = 14250 W; Pmech = 0.75 kW"
+        },
+        {
+          "id": "o3",
+          "label": "ΔPcu₂ = 750 W; Pmech = 14.25 kW"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "ΔPcu₂ = sPδ = 750 W. Pmech = (1 − s)Pδ = 14.25 kW. Moc na wale jest jeszcze mniejsza o straty mechaniczne.",
+      "hint": "Poślizg wyznacza udział strat miedzianych wirnika w mocy szczeliny.",
+      "sourceIds": [
+        "machines"
+      ],
+      "calculation": {
+        "inputs": {
+          "p": 15,
+          "s": 0.05
+        },
+        "expected": {
+          "loss": 750.0,
+          "mech": 14.25
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Motor power balance",
+          "text": "In a simplified induction-motor model, total air-gap power is 15 kW and slip is 5%. Find rotor copper losses and internally developed mechanical power before mechanical losses. Additional rotor losses are neglected.",
+          "hint": "Slip gives the rotor-copper-loss fraction of air-gap power.",
+          "explanation": "ΔPcu₂ = sPgap = 750 W. Pmech = (1 − s)Pgap = 14.25 kW. Shaft power is further reduced by mechanical losses."
+        }
+      }
+    },
+    {
+      "id": "ee-transformer-1",
+      "group": "transformer",
+      "difficulty": 1,
+      "category": "Sprawność transformatora",
+      "text": "Transformator ma stałe straty w rdzeniu 100 W i straty miedziane 400 W przy prądzie znamionowym. Przy stałym napięciu, częstotliwości i cosφ, pomijając inne straty i spadek napięcia, przy jakim procencie obciążenia znamionowego sprawność jest największa?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "75%"
+        },
+        {
+          "id": "o1",
+          "label": "100%"
+        },
+        {
+          "id": "o2",
+          "label": "50%"
+        },
+        {
+          "id": "o3",
+          "label": "25%"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "Przy względnym obciążeniu x straty miedziane wynoszą x²Pcu,n. Maksimum sprawności wypada przy x²Pcu,n = Pfe, więc x = √(100/400) = 50%.",
+      "hint": "Straty miedziane rosną z kwadratem prądu, a straty rdzenia przyjmujemy stałe.",
+      "sourceIds": [
+        "transformer"
+      ],
+      "calculation": {
+        "inputs": {
+          "fe": 100,
+          "cu": 400
+        },
+        "expected": {
+          "load": 0.5
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Transformer efficiency",
+          "text": "A transformer has constant core losses of 100 W and copper losses of 400 W at rated current. With fixed voltage, frequency and cosφ, neglecting other losses and voltage drop, at what percentage of rated load is efficiency highest?",
+          "hint": "Copper losses grow with current squared; core losses are assumed constant.",
+          "explanation": "At relative load x, copper losses are x²Pcu,rated. Maximum efficiency occurs at x²Pcu,rated = Pcore, so x = √(100/400) = 50%."
+        }
+      }
+    },
+    {
+      "id": "ee-transformer-2",
+      "group": "transformer",
+      "difficulty": 1,
+      "category": "Sprawność transformatora",
+      "text": "Transformator ma stałe straty w rdzeniu 90 W i straty miedziane 250 W przy prądzie znamionowym. Przy stałym napięciu, częstotliwości i cosφ, pomijając inne straty i spadek napięcia, przy jakim procencie obciążenia znamionowego sprawność jest największa?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "100%"
+        },
+        {
+          "id": "o1",
+          "label": "60%"
+        },
+        {
+          "id": "o2",
+          "label": "36%"
+        },
+        {
+          "id": "o3",
+          "label": "90%"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "Przy względnym obciążeniu x straty miedziane wynoszą x²Pcu,n. Maksimum sprawności wypada przy x²Pcu,n = Pfe, więc x = √(90/250) = 60%.",
+      "hint": "Straty miedziane rosną z kwadratem prądu, a straty rdzenia przyjmujemy stałe.",
+      "sourceIds": [
+        "transformer"
+      ],
+      "calculation": {
+        "inputs": {
+          "fe": 90,
+          "cu": 250
+        },
+        "expected": {
+          "load": 0.6
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Transformer efficiency",
+          "text": "A transformer has constant core losses of 90 W and copper losses of 250 W at rated current. With fixed voltage, frequency and cosφ, neglecting other losses and voltage drop, at what percentage of rated load is efficiency highest?",
+          "hint": "Copper losses grow with current squared; core losses are assumed constant.",
+          "explanation": "At relative load x, copper losses are x²Pcu,rated. Maximum efficiency occurs at x²Pcu,rated = Pcore, so x = √(90/250) = 60%."
+        }
+      }
+    },
+    {
+      "id": "ee-transformer-3",
+      "group": "transformer",
+      "difficulty": 1,
+      "category": "Sprawność transformatora",
+      "text": "Transformator ma stałe straty w rdzeniu 80 W i straty miedziane 500 W przy prądzie znamionowym. Przy stałym napięciu, częstotliwości i cosφ, pomijając inne straty i spadek napięcia, przy jakim procencie obciążenia znamionowego sprawność jest największa?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "40%"
+        },
+        {
+          "id": "o1",
+          "label": "16%"
+        },
+        {
+          "id": "o2",
+          "label": "60%"
+        },
+        {
+          "id": "o3",
+          "label": "100%"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "Przy względnym obciążeniu x straty miedziane wynoszą x²Pcu,n. Maksimum sprawności wypada przy x²Pcu,n = Pfe, więc x = √(80/500) = 40%.",
+      "hint": "Straty miedziane rosną z kwadratem prądu, a straty rdzenia przyjmujemy stałe.",
+      "sourceIds": [
+        "transformer"
+      ],
+      "calculation": {
+        "inputs": {
+          "fe": 80,
+          "cu": 500
+        },
+        "expected": {
+          "load": 0.4
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Transformer efficiency",
+          "text": "A transformer has constant core losses of 80 W and copper losses of 500 W at rated current. With fixed voltage, frequency and cosφ, neglecting other losses and voltage drop, at what percentage of rated load is efficiency highest?",
+          "hint": "Copper losses grow with current squared; core losses are assumed constant.",
+          "explanation": "At relative load x, copper losses are x²Pcu,rated. Maximum efficiency occurs at x²Pcu,rated = Pcore, so x = √(80/500) = 40%."
+        }
+      }
+    },
+    {
+      "id": "ee-buck-1",
+      "group": "buck",
+      "difficulty": 1,
+      "category": "Przetwornice DC/DC",
+      "text": "Idealny buck w stanie ustalonym i trybie ciągłego prądu dławika przetwarza 48 V na 12 V. Częstotliwość przełączania: 100 kHz, L = 100 µH. Pomijamy tętnienia napięcia wyjściowego. Oblicz wypełnienie D i tętnienia prądu dławika od minimum do maksimum.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "D = 12.5%; ΔIL = 0.9 A"
+        },
+        {
+          "id": "o1",
+          "label": "D = 25%; ΔIL = 0.45 A"
+        },
+        {
+          "id": "o2",
+          "label": "D = 25%; ΔIL = 1.8 A"
+        },
+        {
+          "id": "o3",
+          "label": "D = 25%; ΔIL = 0.9 A"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "D = Uout/Uin = 25%. ΔIL = (Uin − Uout)D/(Lfs) = 0.9 A peak-to-peak. To nie wartość RMS ani amplituda połowy tętnień.",
+      "hint": "W czasie włączenia klucza napięcie dławika wynosi Uin − Uout; di/dt = UL/L.",
+      "sourceIds": [
+        "buck"
+      ],
+      "calculation": {
+        "inputs": {
+          "vin": 48,
+          "vout": 12,
+          "freq": 100000,
+          "l": 0.0001
+        },
+        "expected": {
+          "d": 0.25,
+          "ripple": 0.9
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "DC/DC converters",
+          "text": "An ideal buck in steady-state continuous conduction converts 48 V to 12 V. Switching frequency: 100 kHz; L = 100 µH. Output-voltage ripple is neglected. Find duty cycle D and peak-to-peak inductor-current ripple.",
+          "hint": "While the switch is on, inductor voltage is Vin − Vout; di/dt = VL/L.",
+          "explanation": "D = Vout/Vin = 25%. ΔIL = (Vin − Vout)D/(Lfs) = 0.9 A peak-to-peak. This is neither RMS nor half the ripple excursion."
+        }
+      }
+    },
+    {
+      "id": "ee-buck-2",
+      "group": "buck",
+      "difficulty": 1,
+      "category": "Przetwornice DC/DC",
+      "text": "Idealny buck w stanie ustalonym i trybie ciągłego prądu dławika przetwarza 24 V na 12 V. Częstotliwość przełączania: 100 kHz, L = 100 µH. Pomijamy tętnienia napięcia wyjściowego. Oblicz wypełnienie D i tętnienia prądu dławika od minimum do maksimum.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "D = 50%; ΔIL = 0.3 A"
+        },
+        {
+          "id": "o1",
+          "label": "D = 50%; ΔIL = 1.2 A"
+        },
+        {
+          "id": "o2",
+          "label": "D = 50%; ΔIL = 0.6 A"
+        },
+        {
+          "id": "o3",
+          "label": "D = 25%; ΔIL = 0.6 A"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "D = Uout/Uin = 50%. ΔIL = (Uin − Uout)D/(Lfs) = 0.6 A peak-to-peak. To nie wartość RMS ani amplituda połowy tętnień.",
+      "hint": "W czasie włączenia klucza napięcie dławika wynosi Uin − Uout; di/dt = UL/L.",
+      "sourceIds": [
+        "buck"
+      ],
+      "calculation": {
+        "inputs": {
+          "vin": 24,
+          "vout": 12,
+          "freq": 100000,
+          "l": 0.0001
+        },
+        "expected": {
+          "d": 0.5,
+          "ripple": 0.6
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "DC/DC converters",
+          "text": "An ideal buck in steady-state continuous conduction converts 24 V to 12 V. Switching frequency: 100 kHz; L = 100 µH. Output-voltage ripple is neglected. Find duty cycle D and peak-to-peak inductor-current ripple.",
+          "hint": "While the switch is on, inductor voltage is Vin − Vout; di/dt = VL/L.",
+          "explanation": "D = Vout/Vin = 50%. ΔIL = (Vin − Vout)D/(Lfs) = 0.6 A peak-to-peak. This is neither RMS nor half the ripple excursion."
+        }
+      }
+    },
+    {
+      "id": "ee-buck-3",
+      "group": "buck",
+      "difficulty": 1,
+      "category": "Przetwornice DC/DC",
+      "text": "Idealny buck w stanie ustalonym i trybie ciągłego prądu dławika przetwarza 48 V na 24 V. Częstotliwość przełączania: 200 kHz, L = 100 µH. Pomijamy tętnienia napięcia wyjściowego. Oblicz wypełnienie D i tętnienia prądu dławika od minimum do maksimum.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "D = 50%; ΔIL = 1.2 A"
+        },
+        {
+          "id": "o1",
+          "label": "D = 50%; ΔIL = 0.6 A"
+        },
+        {
+          "id": "o2",
+          "label": "D = 25%; ΔIL = 0.6 A"
+        },
+        {
+          "id": "o3",
+          "label": "D = 50%; ΔIL = 0.3 A"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "D = Uout/Uin = 50%. ΔIL = (Uin − Uout)D/(Lfs) = 0.6 A peak-to-peak. To nie wartość RMS ani amplituda połowy tętnień.",
+      "hint": "W czasie włączenia klucza napięcie dławika wynosi Uin − Uout; di/dt = UL/L.",
+      "sourceIds": [
+        "buck"
+      ],
+      "calculation": {
+        "inputs": {
+          "vin": 48,
+          "vout": 24,
+          "freq": 200000,
+          "l": 0.0001
+        },
+        "expected": {
+          "d": 0.5,
+          "ripple": 0.6
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "DC/DC converters",
+          "text": "An ideal buck in steady-state continuous conduction converts 48 V to 24 V. Switching frequency: 200 kHz; L = 100 µH. Output-voltage ripple is neglected. Find duty cycle D and peak-to-peak inductor-current ripple.",
+          "hint": "While the switch is on, inductor voltage is Vin − Vout; di/dt = VL/L.",
+          "explanation": "D = Vout/Vin = 50%. ΔIL = (Vin − Vout)D/(Lfs) = 0.6 A peak-to-peak. This is neither RMS nor half the ripple excursion."
+        }
+      }
+    },
+    {
+      "id": "ee-matching-1",
+      "group": "matching",
+      "difficulty": 1,
+      "category": "Dopasowanie impedancji",
+      "text": "Liniowe źródło Thévenina ma impedancję 4 + j3 Ω przy ustalonej częstotliwości. Można dowolnie dobierać dodatnią rezystancję oraz reaktancję obciążenia. Jakie ZL zapewni największą moc czynną w obciążeniu?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "4 − j3 Ω"
+        },
+        {
+          "id": "o1",
+          "label": "4 + j3 Ω"
+        },
+        {
+          "id": "o2",
+          "label": "5 Ω"
+        },
+        {
+          "id": "o3",
+          "label": "8 − j3 Ω"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "Najpierw znosimy reaktancję źródła: XL = −XTh. Następnie maksimum P wypada przy RL = RTh. ZL = sprzężenie ZTh = 4 − j3 Ω. Dla obciążenia wyłącznie rezystancyjnego warunek byłby inny: RL = |ZTh|.",
+      "hint": "Rozróżnij dowolne obciążenie zespolone od obciążenia wyłącznie rezystancyjnego.",
+      "sourceIds": [
+        "matching"
+      ],
+      "calculation": {
+        "inputs": {
+          "r": 4,
+          "x": 3
+        },
+        "expected": {
+          "r": 4,
+          "x": -3
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Impedance matching",
+          "text": "A linear Thévenin source has impedance 4 + j3 Ω at a fixed frequency. Both positive load resistance and load reactance may be freely chosen. Which ZL maximizes active power delivered to the load?",
+          "hint": "Distinguish an unrestricted complex load from a purely resistive one.",
+          "explanation": "First cancel source reactance: XL = −XTh. Then P is maximized at RL = RTh. ZL is the complex conjugate of ZTh: 4 − j3 Ω. A purely resistive load would instead require RL = |ZTh|."
+        }
+      }
+    },
+    {
+      "id": "ee-matching-2",
+      "group": "matching",
+      "difficulty": 1,
+      "category": "Dopasowanie impedancji",
+      "text": "Liniowe źródło Thévenina ma impedancję 10 − j5 Ω przy ustalonej częstotliwości. Można dowolnie dobierać dodatnią rezystancję oraz reaktancję obciążenia. Jakie ZL zapewni największą moc czynną w obciążeniu?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "10 − j5 Ω"
+        },
+        {
+          "id": "o1",
+          "label": "11.18 Ω"
+        },
+        {
+          "id": "o2",
+          "label": "20 + j5 Ω"
+        },
+        {
+          "id": "o3",
+          "label": "10 + j5 Ω"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "Najpierw znosimy reaktancję źródła: XL = −XTh. Następnie maksimum P wypada przy RL = RTh. ZL = sprzężenie ZTh = 10 + j5 Ω. Dla obciążenia wyłącznie rezystancyjnego warunek byłby inny: RL = |ZTh|.",
+      "hint": "Rozróżnij dowolne obciążenie zespolone od obciążenia wyłącznie rezystancyjnego.",
+      "sourceIds": [
+        "matching"
+      ],
+      "calculation": {
+        "inputs": {
+          "r": 10,
+          "x": -5
+        },
+        "expected": {
+          "r": 10,
+          "x": 5
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Impedance matching",
+          "text": "A linear Thévenin source has impedance 10 − j5 Ω at a fixed frequency. Both positive load resistance and load reactance may be freely chosen. Which ZL maximizes active power delivered to the load?",
+          "hint": "Distinguish an unrestricted complex load from a purely resistive one.",
+          "explanation": "First cancel source reactance: XL = −XTh. Then P is maximized at RL = RTh. ZL is the complex conjugate of ZTh: 10 + j5 Ω. A purely resistive load would instead require RL = |ZTh|."
+        }
+      }
+    },
+    {
+      "id": "ee-matching-3",
+      "group": "matching",
+      "difficulty": 1,
+      "category": "Dopasowanie impedancji",
+      "text": "Liniowe źródło Thévenina ma impedancję 6 + j8 Ω przy ustalonej częstotliwości. Można dowolnie dobierać dodatnią rezystancję oraz reaktancję obciążenia. Jakie ZL zapewni największą moc czynną w obciążeniu?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "10 Ω"
+        },
+        {
+          "id": "o1",
+          "label": "12 − j8 Ω"
+        },
+        {
+          "id": "o2",
+          "label": "6 − j8 Ω"
+        },
+        {
+          "id": "o3",
+          "label": "6 + j8 Ω"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "Najpierw znosimy reaktancję źródła: XL = −XTh. Następnie maksimum P wypada przy RL = RTh. ZL = sprzężenie ZTh = 6 − j8 Ω. Dla obciążenia wyłącznie rezystancyjnego warunek byłby inny: RL = |ZTh|.",
+      "hint": "Rozróżnij dowolne obciążenie zespolone od obciążenia wyłącznie rezystancyjnego.",
+      "sourceIds": [
+        "matching"
+      ],
+      "calculation": {
+        "inputs": {
+          "r": 6,
+          "x": 8
+        },
+        "expected": {
+          "r": 6,
+          "x": -8
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Impedance matching",
+          "text": "A linear Thévenin source has impedance 6 + j8 Ω at a fixed frequency. Both positive load resistance and load reactance may be freely chosen. Which ZL maximizes active power delivered to the load?",
+          "hint": "Distinguish an unrestricted complex load from a purely resistive one.",
+          "explanation": "First cancel source reactance: XL = −XTh. Then P is maximized at RL = RTh. ZL is the complex conjugate of ZTh: 6 − j8 Ω. A purely resistive load would instead require RL = |ZTh|."
+        }
+      }
+    }
+  ]
+}
