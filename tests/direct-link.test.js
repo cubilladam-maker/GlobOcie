@@ -80,6 +80,7 @@ const context = vm.createContext({
   windowObject.history = { state: null, replaceState(state, title, relative) { historyCalls.push(relative); locationObject.href = new URL(relative, locationObject.href).href; locationObject.search = new URL(locationObject.href).search; } };
   const renders = []; let html = "";
   Object.defineProperty(elements["#app"], "innerHTML", { get() { return html; }, set(value) { html = value; renders.push(value); } });
+  vm.runInContext(fs.readFileSync(path.join(__dirname, "../result-code.js"), "utf8"), context);
   vm.runInContext(fs.readFileSync(path.join(__dirname, "../i18n.js"), "utf8"), context);
   for(const topic of ['polityka-pl','religia-swiatopoglad-pl','global-warming-pl','electricity-student'])
     vm.runInContext(fs.readFileSync(path.join(__dirname, '../topics/'+topic+'.quiz.gz.js'),'utf8'),context);

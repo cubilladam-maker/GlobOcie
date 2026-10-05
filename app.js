@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.21";
+const APP_VERSION = "2.22";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const AXIS_POSITION_KEY_PREFIX = "globocie-axis-position-v1:";
@@ -82,6 +82,7 @@ const state = {
   answers: [],
   scores: freshScores(),
   answerLock: false,
+  resultCodeCopyStatus: "",
   difficultyChangeAttempted: false,
   hintOpen: false,
   futureTopicsOpen: false,
@@ -260,6 +261,7 @@ function beginSession(level = state.difficulty) {
   state.questions = topicQuestionsForDifficulty(state.difficulty);
   state.currentIndex = 0;
   state.answers = [];
+  state.resultCodeCopyStatus = "";
   state.scores = freshScores(currentAxisMeta());
   state.answerLock = false;
   state.difficultyChangeAttempted = false;
@@ -482,6 +484,7 @@ function chooseAnswer(value, button) {
     state.hintOpen = false;
     if (state.currentIndex >= state.questions.length) state.screen = "results";
     render();
+    if (state.screen === "results") window.scrollTo?.(0, 0);
   }, QUESTION_TRANSITION_MS);
 }
 
@@ -590,6 +593,39 @@ function knowledgeReviewMarkup() {
   }).join("");
 }
 
+function currentResultCode() {
+  if (!isKnowledgeModule() || state.moduleId !== "electricity-knowledge" || state.questions.length !== 10 || state.answers.length !== 10 || state.currentIndex !== 10) return null;
+  const ids = new Set(state.questions.map(question => question.id));
+  if (ids.size !== 10 || new Set(state.answers.map(answer => answer.questionId)).size !== 10) return null;
+  if (!state.answers.every(answer => ids.has(answer.questionId) && state.questions.find(question => question.id === answer.questionId).options.some(option => option.id === answer.value))) return null;
+  const score = knowledgeScore();
+  return window.GLOBOCIE_RESULT_CODE.encode({ ...score, completed: true, moduleId: state.moduleId });
+}
+
+function resultCodeMarkup() {
+  const code = currentResultCode();
+  if (!code) return `<section class="result-code-card"><h2>${escapeHtml(t("resultCodeTitle"))}</h2><p>${escapeHtml(t("resultCodeIncomplete"))}</p></section>`;
+  return `<section class="result-code-card" aria-labelledby="result-code-title"><div><div class="eyebrow">${escapeHtml(t("resultCodeCompleted"))}</div><h2 id="result-code-title">${escapeHtml(t("resultCodeTitle"))}</h2><p>${escapeHtml(t("resultCodeInstruction"))}</p></div><div class="result-code-controls"><input id="result-code-value" type="text" readonly value="${code}" aria-label="${escapeHtml(t("resultCodeTitle"))}" spellcheck="false"><button class="primary" type="button" data-action="copy-result-code">${escapeHtml(t("resultCodeCopy"))}</button></div><output class="result-code-status" role="status">${state.resultCodeCopyStatus ? escapeHtml(t(state.resultCodeCopyStatus)) : ""}</output><p class="result-code-note">${escapeHtml(t("resultCodeLimit"))}</p></section>`;
+}
+
+async function copyResultCode() {
+  const code = currentResultCode();
+  if (!code) return;
+  try {
+    if (!window.navigator?.clipboard?.writeText) throw new Error("clipboard-unavailable");
+    await window.navigator.clipboard.writeText(code);
+    if (currentResultCode() !== code || !["results", "profile"].includes(state.screen)) return;
+    state.resultCodeCopyStatus = "resultCodeCopied";
+    render();
+  } catch {
+    if (currentResultCode() !== code || !["results", "profile"].includes(state.screen)) return;
+    state.resultCodeCopyStatus = "resultCodeCopyFailed";
+    render();
+    const input = document.querySelector("#result-code-value");
+    input?.focus?.(); input?.select?.();
+  }
+}
+
 function renderKnowledgeResults(fullReview = false) {
   const score = knowledgeScore();
   const module = currentLocalizedModule();
@@ -599,7 +635,7 @@ function renderKnowledgeResults(fullReview = false) {
     return `<div class="knowledge-area"><span>${escapeHtml(questionCategory(question))}</span><strong>${correct ? 1 : 0}/1</strong></div>`;
   }).join("");
   const sources = (state.package.sources || []).map(source => `<li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.title)}</a></li>`).join("");
-  app.innerHTML = `<section class="panel result-dashboard knowledge-results"><header class="result-heading"><div><div class="eyebrow">${escapeHtml(module.name)}</div><h1>${escapeHtml(t(fullReview ? "knowledgeReview" : "knowledgeResult"))}</h1><p>${escapeHtml(t("knowledgeSummary", score))}</p></div><div class="score-ring" style="--score:${score.percent * 3.6}deg"><strong>${score.percent}%</strong><span>${escapeHtml(t("knowledgeScore"))}</span></div></header><section class="knowledge-area-grid">${summaries}</section><div class="results-actions"><button class="primary" data-action="${fullReview ? "results" : "details"}">${escapeHtml(t(fullReview ? "backToResults" : "knowledgeReview"))}</button><button class="secondary" data-action="export-pdf">${escapeHtml(t("downloadResult"))}</button><button class="secondary" data-action="restart-topic">${escapeHtml(t("repeatQuiz"))}</button><button class="secondary" data-action="home">${escapeHtml(t("home"))}</button></div>${fullReview ? `<section class="knowledge-review">${knowledgeReviewMarkup()}</section>` : ""}<section class="knowledge-sources"><h2>${escapeHtml(t("knowledgeSources"))}</h2><p>${escapeHtml(t("knowledgeSourceNote"))}</p><ul>${sources}</ul></section></section>`;
+  app.innerHTML = `<section class="panel result-dashboard knowledge-results"><header class="result-heading"><div><div class="eyebrow">${escapeHtml(module.name)}</div><h1>${escapeHtml(t(fullReview ? "knowledgeReview" : "knowledgeResult"))}</h1><p>${escapeHtml(t("knowledgeSummary", score))}</p></div><div class="score-ring" style="--score:${score.percent * 3.6}deg"><strong>${score.percent}%</strong><span>${escapeHtml(t("knowledgeScore"))}</span></div></header>${resultCodeMarkup()}<section class="knowledge-area-grid">${summaries}</section><div class="results-actions"><button class="primary" data-action="${fullReview ? "results" : "details"}">${escapeHtml(t(fullReview ? "backToResults" : "knowledgeReview"))}</button><button class="secondary" data-action="export-pdf">${escapeHtml(t("downloadResult"))}</button><button class="secondary" data-action="restart-topic">${escapeHtml(t("repeatQuiz"))}</button><button class="secondary" data-action="home">${escapeHtml(t("home"))}</button></div>${fullReview ? `<section class="knowledge-review">${knowledgeReviewMarkup()}</section>` : ""}<section class="knowledge-sources"><h2>${escapeHtml(t("knowledgeSources"))}</h2><p>${escapeHtml(t("knowledgeSourceNote"))}</p><ul>${sources}</ul></section></section>`;
 }
 
 function renderResults() {
@@ -755,6 +791,7 @@ app.addEventListener("click", event => {
   if (action === "privacy") return showPrivacy();
   if (action === "close-dialog") return infoDialog.close();
   if (action === "export-pdf") return window.print();
+  if (action === "copy-result-code") return copyResultCode();
   if (action === "details") { state.screen = "profile"; return render(); }
   if (action === "results") { state.screen = "results"; return render(); }
 });

@@ -469,7 +469,7 @@ function printChanges(changes) {
 
 function validateSite(siteRoot, version) {
   console.log("Walidacja kodu i wersjonowania cache...");
-  const syntaxFiles = ["app.js", "i18n.js", "themes.js", "sw.js", "visitor-counter-config.js"];
+  const syntaxFiles = ["app.js", "i18n.js", "themes.js", "sw.js", "visitor-counter-config.js", "result-code.js"];
   for (const relative of syntaxFiles) {
     const file = path.join(siteRoot, relative);
     if (!exists(file)) continue;
@@ -477,7 +477,7 @@ function validateSite(siteRoot, version) {
     console.log(`  OK składnia: ${relative}`);
   }
 
-  const tests = ["tests/theme-config.test.js", "tests/render-smoke.test.js", "tests/electricity-bank.test.js", "tests/electricity-flow.test.js", "tests/direct-link.test.js"];
+  const tests = ["tests/theme-config.test.js", "tests/render-smoke.test.js", "tests/electricity-bank.test.js", "tests/electricity-flow.test.js", "tests/direct-link.test.js", "tests/result-code.test.js"];
   for (const relative of tests) {
     const file = path.join(siteRoot, relative);
     if (!exists(file)) continue;

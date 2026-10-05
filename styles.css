@@ -105,6 +105,7 @@ nav { display: flex; gap: 10px; align-items: center; }
 .language-switch button:hover, .language-switch button[aria-pressed="true"] { color: var(--text); background: var(--module-soft-accent-strong); box-shadow: inset 0 0 0 1px var(--accent); }
 .top-progress { border: 1px solid var(--line); border-radius: 12px; padding: 9px 13px; display: flex; gap: 14px; background: rgba(255, 255, 255, .03); }
 .top-progress strong { color: var(--accent); }
+.top-progress[hidden] { display: none; }
 .owner-hotspot { position: absolute; right: 0; top: 0; width: 28px; height: 28px; border: 0; opacity: 0; cursor: default; }
 .owner-counter { position: absolute; right: 22px; top: 63px; z-index: 40; min-width: 300px; padding: 13px 15px; border: 1px solid var(--line); border-radius: 12px; background: var(--module-dialog-bg); box-shadow: 0 12px 30px rgba(0, 0, 0, .45); }
 .counter-heading { color: var(--muted); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 9px; }
@@ -432,6 +433,15 @@ body[data-module="electricity-knowledge"] .answer { font-size: 15px; line-height
 .knowledge-area-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 24px 0; }
 .knowledge-area { display: flex; justify-content: space-between; gap: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 10px; }
 .knowledge-area strong { color: var(--accent); white-space: nowrap; }
+.result-code-card { margin: 24px 0; padding: 24px; border: 1px solid var(--accent); border-radius: 16px; background: var(--module-panel-end); }
+.result-code-card h2 { font-size: 24px; margin: 8px 0; color: var(--accent); }
+.result-code-card p { font-size: 16px; line-height: 1.5; color: var(--muted); }
+.result-code-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 18px; }
+.result-code-controls input { width: min(100%, 320px); min-width: 0; font: 700 clamp(24px, 4vw, 34px)/1.3 monospace; letter-spacing: .06em; background: transparent; color: var(--text); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+.result-code-controls button { font-size: 16px; }
+.result-code-status { display: block; min-height: 24px; margin-top: 10px; font-size: 16px; color: var(--accent); }
+.result-code-card .result-code-note { font-size: 14px; margin-bottom: 0; }
+@media print { .result-code-card { border-color: #333; background: white; } .result-code-card h2, .result-code-card p, .result-code-controls input { color: #111; } .result-code-controls button, .result-code-status { display: none; } }
 .knowledge-review { display: grid; gap: 16px; margin-top: 24px; }
 .knowledge-review-item { border: 1px solid var(--line); border-left: 4px solid var(--module-warning); border-radius: 12px; padding: 20px; }
 .knowledge-review-item.correct { border-left-color: var(--module-cyan); }

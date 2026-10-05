@@ -76,6 +76,7 @@ const context = vm.createContext({
 
 
 const bank = JSON.parse(fs.readFileSync(path.join(__dirname, '../topics/electricity-student.json')));
+vm.runInContext(fs.readFileSync(path.join(__dirname, '../result-code.js'), 'utf8'),context);
 vm.runInContext(fs.readFileSync(path.join(__dirname, '../i18n.js'), 'utf8'),context);
 vm.runInContext(fs.readFileSync(path.join(__dirname, '../topics/electricity-student.quiz.gz.js'), 'utf8'),context);
 vm.runInContext(fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8'),context);
@@ -111,6 +112,7 @@ vm.runInContext(fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8'),conte
   }
   for(const correctCount of [10,0,5]){
     vm.runInContext('beginSession();state.screen="quiz";render();',context);
+    assert.equal(vm.runInContext('currentResultCode()',context),null);
     const questions=vm.runInContext('state.questions',context);
     vm.runInContext('chooseAnswer("invalid")',context);
     assert.equal(vm.runInContext('state.answers.length',context),0);
@@ -124,6 +126,29 @@ vm.runInContext(fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8'),conte
       while(timers.length)timers.shift()();
     }
     assert.equal(vm.runInContext('state.screen',context),'results');
+    const code=vm.runInContext('currentResultCode()',context);
+    assert.ok(code);
+    assert.equal(windowObject.GLOBOCIE_RESULT_CODE.decode(code).percent,correctCount*10);
+    assert.ok(elements['#app'].innerHTML.includes(code));
+    assert.match(elements['#app'].innerHTML,/data-action="copy-result-code"/);
+    let clipboard='';
+    windowObject.navigator={clipboard:{writeText:async text=>{clipboard=text;}}};
+    await vm.runInContext('copyResultCode()',context);
+    assert.equal(clipboard,code);
+    assert.equal(vm.runInContext('state.resultCodeCopyStatus',context),'resultCodeCopied');
+    i18n.setLanguage('en');
+    assert.match(elements['#app'].innerHTML,/Code copied to the clipboard/);
+    assert.equal(vm.runInContext('currentResultCode()',context),code);
+    windowObject.navigator={clipboard:{writeText:async()=>{throw new Error('denied');}}};
+    await vm.runInContext('copyResultCode()',context);
+    assert.equal(vm.runInContext('state.resultCodeCopyStatus',context),'resultCodeCopyFailed');
+    assert.match(elements['#app'].innerHTML,/Automatic copying failed/);
+    // Missing, duplicate, foreign and invalid answers must never receive a code.
+    const saved=JSON.stringify(vm.runInContext('state.answers',context));
+    for(const change of ['state.answers.pop()', 'state.answers[9]=state.answers[0]', 'state.answers[9].questionId="foreign"', 'state.answers[9].value="invalid"']){
+      vm.runInContext(change,context);assert.equal(vm.runInContext('currentResultCode()',context),null);
+      vm.runInContext('state.answers='+saved,context);
+    }
     assert.equal(vm.runInContext('knowledgeScore().correct',context),correctCount);
     assert.equal(vm.runInContext('knowledgeScore().percent',context),correctCount*10);
     vm.runInContext('state.screen="profile";render();',context);

@@ -603,6 +603,16 @@
   };
 
   Object.assign(common.pl, {
+  "resultCodeTitle": "Twój kod wyniku",
+  "resultCodeCompleted": "Test ukończony · 10/10 odpowiedzi",
+  "resultCodeInstruction": "Zapamiętaj kod lub skopiuj go i przekaż organizatorowi.",
+  "resultCodeCopy": "Kopiuj kod",
+  "resultCodeCopied": "Kod skopiowany do schowka.",
+  "resultCodeCopyFailed": "Nie udało się skopiować automatycznie. Kod zaznaczono — skopiuj go ręcznie.",
+  "resultCodeIncomplete": "Kod jest dostępny po udzieleniu wszystkich 10 odpowiedzi.",
+  "resultCodeLimit": "Kod zawiera wynik i znacznik ukończenia. To proste kodowanie z kontrolą literówek, nie zabezpieczenie przed fałszerstwem. Nie potwierdza tożsamości ani samodzielności."
+});
+  Object.assign(common.pl, {
   "knowledgeLevel": "🔒 Student — III rok elektrotechniki",
   "knowledgeScope": "Zakres testu",
   "knowledgeScopeBody": "Obwody, rezonans, układy trójfazowe, kompensacja, harmoniczne, silniki, transformatory, DC/DC i dopasowanie impedancji.",
@@ -631,6 +641,16 @@
   "knowledgeBenefitThinkingBody": "Buck, harmoniczne i współczynnik mocy.",
   "knowledgeBenefitAnalysis": "Wynik z wyjaśnieniem",
   "knowledgeBenefitAnalysisBody": "Poprawne odpowiedzi, wzory i źródła."
+});
+  Object.assign(common.en, {
+  "resultCodeTitle": "Your result code",
+  "resultCodeCompleted": "Test completed · 10/10 answers",
+  "resultCodeInstruction": "Remember the code or copy it and send it to the organiser.",
+  "resultCodeCopy": "Copy code",
+  "resultCodeCopied": "Code copied to the clipboard.",
+  "resultCodeCopyFailed": "Automatic copying failed. The code is selected — copy it manually.",
+  "resultCodeIncomplete": "The code is available after all 10 questions have been answered.",
+  "resultCodeLimit": "The code contains the score and a completion flag. It uses simple encoding with a typo check, not protection against forgery. It does not verify identity or independent work."
 });
   Object.assign(common.en, {
   "knowledgeLevel": "🔒 Student — third-year electrical engineering",
