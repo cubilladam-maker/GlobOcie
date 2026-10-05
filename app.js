@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.23";
+const APP_VERSION = "2.24";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const AXIS_POSITION_KEY_PREFIX = "globocie-axis-position-v1:";
@@ -835,6 +835,9 @@ app.addEventListener("input", event => {
 document.addEventListener("click", event => {
   const language = event.target.closest("[data-language]")?.dataset.language;
   if (language) {
+    const url = new URL(location.href);
+    url.searchParams.set("lang", language);
+    window.history.replaceState(window.history.state, "", url);
     I18N.setLanguage(language);
     return;
   }

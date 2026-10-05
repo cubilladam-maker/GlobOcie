@@ -707,12 +707,16 @@
     try { return root.localStorage || globalThis.localStorage; } catch (_) { return null; }
   }
 
-  function currentLanguage() {
+  function readStoredLanguage() {
     try {
       const stored = currentStorage()?.getItem(STORAGE_KEY);
       return languages.includes(stored) ? stored : "pl";
     } catch (_) { return "pl"; }
   }
+
+  // Keep each open tab consistent; storage only supplies the initial preference.
+  let activeLanguage = readStoredLanguage();
+  function currentLanguage() { return activeLanguage; }
 
   function interpolate(value, vars = {}) {
     return String(value).replace(/\{([\w]+)\}/g, (_, key) => vars[key] ?? `{${key}}`);
@@ -814,6 +818,7 @@
   function setLanguage(nextLanguage) {
     const next = String(nextLanguage).toLowerCase();
     if (!languages.includes(next)) return currentLanguage();
+    activeLanguage = next;
     try { currentStorage()?.setItem(STORAGE_KEY, next); } catch (_) { /* local persistence is optional */ }
     try {
       const EventConstructor = root.CustomEvent || root.Event;

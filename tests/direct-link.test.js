@@ -99,6 +99,13 @@ const context = vm.createContext({
     assert.ok(run('state.questions.length')>0);
     assert.equal(run('state.difficulty'),moduleId==='electricity-knowledge'?1:0);
     assert.match(test.elements['#top-progress'].innerHTML,lang==='pl'?/Pytanie 1/:/Question 1/);
+    // Simulate another tab changing the shared preference between renders.
+    test.storage.set('globocie-language-v1', lang === 'pl' ? 'en' : 'pl');
+    run('render(); requestHome();');
+    assert.equal(run('I18N.getLanguage()'), lang);
+    assert.match(test.elements['#top-progress'].innerHTML, lang === 'pl' ? /Pytanie 1/ : /Question 1/);
+    assert.match(test.elements['#confirm-content'].innerHTML, lang === 'pl' ? /[Pp]owr/ : /[Rr]eturn/);
+    run('state.confirmState.onNo(); state.confirmState = null;');
     run('state.answers = [{questionId: state.questions[0].id, value: "test"}]');
     const before=run('JSON.stringify(state.answers)');
     run('I18N.setLanguage('+JSON.stringify(lang==='pl'?'en':'pl')+')');
