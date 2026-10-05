@@ -477,3 +477,5 @@ body[data-module="electricity-knowledge"] .answer { font-size: 15px; line-height
   .knowledge-results { color: #111; background: white; box-shadow: none; }
   .knowledge-results p, .knowledge-results strong, .knowledge-sources a, .knowledge-review-heading { color: #111; }
 }
+
+body[data-module="electricity-knowledge"] .difficulty-ticks { display: flex; justify-content: space-between; }
