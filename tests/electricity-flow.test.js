@@ -49,6 +49,8 @@ const timers = [];
 windowObject.DecompressionStream = DecompressionStream;
 const context = vm.createContext({
   console,
+  URLSearchParams,
+  URL,
   crypto: webcrypto,
   localStorage,
   document: {

@@ -477,7 +477,7 @@ function validateSite(siteRoot, version) {
     console.log(`  OK składnia: ${relative}`);
   }
 
-  const tests = ["tests/theme-config.test.js", "tests/render-smoke.test.js", "tests/electricity-bank.test.js", "tests/electricity-flow.test.js"];
+  const tests = ["tests/theme-config.test.js", "tests/render-smoke.test.js", "tests/electricity-bank.test.js", "tests/electricity-flow.test.js", "tests/direct-link.test.js"];
   for (const relative of tests) {
     const file = path.join(siteRoot, relative);
     if (!exists(file)) continue;

@@ -47,6 +47,8 @@ const windowObject = {
 
 const context = vm.createContext({
   console,
+  URLSearchParams,
+  URL,
   crypto: webcrypto,
   localStorage,
   document: {
@@ -139,7 +141,7 @@ const climateQuiz = elements["#app"].innerHTML;
 assert.equal(body.dataset.theme, "climate", "Quiz klimatyczny używa własnego motywu");
 assert.equal(rootStyle.values["--module-accent"], "#ff735c");
 assert.match(climateQuiz, /class="climate-question-artwork"/);
-assert.match(climateQuiz, /assets\/climate-atlas\.svg\?v=2\.20/);
+assert.match(climateQuiz, /assets\/climate-atlas\.svg\?v=2\.21/);
 assert.match(climateQuiz, /Długi szereg pomiarów testowych/);
 assert.doesNotMatch(climateQuiz, /data-heart-animation="true"/);
 vm.runInContext(`state.screen = "start"; render();`, context);
@@ -172,7 +174,7 @@ assert.equal((profile.match(/<article>/g) || []).length, 6);
 assert.match(profile, /Podsumowanie AI/);
 
 assert.match(appSource, /QUESTION_TRANSITION_MS = 540/);
-assert.match(appSource, /APP_VERSION = "2\.20"/);
+assert.match(appSource, /APP_VERSION = "2\.21"/);
 assert.match(appSource, /function climateQuestionArtwork\(module = currentModule\(\)\)/);
 assert.match(appSource, /function heartAnimationMarkup\(\)/);
 assert.match(appSource, /heartAnimationAria/);
@@ -185,9 +187,9 @@ assert.match(appSource, /LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1"/);
 assert.match(appSource, /counter-meta/);
 assert.match(appSource, /startModule\("political-compass"\)/);
 assert.match(indexSource, /class="site-version"/);
-assert.match(indexSource, /Wersja strony: v2\.20/);
-assert.match(indexSource, /i18n\.js\?v=2\.20/);
-assert.match(indexSource, /global-warming-pl\.quiz\.gz\.js\?v=2\.20/);
+assert.match(indexSource, /Wersja strony: v2\.21/);
+assert.match(indexSource, /i18n\.js\?v=2\.21/);
+assert.match(indexSource, /global-warming-pl\.quiz\.gz\.js\?v=2\.21/);
 assert.match(stylesSource, /\.climate-question-artwork \{[^}]*pointer-events: none/s);
 assert.match(stylesSource, /@keyframes climateAtlasDrift/);
 assert.match(stylesSource, /\.start-title-block h1 \{[^}]*grid-template-columns: auto auto auto[^}]*justify-content: center/s);
