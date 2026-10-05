@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.22";
+const APP_VERSION = "2.23";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const AXIS_POSITION_KEY_PREFIX = "globocie-axis-position-v1:";
@@ -75,7 +75,7 @@ const state = {
   loadedModuleId: null,
   themeId: initialModule.themeId || localStorage.getItem("globocie-theme") || "politics",
   package: null,
-  difficulty: initialModule.fixedDifficulty ?? Number(localStorage.getItem("globocie-difficulty") || 1),
+  difficulty: storedDifficulty(initialModule),
   selfPosition: initialSelfPosition,
   questions: [],
   currentIndex: 0,
@@ -154,7 +154,24 @@ function questionCategory(question) {
   return I18N.questionCategory(state.package?.manifest?.id, question?.category || t("questionFallback"));
 }
 
+function difficultyMax() { return currentModule().maxDifficulty ?? 10; }
+function normalizedDifficulty(module, value) {
+  const number = Number(value);
+  return module.fixedDifficulty ?? clamp(Number.isFinite(number) ? Math.round(number) : 1, 0, module.maxDifficulty ?? 10);
+}
+function storedDifficulty(module) {
+  const key = module.difficultyStorageKey || "globocie-difficulty";
+  return normalizedDifficulty(module, localStorage.getItem(key) ?? 1);
+}
+function storeDifficulty() {
+  localStorage.setItem(currentModule().difficultyStorageKey || "globocie-difficulty", String(state.difficulty));
+}
+function knowledgeLevelLabel() {
+  return difficultyLabel(state.difficulty) + (state.difficulty === 1 ? (I18N.getLanguage() === "en" ? " — third-year electrical engineering" : " — III rok elektrotechniki") : (I18N.getLanguage() === "en" ? " — basic electrical knowledge" : " — podstawy elektryczności"));
+}
+
 function difficultyLabel(index) {
+  if (currentModule().id === "electricity-knowledge" && index === 0 && I18N.getLanguage() === "en") return "Pupil";
   return I18N.difficultyLabel(index, DIFFICULTIES[index]?.label || t("difficulty"));
 }
 
@@ -196,7 +213,7 @@ function activateModule(moduleId) {
     state.loadedModuleId = null;
     state.selfPosition = loadAxisPosition(module);
   }
-  state.difficulty = module.fixedDifficulty ?? Number(localStorage.getItem("globocie-difficulty") || 1);
+  state.difficulty = storedDifficulty(module);
   state.moduleId = module.id;
   state.themeId = module.themeId || "politics";
   localStorage.setItem("globocie-module", module.id);
@@ -256,8 +273,8 @@ function topicQuestionsForDifficulty(level) {
 }
 
 function beginSession(level = state.difficulty) {
-  state.difficulty = currentModule().fixedDifficulty ?? clamp(Number(level), 0, 10);
-  if (currentModule().fixedDifficulty === undefined) localStorage.setItem("globocie-difficulty", String(state.difficulty));
+  state.difficulty = normalizedDifficulty(currentModule(), level);
+  if (currentModule().fixedDifficulty === undefined) storeDifficulty();
   state.questions = topicQuestionsForDifficulty(state.difficulty);
   state.currentIndex = 0;
   state.answers = [];
@@ -310,10 +327,11 @@ function confidencePercent() {
 }
 
 function difficultyTicks() {
-  return `<div class="difficulty-ticks" aria-hidden="true">${DIFFICULTIES.map((_, index) => `<i class="${[0, 1, 9, 10].includes(index) ? "major" : ""}"></i>`).join("")}</div>`;
+  return `<div class="difficulty-ticks" aria-hidden="true">${DIFFICULTIES.slice(0, difficultyMax() + 1).map((_, index) => `<i class="${[0, 1, 9, 10].includes(index) ? "major" : ""}"></i>`).join("")}</div>`;
 }
 
 function difficultyLabels() {
+  if (difficultyMax() === 1) return `<div class="difficulty-labels" style="display:flex;justify-content:space-between"><span>${escapeHtml(difficultyLabel(0))}</span><span>${escapeHtml(difficultyLabel(1))}</span></div>`;
   return `<div class="difficulty-labels"><span>${escapeHtml(difficultyLabel(0))}</span><span>${escapeHtml(difficultyLabel(1))}</span><span>${escapeHtml(difficultyLabel(9))}</span><span>${escapeHtml(difficultyLabel(10))}</span></div>`;
 }
 
@@ -419,7 +437,7 @@ function renderStart() {
     <section class="start-copy">
       <div class="start-ai-note"><b>✦</b><span><strong>${escapeHtml(ui.aiLead || t("genericAiLead"))}</strong><small>${escapeHtml(ui.aiSubline || t("genericAiSubline"))}</small></span></div>
       <div class="code-space">${fingerprintVisual()}<div><strong>${escapeHtml(startCopy("uniqueTitle"))}</strong><span>${escapeHtml(startCopy("uniqueBody"))}</span></div></div>
-      <div class="start-settings">${axisSettingCard("start")}<section class="setting-box difficulty-box"><h3>${escapeHtml(t("difficulty"))}: <strong id="start-difficulty-label">${escapeHtml(difficultyLabel(state.difficulty))}</strong></h3><input id="start-difficulty" class="glow-range" type="range" min="0" max="10" step="1" value="${state.difficulty}" ${currentModule().fixedDifficulty !== undefined ? "disabled" : ""}>${currentModule().fixedDifficulty !== undefined ? `<p class="locked-level">${escapeHtml(t("knowledgeLocked"))}</p>` : ""}${difficultyTicks()}${difficultyLabels()}</section></div>
+      <div class="start-settings">${axisSettingCard("start")}<section class="setting-box difficulty-box"><h3>${escapeHtml(t("difficulty"))}: <strong id="start-difficulty-label">${escapeHtml(difficultyLabel(state.difficulty))}</strong></h3><input id="start-difficulty" class="glow-range" type="range" min="0" max="${difficultyMax()}" step="1" value="${state.difficulty}" ${currentModule().fixedDifficulty !== undefined ? "disabled" : ""}>${currentModule().fixedDifficulty !== undefined ? `<p class="locked-level">${escapeHtml(t("knowledgeLocked"))}</p>` : ""}${difficultyTicks()}${difficultyLabels()}</section></div>
       <div class="benefit-grid"><div><b>◇</b><span><strong>${escapeHtml(startCopy("benefitProfile"))}</strong><small>${escapeHtml(startCopy("benefitProfileBody"))}</small></span></div><div><b>☷</b><span><strong>${escapeHtml(startCopy("benefitAnswers"))}</strong><small>${escapeHtml(startCopy("benefitAnswersBody"))}</small></span></div><div><b>⌘</b><span><strong>${escapeHtml(startCopy("benefitThinking"))}</strong><small>${escapeHtml(startCopy("benefitThinkingBody"))}</small></span></div><div><b>✦</b><span><strong>${escapeHtml(startCopy("benefitAnalysis"))}</strong><small>${escapeHtml(startCopy("benefitAnalysisBody"))}</small></span></div></div>
       <div class="start-actions"><button class="primary big" data-action="start-module" data-module-id="${escapeHtml(module.id)}">${escapeHtml(ui.startButton || t("startNewGame"))}</button><button class="secondary" data-action="scroll-topics">${escapeHtml(t("chooseTopic"))}</button></div><div class="local-game-stat" aria-live="polite"><strong>${localGameStarts()}</strong><span>${escapeHtml(t("localStartsStat"))}</span></div>
     </section>
@@ -457,7 +475,7 @@ function renderQuiz() {
   const answers = isKnowledgeModule() ? localizedQuestion(question).options.map(option => ({ value: option.id, label: option.label })) : I18N.answerScale(state.package?.manifest?.id, state.package.answerScale || []);
   const offerHint = shouldOfferHint();
   app.innerHTML = `<section class="quiz-page">
-    <aside class="panel quiz-settings-panel"><div class="eyebrow">${escapeHtml(t("settings"))}</div>${axisSettingCard("quiz")}<section class="quiz-setting-section"><div class="difficulty-heading"><h3>${escapeHtml(t("difficulty"))}</h3><span>${escapeHtml(t(isKnowledgeModule() ? "knowledgeLevel" : "difficultyCanChange"))}</span></div><input id="difficulty-live" class="glow-range" type="range" min="0" max="10" step="1" value="${state.difficulty}" ${state.difficultyChangeAttempted || currentModule().fixedDifficulty !== undefined ? "disabled" : ""}>${difficultyTicks()}${difficultyLabels()}<p>${escapeHtml(state.difficultyChangeAttempted ? t("difficultyAttemptUsed") : t("difficultyShiftRequiresNew"))}</p></section><section class="locked-summary"><div>◉</div><div><strong>${escapeHtml(t("startConfigured"))}</strong><span>${escapeHtml(isKnowledgeModule() ? t("knowledgeLevel") : axisDescription().label)}</span><span>${escapeHtml(t("levelPrefix"))}: ${escapeHtml(difficultyLabel(state.difficulty))}</span></div><b>🔒</b></section><section class="ai-tip-mini"><b>${escapeHtml(t("aiHintLabel"))}</b><p>${escapeHtml(t(isKnowledgeModule() ? "knowledgeInstructions" : "aiHintBody"))}</p></section><button class="return-start" data-action="return-start">↻ <span><strong>${escapeHtml(t("returnStart"))}</strong><small>${escapeHtml(t("resetQuiz"))}</small></span></button></aside>
+    <aside class="panel quiz-settings-panel"><div class="eyebrow">${escapeHtml(t("settings"))}</div>${axisSettingCard("quiz")}<section class="quiz-setting-section"><div class="difficulty-heading"><h3>${escapeHtml(t("difficulty"))}</h3><span>${escapeHtml(isKnowledgeModule() ? knowledgeLevelLabel() : t("difficultyCanChange"))}</span></div><input id="difficulty-live" class="glow-range" type="range" min="0" max="${difficultyMax()}" step="1" value="${state.difficulty}" ${(!isKnowledgeModule() && state.difficultyChangeAttempted) || currentModule().fixedDifficulty !== undefined ? "disabled" : ""}>${difficultyTicks()}${difficultyLabels()}<p>${escapeHtml(!isKnowledgeModule() && state.difficultyChangeAttempted ? t("difficultyAttemptUsed") : t("difficultyShiftRequiresNew"))}</p></section><section class="locked-summary"><div>◉</div><div><strong>${escapeHtml(t("startConfigured"))}</strong><span>${escapeHtml(isKnowledgeModule() ? knowledgeLevelLabel() : axisDescription().label)}</span><span>${escapeHtml(t("levelPrefix"))}: ${escapeHtml(difficultyLabel(state.difficulty))}</span></div><b>🔒</b></section><section class="ai-tip-mini"><b>${escapeHtml(t("aiHintLabel"))}</b><p>${escapeHtml(t(isKnowledgeModule() ? "knowledgeInstructions" : "aiHintBody"))}</p></section><button class="return-start" data-action="return-start">↻ <span><strong>${escapeHtml(t("returnStart"))}</strong><small>${escapeHtml(t("resetQuiz"))}</small></span></button></aside>
     <main class="panel quiz-question-panel">${climateQuestionArtwork()}<div class="question-kicker">${escapeHtml(quizUi.kicker || questionCategory(question) || t("questionFallback"))}</div><h2>${escapeHtml(questionText(question))}</h2><div class="answers compact-answers">${answers.map((answer, index) => `<button class="answer" data-answer="${answer.value}" ${state.answerLock ? "disabled" : ""}><span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${escapeHtml(answer.label)}</span></button>`).join("")}</div>${offerHint ? `<button class="hint-row" data-action="toggle-hint"><span>✦</span><strong>${escapeHtml(t(isKnowledgeModule() ? "knowledgeHint" : "questionHint"))}</strong><small>${escapeHtml(t(state.hintOpen ? "hide" : "show"))}</small><b>${state.hintOpen ? "⌃" : "⌄"}</b></button>` : ""}${offerHint && state.hintOpen ? `<div class="hint-box">${escapeHtml(aiHintForQuestion())}</div>` : ""}<div class="question-footnote">${escapeHtml(t("questionFootnote"))}</div></main>
     <aside class="panel quiz-ai-panel">${aiHologram("quiz-ai")}<div class="ai-status"><strong>${escapeHtml(quizUi.aiStatus || t("aiStatusFallback"))}</strong><span>${escapeHtml(quizUi.aiNote || t("aiNoteFallback"))}</span></div></aside>
   </section>`;
@@ -490,13 +508,14 @@ function chooseAnswer(value, button) {
 
 function requestDifficultyChange(requested) {
   if (currentModule().fixedDifficulty !== undefined) { state.difficulty = currentModule().fixedDifficulty; return renderQuiz(); }
-  if (state.difficultyChangeAttempted) return renderQuiz();
+  if (!isKnowledgeModule() && state.difficultyChangeAttempted) return renderQuiz();
   const direction = requested > state.difficulty ? 1 : -1;
-  const nextLevel = clamp(state.difficulty + direction, 0, 10);
+  const nextLevel = clamp(state.difficulty + direction, 0, difficultyMax());
+  if (requested === state.difficulty) return renderQuiz();
   if (nextLevel === state.difficulty) return renderQuiz();
   state.difficultyChangeAttempted = true;
   renderQuiz();
-  showConfirm("difficulty", { current: difficultyLabel(state.difficulty), next: difficultyLabel(nextLevel) }, () => { beginSession(nextLevel); state.screen = "quiz"; render(); }, render);
+  showConfirm("difficulty", { current: difficultyLabel(state.difficulty), next: difficultyLabel(nextLevel) }, () => { beginSession(nextLevel); state.screen = "quiz"; render(); }, () => { if (isKnowledgeModule()) state.difficultyChangeAttempted = false; render(); });
 }
 
 function clearDirectQuizLink() {
@@ -598,8 +617,9 @@ function currentResultCode() {
   const ids = new Set(state.questions.map(question => question.id));
   if (ids.size !== 10 || new Set(state.answers.map(answer => answer.questionId)).size !== 10) return null;
   if (!state.answers.every(answer => ids.has(answer.questionId) && state.questions.find(question => question.id === answer.questionId).options.some(option => option.id === answer.value))) return null;
+  if (!state.questions.every(question => question.difficulty === state.difficulty)) return null;
   const score = knowledgeScore();
-  return window.GLOBOCIE_RESULT_CODE.encode({ ...score, completed: true, moduleId: state.moduleId });
+  return window.GLOBOCIE_RESULT_CODE.encode({ ...score, completed: true, moduleId: state.moduleId, difficulty: state.difficulty });
 }
 
 function resultCodeMarkup() {
@@ -635,7 +655,7 @@ function renderKnowledgeResults(fullReview = false) {
     return `<div class="knowledge-area"><span>${escapeHtml(questionCategory(question))}</span><strong>${correct ? 1 : 0}/1</strong></div>`;
   }).join("");
   const sources = (state.package.sources || []).map(source => `<li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.title)}</a></li>`).join("");
-  app.innerHTML = `<section class="panel result-dashboard knowledge-results"><header class="result-heading"><div><div class="eyebrow">${escapeHtml(module.name)}</div><h1>${escapeHtml(t(fullReview ? "knowledgeReview" : "knowledgeResult"))}</h1><p>${escapeHtml(t("knowledgeSummary", score))}</p></div><div class="score-ring" style="--score:${score.percent * 3.6}deg"><strong>${score.percent}%</strong><span>${escapeHtml(t("knowledgeScore"))}</span></div></header>${resultCodeMarkup()}<section class="knowledge-area-grid">${summaries}</section><div class="results-actions"><button class="primary" data-action="${fullReview ? "results" : "details"}">${escapeHtml(t(fullReview ? "backToResults" : "knowledgeReview"))}</button><button class="secondary" data-action="export-pdf">${escapeHtml(t("downloadResult"))}</button><button class="secondary" data-action="restart-topic">${escapeHtml(t("repeatQuiz"))}</button><button class="secondary" data-action="home">${escapeHtml(t("home"))}</button></div>${fullReview ? `<section class="knowledge-review">${knowledgeReviewMarkup()}</section>` : ""}<section class="knowledge-sources"><h2>${escapeHtml(t("knowledgeSources"))}</h2><p>${escapeHtml(t("knowledgeSourceNote"))}</p><ul>${sources}</ul></section></section>`;
+  app.innerHTML = `<section class="panel result-dashboard knowledge-results"><header class="result-heading"><div><div class="eyebrow">${escapeHtml(module.name)}</div><h1>${escapeHtml(t(fullReview ? "knowledgeReview" : "knowledgeResult"))}</h1><p class="result-level"><strong>${escapeHtml(t("levelPrefix"))}: ${escapeHtml(knowledgeLevelLabel())}</strong></p><p>${escapeHtml(t("knowledgeSummary", score))}</p></div><div class="score-ring" style="--score:${score.percent * 3.6}deg"><strong>${score.percent}%</strong><span>${escapeHtml(t("knowledgeScore"))}</span></div></header>${resultCodeMarkup()}<section class="knowledge-area-grid">${summaries}</section><div class="results-actions"><button class="primary" data-action="${fullReview ? "results" : "details"}">${escapeHtml(t(fullReview ? "backToResults" : "knowledgeReview"))}</button><button class="secondary" data-action="export-pdf">${escapeHtml(t("downloadResult"))}</button><button class="secondary" data-action="restart-topic">${escapeHtml(t("repeatQuiz"))}</button><button class="secondary" data-action="home">${escapeHtml(t("home"))}</button></div>${fullReview ? `<section class="knowledge-review">${knowledgeReviewMarkup()}</section>` : ""}<section class="knowledge-sources"><h2>${escapeHtml(t("knowledgeSources"))}</h2><p>${escapeHtml(t("knowledgeSourceNote"))}</p><ul>${sources}</ul></section></section>`;
 }
 
 function renderResults() {
@@ -805,8 +825,8 @@ app.addEventListener("input", event => {
   }
   if (event.target.id === "start-difficulty") {
     if (currentModule().fixedDifficulty !== undefined) { state.difficulty = currentModule().fixedDifficulty; return renderStart(); }
-    state.difficulty = Number(event.target.value);
-    localStorage.setItem("globocie-difficulty", String(state.difficulty));
+    state.difficulty = normalizedDifficulty(currentModule(), event.target.value);
+    storeDifficulty();
     document.querySelector("#start-difficulty-label").textContent = difficultyLabel(state.difficulty);
   }
   if (event.target.id === "difficulty-live") requestDifficultyChange(Number(event.target.value));

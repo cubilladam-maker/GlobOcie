@@ -122,5 +122,9 @@ const context = vm.createContext({
   const saved=Object.fromEntries(stored.storage);
   const remembered=launch('?quiz=electricity-knowledge&lang=xx',saved);await remembered.ready;
   assert.equal(vm.runInContext('I18N.getLanguage()',remembered.context),'en');
-  console.log('Direct links: 4 topics × PL/EN, no start-screen flash, first question, student lock, single counter increment, language preservation, cancel/confirm Home, unknown topics and stored language PASS.');
+  const pupil=launch('?quiz=electricity-knowledge&lang=pl',{'globocie-electricity-difficulty':'0','globocie-difficulty':'9'});await pupil.ready;
+  assert.equal(vm.runInContext('state.difficulty',pupil.context),0);
+  assert.ok(vm.runInContext('state.questions.every(q=>q.difficulty===0)',pupil.context));
+  assert.equal(pupil.storage.get('globocie-difficulty'),'9');
+  console.log('Direct links: 4 topics × PL/EN, no start-screen flash, first question, default Student and remembered Pupil, single counter increment, language preservation, cancel/confirm Home, unknown topics and stored language PASS.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

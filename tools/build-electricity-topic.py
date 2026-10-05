@@ -99,3 +99,7 @@ packed=gzip.compress(raw,mtime=0)
 encoded=base64.b64encode(packed).decode()
 (ROOT/'topics/electricity-student.quiz.gz.js').write_text("window.KNJ_EMBEDDED_TOPICS = window.KNJ_EMBEDDED_TOPICS || {};\nwindow.KNJ_EMBEDDED_TOPICS['topics/electricity-student.quiz.gz'] = '"+encoded+"';\n")
 print(f'Built {len(questions)} bilingual questions; {len(packed)} gzip bytes.')
+
+# Add the separate pupil band and rebuild both packaged copies.
+import runpy
+runpy.run_path(str(ROOT / "tools/build-electricity-pupil.py"))

@@ -8,12 +8,12 @@ const embedded = { window: {} };
 vm.runInNewContext(fs.readFileSync(require('node:path').join(__dirname, '../topics/electricity-student.quiz.gz.js'),'utf8'), embedded);
 assert.deepEqual(JSON.parse(zlib.gunzipSync(Buffer.from(embedded.window.KNJ_EMBEDDED_TOPICS['topics/electricity-student.quiz.gz'], 'base64'))), bank);
 assert.deepEqual(JSON.parse(zlib.gunzipSync(fs.readFileSync(require('node:path').join(__dirname, '../topics/electricity-student.quiz.gz')))), bank);
-assert.equal(bank.questions.length, 30);
+assert.equal(bank.questions.length, 60);
 const groups = new Map();
 function near(a,b,tol=1e-8){assert.ok(Math.abs(a-b)<=tol, `${a} != ${b}`);}
 function numbers(label){return [...label.replaceAll('−','-').matchAll(/[+-]?\d+(?:\.\d+)?/g)].map(m=>Number(m[0]));}
 function rounded(value,places=2){return Number(value.toFixed(places));}
-for(const q of bank.questions){
+for(const q of bank.questions.filter(q=>q.difficulty===1)){
   groups.set(q.group,(groups.get(q.group)||0)+1);
   assert.equal(q.difficulty,1); assert.equal(q.options.length,4);
   assert.equal(new Set(q.options.map(o=>o.id)).size,4);
@@ -89,3 +89,21 @@ for(const q of bank.questions){
 }
 assert.equal(groups.size,10);assert.ok([...groups.values()].every(count=>count===3));
 console.log('Electricity bank: 30 bilingual questions, 10 areas, all answer keys independently recalculated; gzip and embedded copy match.');
+
+const basic = bank.questions.filter(q=>q.difficulty===0); assert.equal(basic.length,30);
+const basicGroups = new Map();
+for(const q of basic){
+  const x=q.calculation.inputs;
+  const calc={ohm:()=>x.u/x.r,series:()=>x.a+x.b,parallel:()=>1/(2/x.r),power:()=>x.u*x.i,energy:()=>x.p*x.t,kcl:()=>x.a+x.b,charge:()=>x.i*x.t,capacitor:()=>x.c*1e-6*x.u*1000,period:()=>1000/x.f,loss:()=>x.i*x.i*x.r}[q.group]();
+  near(calc,q.calculation.expected.value);
+  const label=q.options.find(o=>o.id===q.correctOptionId).label;
+  assert.equal(label,`${Number(calc.toFixed(2))} ${q.calculation.expected.unit}`);
+  assert.equal(new Set(q.options.map(o=>o.label)).size,4);assert.equal(q.options.length,4);
+  assert.equal(q.translations.en.options.find(o=>o.id===q.correctOptionId).label,label);
+  assert.ok(q.translations.en.text&&q.translations.en.hint&&q.translations.en.explanation);
+  assert.ok(q.sourceIds.every(id=>bank.sources.some(s=>s.id===id)));
+  basicGroups.set(q.group,(basicGroups.get(q.group)||0)+1);
+}
+assert.equal(basicGroups.size,10);assert.ok([...basicGroups.values()].every(n=>n===3));
+assert.equal(new Set(bank.questions.map(q=>q.id)).size,60);
+console.log('Additional pupil band: 30 bilingual items, all keys independently recalculated; 10 groups × 3 variants PASS.');

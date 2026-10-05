@@ -1,7 +1,7 @@
 {
   "manifest": {
     "id": "ELECTRICITY-STUDENT",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "title": "Wiedza z zakresu elektryczności",
     "created": "2026-10-05",
     "mode": "knowledge",
@@ -9,11 +9,12 @@
       "pl",
       "en"
     ],
-    "questionCount": 30,
-    "level": "Third-year electrical engineering; author-selected scope, not an official examination"
+    "questionCount": 60,
+    "level": "Pupil: basic electrical calculations; Student: third-year electrical engineering; author-selected scope"
   },
   "settings": {
     "questionCountByDifficulty": {
+      "0": 10,
       "1": 10
     },
     "onePerGroup": true
@@ -53,6 +54,36 @@
       "id": "buck",
       "title": "Texas Instruments: Basic Calculation of a Buck Converter Power Stage",
       "url": "https://www.ti.com/lit/an/slva477b/slva477b.pdf"
+    },
+    {
+      "id": "basic-power",
+      "title": "OpenStax University Physics Vol. 2: 9-5-electrical-energy-and-power",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/9-5-electrical-energy-and-power"
+    },
+    {
+      "id": "basic-circuits",
+      "title": "OpenStax University Physics Vol. 2: 10-2-resistors-in-series-and-parallel",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/10-2-resistors-in-series-and-parallel"
+    },
+    {
+      "id": "basic-kcl",
+      "title": "OpenStax University Physics Vol. 2: 10-3-kirchhoffs-rules",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/10-3-kirchhoffs-rules"
+    },
+    {
+      "id": "basic-charge",
+      "title": "OpenStax University Physics Vol. 2: 9-1-electrical-current",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/9-1-electrical-current"
+    },
+    {
+      "id": "basic-capacitance",
+      "title": "OpenStax University Physics Vol. 2: 8-1-capacitors-and-capacitance",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/8-1-capacitors-and-capacitance"
+    },
+    {
+      "id": "basic-ac",
+      "title": "OpenStax University Physics Vol. 2: 15-1-ac-sources",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/15-1-ac-sources"
     }
   ],
   "questions": [
@@ -1550,6 +1581,2010 @@
           "text": "A linear Thévenin source has impedance 6 + j8 Ω at a fixed frequency. Both positive load resistance and load reactance may be freely chosen. Which ZL maximizes active power delivered to the load?",
           "hint": "Distinguish an unrestricted complex load from a purely resistive one.",
           "explanation": "First cancel source reactance: XL = −XTh. Then P is maximized at RL = RTh. ZL is the complex conjugate of ZTh: 6 − j8 Ω. A purely resistive load would instead require RL = |ZTh|."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-ohm-1",
+      "group": "ohm",
+      "difficulty": 0,
+      "category": "Prawo Ohma",
+      "text": "Idealny rezystor 6 Ω podłączono do źródła 12 V DC. Jaki prąd przez niego płynie?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "2 A"
+        },
+        {
+          "id": "o1",
+          "label": "4 A"
+        },
+        {
+          "id": "o2",
+          "label": "1 A"
+        },
+        {
+          "id": "o3",
+          "label": "6 A"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "I = U/R = 12/6 = 2 A.",
+      "hint": "I = U/R.",
+      "sourceIds": [
+        "basic-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 12,
+          "r": 6
+        },
+        "expected": {
+          "value": 2.0,
+          "unit": "A"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Ohm’s law",
+          "text": "An ideal 6 Ω resistor is connected to a 12 V DC source. What current flows?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "2 A"
+            },
+            {
+              "id": "o1",
+              "label": "4 A"
+            },
+            {
+              "id": "o2",
+              "label": "1 A"
+            },
+            {
+              "id": "o3",
+              "label": "6 A"
+            }
+          ],
+          "explanation": "I = U/R = 12/6 = 2 A.",
+          "hint": "I = U/R."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-series-1",
+      "group": "series",
+      "difficulty": 0,
+      "category": "Połączenie szeregowe",
+      "text": "Rezystory 2 Ω i 3 Ω połączono szeregowo. Ile wynosi ich rezystancja zastępcza?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "15 Ω"
+        },
+        {
+          "id": "o1",
+          "label": "10 Ω"
+        },
+        {
+          "id": "o2",
+          "label": "2.5 Ω"
+        },
+        {
+          "id": "o3",
+          "label": "5 Ω"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "R = R₁ + R₂ = 2 + 3 = 5 Ω.",
+      "hint": "R = R₁ + R₂.",
+      "sourceIds": [
+        "basic-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "a": 2,
+          "b": 3
+        },
+        "expected": {
+          "value": 5,
+          "unit": "Ω"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Series connection",
+          "text": "Resistors of 2 Ω and 3 Ω are connected in series. What is their equivalent resistance?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "15 Ω"
+            },
+            {
+              "id": "o1",
+              "label": "10 Ω"
+            },
+            {
+              "id": "o2",
+              "label": "2.5 Ω"
+            },
+            {
+              "id": "o3",
+              "label": "5 Ω"
+            }
+          ],
+          "explanation": "R = R₁ + R₂ = 2 + 3 = 5 Ω.",
+          "hint": "R = R₁ + R₂."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-parallel-1",
+      "group": "parallel",
+      "difficulty": 0,
+      "category": "Połączenie równoległe",
+      "text": "Dwa jednakowe rezystory po 12 Ω połączono równolegle. Ile wynosi rezystancja zastępcza?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "12 Ω"
+        },
+        {
+          "id": "o1",
+          "label": "6 Ω"
+        },
+        {
+          "id": "o2",
+          "label": "3 Ω"
+        },
+        {
+          "id": "o3",
+          "label": "18 Ω"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "1/R = 1/12 + 1/12; R = 6 Ω.",
+      "hint": "1/R = 1/R₁ + 1/R₂.",
+      "sourceIds": [
+        "basic-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "r": 12
+        },
+        "expected": {
+          "value": 6.0,
+          "unit": "Ω"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Parallel connection",
+          "text": "Two identical 12 Ω resistors are connected in parallel. What is their equivalent resistance?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "12 Ω"
+            },
+            {
+              "id": "o1",
+              "label": "6 Ω"
+            },
+            {
+              "id": "o2",
+              "label": "3 Ω"
+            },
+            {
+              "id": "o3",
+              "label": "18 Ω"
+            }
+          ],
+          "explanation": "1/R = 1/12 + 1/12; R = 6 Ω.",
+          "hint": "1/R = 1/R₁ + 1/R₂."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-power-1",
+      "group": "power",
+      "difficulty": 0,
+      "category": "Moc elektryczna",
+      "text": "Odbiornik zasilany napięciem 12 V DC pobiera stały prąd 2 A. Jaką moc elektryczną pobiera?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "12 W"
+        },
+        {
+          "id": "o1",
+          "label": "48 W"
+        },
+        {
+          "id": "o2",
+          "label": "24 W"
+        },
+        {
+          "id": "o3",
+          "label": "72 W"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "P = UI = 12 × 2 = 24 W.",
+      "hint": "P = UI.",
+      "sourceIds": [
+        "basic-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 12,
+          "i": 2
+        },
+        "expected": {
+          "value": 24,
+          "unit": "W"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Electrical power",
+          "text": "A load supplied at 12 V DC draws a constant 2 A. What electrical power does it draw?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "12 W"
+            },
+            {
+              "id": "o1",
+              "label": "48 W"
+            },
+            {
+              "id": "o2",
+              "label": "24 W"
+            },
+            {
+              "id": "o3",
+              "label": "72 W"
+            }
+          ],
+          "explanation": "P = UI = 12 × 2 = 24 W.",
+          "hint": "P = UI."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-energy-1",
+      "group": "energy",
+      "difficulty": 0,
+      "category": "Energia elektryczna",
+      "text": "Odbiornik pobiera stale 1 kW przez 2 godziny. Ile energii elektrycznej pobierze?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "6 kWh"
+        },
+        {
+          "id": "o1",
+          "label": "4 kWh"
+        },
+        {
+          "id": "o2",
+          "label": "1 kWh"
+        },
+        {
+          "id": "o3",
+          "label": "2 kWh"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "E = Pt = 1 × 2 = 2 kWh.",
+      "hint": "E = Pt.",
+      "sourceIds": [
+        "basic-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "p": 1,
+          "t": 2
+        },
+        "expected": {
+          "value": 2,
+          "unit": "kWh"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Electrical energy",
+          "text": "A load draws a constant 1 kW for 2 hours. How much electrical energy does it use?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "6 kWh"
+            },
+            {
+              "id": "o1",
+              "label": "4 kWh"
+            },
+            {
+              "id": "o2",
+              "label": "1 kWh"
+            },
+            {
+              "id": "o3",
+              "label": "2 kWh"
+            }
+          ],
+          "explanation": "E = Pt = 1 × 2 = 2 kWh.",
+          "hint": "E = Pt."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-kcl-1",
+      "group": "kcl",
+      "difficulty": 0,
+      "category": "Bilans prądów",
+      "text": "Do węzła wpływają prądy 2 A i 3 A. Wypływa z niego tylko jeden prąd. W stanie ustalonym ile wynosi?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "5 A"
+        },
+        {
+          "id": "o1",
+          "label": "10 A"
+        },
+        {
+          "id": "o2",
+          "label": "2.5 A"
+        },
+        {
+          "id": "o3",
+          "label": "15 A"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "I = I₁ + I₂ = 2 + 3 = 5 A.",
+      "hint": "ΣI = 0.",
+      "sourceIds": [
+        "basic-kcl"
+      ],
+      "calculation": {
+        "inputs": {
+          "a": 2,
+          "b": 3
+        },
+        "expected": {
+          "value": 5,
+          "unit": "A"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Current balance",
+          "text": "Currents of 2 A and 3 A enter a node. Only one current leaves. What is it in steady state?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "5 A"
+            },
+            {
+              "id": "o1",
+              "label": "10 A"
+            },
+            {
+              "id": "o2",
+              "label": "2.5 A"
+            },
+            {
+              "id": "o3",
+              "label": "15 A"
+            }
+          ],
+          "explanation": "I = I₁ + I₂ = 2 + 3 = 5 A.",
+          "hint": "ΣI = 0."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-charge-1",
+      "group": "charge",
+      "difficulty": 0,
+      "category": "Ładunek elektryczny",
+      "text": "Stały prąd 1 A płynie przez 10 sekund. Jaki ładunek przepłynie przez przekrój przewodu?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "30 C"
+        },
+        {
+          "id": "o1",
+          "label": "20 C"
+        },
+        {
+          "id": "o2",
+          "label": "5 C"
+        },
+        {
+          "id": "o3",
+          "label": "10 C"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "Q = It = 1 × 10 = 10 C.",
+      "hint": "Q = It.",
+      "sourceIds": [
+        "basic-charge"
+      ],
+      "calculation": {
+        "inputs": {
+          "i": 1,
+          "t": 10
+        },
+        "expected": {
+          "value": 10,
+          "unit": "C"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Electric charge",
+          "text": "A constant current of 1 A flows for 10 seconds. What charge passes through a cross-section of the wire?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "30 C"
+            },
+            {
+              "id": "o1",
+              "label": "20 C"
+            },
+            {
+              "id": "o2",
+              "label": "5 C"
+            },
+            {
+              "id": "o3",
+              "label": "10 C"
+            }
+          ],
+          "explanation": "Q = It = 1 × 10 = 10 C.",
+          "hint": "Q = It."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-capacitor-1",
+      "group": "capacitor",
+      "difficulty": 0,
+      "category": "Kondensator",
+      "text": "Idealny kondensator 100 µF naładowano do 12 V. Jaka jest wartość bezwzględna ładunku jednej okładki?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "0.6 mC"
+        },
+        {
+          "id": "o1",
+          "label": "2.4 mC"
+        },
+        {
+          "id": "o2",
+          "label": "1.2 mC"
+        },
+        {
+          "id": "o3",
+          "label": "3.6 mC"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "Q = CU = 100 µF × 12 V = 1.2 mC.",
+      "hint": "Q = CU; 1000 µC = 1 mC.",
+      "sourceIds": [
+        "basic-capacitance"
+      ],
+      "calculation": {
+        "inputs": {
+          "c": 100,
+          "u": 12
+        },
+        "expected": {
+          "value": 1.2,
+          "unit": "mC"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Capacitor",
+          "text": "An ideal 100 µF capacitor is charged to 12 V. What is the magnitude of the charge on one plate?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "0.6 mC"
+            },
+            {
+              "id": "o1",
+              "label": "2.4 mC"
+            },
+            {
+              "id": "o2",
+              "label": "1.2 mC"
+            },
+            {
+              "id": "o3",
+              "label": "3.6 mC"
+            }
+          ],
+          "explanation": "Q = CU = 100 µF × 12 V = 1.2 mC.",
+          "hint": "Q = CU; 1000 µC = 1 mC."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-period-1",
+      "group": "period",
+      "difficulty": 0,
+      "category": "Częstotliwość i okres",
+      "text": "Przebieg sinusoidalny ma częstotliwość 25 Hz. Ile wynosi jego okres?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "120 ms"
+        },
+        {
+          "id": "o1",
+          "label": "80 ms"
+        },
+        {
+          "id": "o2",
+          "label": "20 ms"
+        },
+        {
+          "id": "o3",
+          "label": "40 ms"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "T = 1/f = 1/25 s ≈ 40.00 ms.",
+      "hint": "T = 1/f; 1 s = 1000 ms.",
+      "sourceIds": [
+        "basic-ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "f": 25
+        },
+        "expected": {
+          "value": 40.0,
+          "unit": "ms"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Frequency and period",
+          "text": "A sinusoidal waveform has a frequency of 25 Hz. What is its period?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "120 ms"
+            },
+            {
+              "id": "o1",
+              "label": "80 ms"
+            },
+            {
+              "id": "o2",
+              "label": "20 ms"
+            },
+            {
+              "id": "o3",
+              "label": "40 ms"
+            }
+          ],
+          "explanation": "T = 1/f = 1/25 s ≈ 40.00 ms.",
+          "hint": "T = 1/f; 1 s = 1000 ms."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-loss-1",
+      "group": "loss",
+      "difficulty": 0,
+      "category": "Straty cieplne",
+      "text": "Przez rezystor 6 Ω płynie stały prąd 1 A. Jaka moc zmienia się w nim w ciepło?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "12 W"
+        },
+        {
+          "id": "o1",
+          "label": "6 W"
+        },
+        {
+          "id": "o2",
+          "label": "3 W"
+        },
+        {
+          "id": "o3",
+          "label": "18 W"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "P = I²R = 1² × 6 = 6 W.",
+      "hint": "P = I²R.",
+      "sourceIds": [
+        "basic-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "i": 1,
+          "r": 6
+        },
+        "expected": {
+          "value": 6,
+          "unit": "W"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Heat losses",
+          "text": "A constant current of 1 A flows through a 6 Ω resistor. What power is converted to heat?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "12 W"
+            },
+            {
+              "id": "o1",
+              "label": "6 W"
+            },
+            {
+              "id": "o2",
+              "label": "3 W"
+            },
+            {
+              "id": "o3",
+              "label": "18 W"
+            }
+          ],
+          "explanation": "P = I²R = 1² × 6 = 6 W.",
+          "hint": "P = I²R."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-ohm-2",
+      "group": "ohm",
+      "difficulty": 0,
+      "category": "Prawo Ohma",
+      "text": "Idealny rezystor 6 Ω podłączono do źródła 24 V DC. Jaki prąd przez niego płynie?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "8 A"
+        },
+        {
+          "id": "o1",
+          "label": "4 A"
+        },
+        {
+          "id": "o2",
+          "label": "2 A"
+        },
+        {
+          "id": "o3",
+          "label": "12 A"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "I = U/R = 24/6 = 4 A.",
+      "hint": "I = U/R.",
+      "sourceIds": [
+        "basic-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 24,
+          "r": 6
+        },
+        "expected": {
+          "value": 4.0,
+          "unit": "A"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Ohm’s law",
+          "text": "An ideal 6 Ω resistor is connected to a 24 V DC source. What current flows?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "8 A"
+            },
+            {
+              "id": "o1",
+              "label": "4 A"
+            },
+            {
+              "id": "o2",
+              "label": "2 A"
+            },
+            {
+              "id": "o3",
+              "label": "12 A"
+            }
+          ],
+          "explanation": "I = U/R = 24/6 = 4 A.",
+          "hint": "I = U/R."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-series-2",
+      "group": "series",
+      "difficulty": 0,
+      "category": "Połączenie szeregowe",
+      "text": "Rezystory 4 Ω i 6 Ω połączono szeregowo. Ile wynosi ich rezystancja zastępcza?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "10 Ω"
+        },
+        {
+          "id": "o1",
+          "label": "20 Ω"
+        },
+        {
+          "id": "o2",
+          "label": "5 Ω"
+        },
+        {
+          "id": "o3",
+          "label": "30 Ω"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "R = R₁ + R₂ = 4 + 6 = 10 Ω.",
+      "hint": "R = R₁ + R₂.",
+      "sourceIds": [
+        "basic-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "a": 4,
+          "b": 6
+        },
+        "expected": {
+          "value": 10,
+          "unit": "Ω"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Series connection",
+          "text": "Resistors of 4 Ω and 6 Ω are connected in series. What is their equivalent resistance?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "10 Ω"
+            },
+            {
+              "id": "o1",
+              "label": "20 Ω"
+            },
+            {
+              "id": "o2",
+              "label": "5 Ω"
+            },
+            {
+              "id": "o3",
+              "label": "30 Ω"
+            }
+          ],
+          "explanation": "R = R₁ + R₂ = 4 + 6 = 10 Ω.",
+          "hint": "R = R₁ + R₂."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-parallel-2",
+      "group": "parallel",
+      "difficulty": 0,
+      "category": "Połączenie równoległe",
+      "text": "Dwa jednakowe rezystory po 24 Ω połączono równolegle. Ile wynosi rezystancja zastępcza?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "6 Ω"
+        },
+        {
+          "id": "o1",
+          "label": "24 Ω"
+        },
+        {
+          "id": "o2",
+          "label": "12 Ω"
+        },
+        {
+          "id": "o3",
+          "label": "36 Ω"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "1/R = 1/24 + 1/24; R = 12 Ω.",
+      "hint": "1/R = 1/R₁ + 1/R₂.",
+      "sourceIds": [
+        "basic-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "r": 24
+        },
+        "expected": {
+          "value": 12.0,
+          "unit": "Ω"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Parallel connection",
+          "text": "Two identical 24 Ω resistors are connected in parallel. What is their equivalent resistance?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "6 Ω"
+            },
+            {
+              "id": "o1",
+              "label": "24 Ω"
+            },
+            {
+              "id": "o2",
+              "label": "12 Ω"
+            },
+            {
+              "id": "o3",
+              "label": "36 Ω"
+            }
+          ],
+          "explanation": "1/R = 1/24 + 1/24; R = 12 Ω.",
+          "hint": "1/R = 1/R₁ + 1/R₂."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-power-2",
+      "group": "power",
+      "difficulty": 0,
+      "category": "Moc elektryczna",
+      "text": "Odbiornik zasilany napięciem 24 V DC pobiera stały prąd 2 A. Jaką moc elektryczną pobiera?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "144 W"
+        },
+        {
+          "id": "o1",
+          "label": "96 W"
+        },
+        {
+          "id": "o2",
+          "label": "24 W"
+        },
+        {
+          "id": "o3",
+          "label": "48 W"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "P = UI = 24 × 2 = 48 W.",
+      "hint": "P = UI.",
+      "sourceIds": [
+        "basic-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 24,
+          "i": 2
+        },
+        "expected": {
+          "value": 48,
+          "unit": "W"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Electrical power",
+          "text": "A load supplied at 24 V DC draws a constant 2 A. What electrical power does it draw?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "144 W"
+            },
+            {
+              "id": "o1",
+              "label": "96 W"
+            },
+            {
+              "id": "o2",
+              "label": "24 W"
+            },
+            {
+              "id": "o3",
+              "label": "48 W"
+            }
+          ],
+          "explanation": "P = UI = 24 × 2 = 48 W.",
+          "hint": "P = UI."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-energy-2",
+      "group": "energy",
+      "difficulty": 0,
+      "category": "Energia elektryczna",
+      "text": "Odbiornik pobiera stale 2 kW przez 2 godziny. Ile energii elektrycznej pobierze?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "4 kWh"
+        },
+        {
+          "id": "o1",
+          "label": "8 kWh"
+        },
+        {
+          "id": "o2",
+          "label": "2 kWh"
+        },
+        {
+          "id": "o3",
+          "label": "12 kWh"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "E = Pt = 2 × 2 = 4 kWh.",
+      "hint": "E = Pt.",
+      "sourceIds": [
+        "basic-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "p": 2,
+          "t": 2
+        },
+        "expected": {
+          "value": 4,
+          "unit": "kWh"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Electrical energy",
+          "text": "A load draws a constant 2 kW for 2 hours. How much electrical energy does it use?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "4 kWh"
+            },
+            {
+              "id": "o1",
+              "label": "8 kWh"
+            },
+            {
+              "id": "o2",
+              "label": "2 kWh"
+            },
+            {
+              "id": "o3",
+              "label": "12 kWh"
+            }
+          ],
+          "explanation": "E = Pt = 2 × 2 = 4 kWh.",
+          "hint": "E = Pt."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-kcl-2",
+      "group": "kcl",
+      "difficulty": 0,
+      "category": "Bilans prądów",
+      "text": "Do węzła wpływają prądy 4 A i 6 A. Wypływa z niego tylko jeden prąd. W stanie ustalonym ile wynosi?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "20 A"
+        },
+        {
+          "id": "o1",
+          "label": "10 A"
+        },
+        {
+          "id": "o2",
+          "label": "5 A"
+        },
+        {
+          "id": "o3",
+          "label": "30 A"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "I = I₁ + I₂ = 4 + 6 = 10 A.",
+      "hint": "ΣI = 0.",
+      "sourceIds": [
+        "basic-kcl"
+      ],
+      "calculation": {
+        "inputs": {
+          "a": 4,
+          "b": 6
+        },
+        "expected": {
+          "value": 10,
+          "unit": "A"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Current balance",
+          "text": "Currents of 4 A and 6 A enter a node. Only one current leaves. What is it in steady state?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "20 A"
+            },
+            {
+              "id": "o1",
+              "label": "10 A"
+            },
+            {
+              "id": "o2",
+              "label": "5 A"
+            },
+            {
+              "id": "o3",
+              "label": "30 A"
+            }
+          ],
+          "explanation": "I = I₁ + I₂ = 4 + 6 = 10 A.",
+          "hint": "ΣI = 0."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-charge-2",
+      "group": "charge",
+      "difficulty": 0,
+      "category": "Ładunek elektryczny",
+      "text": "Stały prąd 2 A płynie przez 10 sekund. Jaki ładunek przepłynie przez przekrój przewodu?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "20 C"
+        },
+        {
+          "id": "o1",
+          "label": "40 C"
+        },
+        {
+          "id": "o2",
+          "label": "10 C"
+        },
+        {
+          "id": "o3",
+          "label": "60 C"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "Q = It = 2 × 10 = 20 C.",
+      "hint": "Q = It.",
+      "sourceIds": [
+        "basic-charge"
+      ],
+      "calculation": {
+        "inputs": {
+          "i": 2,
+          "t": 10
+        },
+        "expected": {
+          "value": 20,
+          "unit": "C"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Electric charge",
+          "text": "A constant current of 2 A flows for 10 seconds. What charge passes through a cross-section of the wire?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "20 C"
+            },
+            {
+              "id": "o1",
+              "label": "40 C"
+            },
+            {
+              "id": "o2",
+              "label": "10 C"
+            },
+            {
+              "id": "o3",
+              "label": "60 C"
+            }
+          ],
+          "explanation": "Q = It = 2 × 10 = 20 C.",
+          "hint": "Q = It."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-capacitor-2",
+      "group": "capacitor",
+      "difficulty": 0,
+      "category": "Kondensator",
+      "text": "Idealny kondensator 100 µF naładowano do 24 V. Jaka jest wartość bezwzględna ładunku jednej okładki?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "7.2 mC"
+        },
+        {
+          "id": "o1",
+          "label": "4.8 mC"
+        },
+        {
+          "id": "o2",
+          "label": "1.2 mC"
+        },
+        {
+          "id": "o3",
+          "label": "2.4 mC"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "Q = CU = 100 µF × 24 V = 2.4 mC.",
+      "hint": "Q = CU; 1000 µC = 1 mC.",
+      "sourceIds": [
+        "basic-capacitance"
+      ],
+      "calculation": {
+        "inputs": {
+          "c": 100,
+          "u": 24
+        },
+        "expected": {
+          "value": 2.4,
+          "unit": "mC"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Capacitor",
+          "text": "An ideal 100 µF capacitor is charged to 24 V. What is the magnitude of the charge on one plate?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "7.2 mC"
+            },
+            {
+              "id": "o1",
+              "label": "4.8 mC"
+            },
+            {
+              "id": "o2",
+              "label": "1.2 mC"
+            },
+            {
+              "id": "o3",
+              "label": "2.4 mC"
+            }
+          ],
+          "explanation": "Q = CU = 100 µF × 24 V = 2.4 mC.",
+          "hint": "Q = CU; 1000 µC = 1 mC."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-period-2",
+      "group": "period",
+      "difficulty": 0,
+      "category": "Częstotliwość i okres",
+      "text": "Przebieg sinusoidalny ma częstotliwość 50 Hz. Ile wynosi jego okres?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "20 ms"
+        },
+        {
+          "id": "o1",
+          "label": "40 ms"
+        },
+        {
+          "id": "o2",
+          "label": "10 ms"
+        },
+        {
+          "id": "o3",
+          "label": "60 ms"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "T = 1/f = 1/50 s ≈ 20.00 ms.",
+      "hint": "T = 1/f; 1 s = 1000 ms.",
+      "sourceIds": [
+        "basic-ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "f": 50
+        },
+        "expected": {
+          "value": 20.0,
+          "unit": "ms"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Frequency and period",
+          "text": "A sinusoidal waveform has a frequency of 50 Hz. What is its period?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "20 ms"
+            },
+            {
+              "id": "o1",
+              "label": "40 ms"
+            },
+            {
+              "id": "o2",
+              "label": "10 ms"
+            },
+            {
+              "id": "o3",
+              "label": "60 ms"
+            }
+          ],
+          "explanation": "T = 1/f = 1/50 s ≈ 20.00 ms.",
+          "hint": "T = 1/f; 1 s = 1000 ms."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-loss-2",
+      "group": "loss",
+      "difficulty": 0,
+      "category": "Straty cieplne",
+      "text": "Przez rezystor 6 Ω płynie stały prąd 2 A. Jaka moc zmienia się w nim w ciepło?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "12 W"
+        },
+        {
+          "id": "o1",
+          "label": "48 W"
+        },
+        {
+          "id": "o2",
+          "label": "24 W"
+        },
+        {
+          "id": "o3",
+          "label": "72 W"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "P = I²R = 2² × 6 = 24 W.",
+      "hint": "P = I²R.",
+      "sourceIds": [
+        "basic-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "i": 2,
+          "r": 6
+        },
+        "expected": {
+          "value": 24,
+          "unit": "W"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Heat losses",
+          "text": "A constant current of 2 A flows through a 6 Ω resistor. What power is converted to heat?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "12 W"
+            },
+            {
+              "id": "o1",
+              "label": "48 W"
+            },
+            {
+              "id": "o2",
+              "label": "24 W"
+            },
+            {
+              "id": "o3",
+              "label": "72 W"
+            }
+          ],
+          "explanation": "P = I²R = 2² × 6 = 24 W.",
+          "hint": "P = I²R."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-ohm-3",
+      "group": "ohm",
+      "difficulty": 0,
+      "category": "Prawo Ohma",
+      "text": "Idealny rezystor 6 Ω podłączono do źródła 36 V DC. Jaki prąd przez niego płynie?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "3 A"
+        },
+        {
+          "id": "o1",
+          "label": "12 A"
+        },
+        {
+          "id": "o2",
+          "label": "6 A"
+        },
+        {
+          "id": "o3",
+          "label": "18 A"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "I = U/R = 36/6 = 6 A.",
+      "hint": "I = U/R.",
+      "sourceIds": [
+        "basic-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 36,
+          "r": 6
+        },
+        "expected": {
+          "value": 6.0,
+          "unit": "A"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Ohm’s law",
+          "text": "An ideal 6 Ω resistor is connected to a 36 V DC source. What current flows?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "3 A"
+            },
+            {
+              "id": "o1",
+              "label": "12 A"
+            },
+            {
+              "id": "o2",
+              "label": "6 A"
+            },
+            {
+              "id": "o3",
+              "label": "18 A"
+            }
+          ],
+          "explanation": "I = U/R = 36/6 = 6 A.",
+          "hint": "I = U/R."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-series-3",
+      "group": "series",
+      "difficulty": 0,
+      "category": "Połączenie szeregowe",
+      "text": "Rezystory 6 Ω i 9 Ω połączono szeregowo. Ile wynosi ich rezystancja zastępcza?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "30 Ω"
+        },
+        {
+          "id": "o1",
+          "label": "15 Ω"
+        },
+        {
+          "id": "o2",
+          "label": "7.5 Ω"
+        },
+        {
+          "id": "o3",
+          "label": "45 Ω"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "R = R₁ + R₂ = 6 + 9 = 15 Ω.",
+      "hint": "R = R₁ + R₂.",
+      "sourceIds": [
+        "basic-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "a": 6,
+          "b": 9
+        },
+        "expected": {
+          "value": 15,
+          "unit": "Ω"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Series connection",
+          "text": "Resistors of 6 Ω and 9 Ω are connected in series. What is their equivalent resistance?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "30 Ω"
+            },
+            {
+              "id": "o1",
+              "label": "15 Ω"
+            },
+            {
+              "id": "o2",
+              "label": "7.5 Ω"
+            },
+            {
+              "id": "o3",
+              "label": "45 Ω"
+            }
+          ],
+          "explanation": "R = R₁ + R₂ = 6 + 9 = 15 Ω.",
+          "hint": "R = R₁ + R₂."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-parallel-3",
+      "group": "parallel",
+      "difficulty": 0,
+      "category": "Połączenie równoległe",
+      "text": "Dwa jednakowe rezystory po 36 Ω połączono równolegle. Ile wynosi rezystancja zastępcza?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "54 Ω"
+        },
+        {
+          "id": "o1",
+          "label": "36 Ω"
+        },
+        {
+          "id": "o2",
+          "label": "9 Ω"
+        },
+        {
+          "id": "o3",
+          "label": "18 Ω"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "1/R = 1/36 + 1/36; R = 18 Ω.",
+      "hint": "1/R = 1/R₁ + 1/R₂.",
+      "sourceIds": [
+        "basic-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "r": 36
+        },
+        "expected": {
+          "value": 18.0,
+          "unit": "Ω"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Parallel connection",
+          "text": "Two identical 36 Ω resistors are connected in parallel. What is their equivalent resistance?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "54 Ω"
+            },
+            {
+              "id": "o1",
+              "label": "36 Ω"
+            },
+            {
+              "id": "o2",
+              "label": "9 Ω"
+            },
+            {
+              "id": "o3",
+              "label": "18 Ω"
+            }
+          ],
+          "explanation": "1/R = 1/36 + 1/36; R = 18 Ω.",
+          "hint": "1/R = 1/R₁ + 1/R₂."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-power-3",
+      "group": "power",
+      "difficulty": 0,
+      "category": "Moc elektryczna",
+      "text": "Odbiornik zasilany napięciem 36 V DC pobiera stały prąd 2 A. Jaką moc elektryczną pobiera?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "72 W"
+        },
+        {
+          "id": "o1",
+          "label": "144 W"
+        },
+        {
+          "id": "o2",
+          "label": "36 W"
+        },
+        {
+          "id": "o3",
+          "label": "216 W"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "P = UI = 36 × 2 = 72 W.",
+      "hint": "P = UI.",
+      "sourceIds": [
+        "basic-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 36,
+          "i": 2
+        },
+        "expected": {
+          "value": 72,
+          "unit": "W"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Electrical power",
+          "text": "A load supplied at 36 V DC draws a constant 2 A. What electrical power does it draw?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "72 W"
+            },
+            {
+              "id": "o1",
+              "label": "144 W"
+            },
+            {
+              "id": "o2",
+              "label": "36 W"
+            },
+            {
+              "id": "o3",
+              "label": "216 W"
+            }
+          ],
+          "explanation": "P = UI = 36 × 2 = 72 W.",
+          "hint": "P = UI."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-energy-3",
+      "group": "energy",
+      "difficulty": 0,
+      "category": "Energia elektryczna",
+      "text": "Odbiornik pobiera stale 3 kW przez 2 godziny. Ile energii elektrycznej pobierze?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "12 kWh"
+        },
+        {
+          "id": "o1",
+          "label": "6 kWh"
+        },
+        {
+          "id": "o2",
+          "label": "3 kWh"
+        },
+        {
+          "id": "o3",
+          "label": "18 kWh"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "E = Pt = 3 × 2 = 6 kWh.",
+      "hint": "E = Pt.",
+      "sourceIds": [
+        "basic-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "p": 3,
+          "t": 2
+        },
+        "expected": {
+          "value": 6,
+          "unit": "kWh"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Electrical energy",
+          "text": "A load draws a constant 3 kW for 2 hours. How much electrical energy does it use?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "12 kWh"
+            },
+            {
+              "id": "o1",
+              "label": "6 kWh"
+            },
+            {
+              "id": "o2",
+              "label": "3 kWh"
+            },
+            {
+              "id": "o3",
+              "label": "18 kWh"
+            }
+          ],
+          "explanation": "E = Pt = 3 × 2 = 6 kWh.",
+          "hint": "E = Pt."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-kcl-3",
+      "group": "kcl",
+      "difficulty": 0,
+      "category": "Bilans prądów",
+      "text": "Do węzła wpływają prądy 6 A i 9 A. Wypływa z niego tylko jeden prąd. W stanie ustalonym ile wynosi?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "7.5 A"
+        },
+        {
+          "id": "o1",
+          "label": "30 A"
+        },
+        {
+          "id": "o2",
+          "label": "15 A"
+        },
+        {
+          "id": "o3",
+          "label": "45 A"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "I = I₁ + I₂ = 6 + 9 = 15 A.",
+      "hint": "ΣI = 0.",
+      "sourceIds": [
+        "basic-kcl"
+      ],
+      "calculation": {
+        "inputs": {
+          "a": 6,
+          "b": 9
+        },
+        "expected": {
+          "value": 15,
+          "unit": "A"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Current balance",
+          "text": "Currents of 6 A and 9 A enter a node. Only one current leaves. What is it in steady state?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "7.5 A"
+            },
+            {
+              "id": "o1",
+              "label": "30 A"
+            },
+            {
+              "id": "o2",
+              "label": "15 A"
+            },
+            {
+              "id": "o3",
+              "label": "45 A"
+            }
+          ],
+          "explanation": "I = I₁ + I₂ = 6 + 9 = 15 A.",
+          "hint": "ΣI = 0."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-charge-3",
+      "group": "charge",
+      "difficulty": 0,
+      "category": "Ładunek elektryczny",
+      "text": "Stały prąd 3 A płynie przez 10 sekund. Jaki ładunek przepłynie przez przekrój przewodu?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "60 C"
+        },
+        {
+          "id": "o1",
+          "label": "30 C"
+        },
+        {
+          "id": "o2",
+          "label": "15 C"
+        },
+        {
+          "id": "o3",
+          "label": "90 C"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "Q = It = 3 × 10 = 30 C.",
+      "hint": "Q = It.",
+      "sourceIds": [
+        "basic-charge"
+      ],
+      "calculation": {
+        "inputs": {
+          "i": 3,
+          "t": 10
+        },
+        "expected": {
+          "value": 30,
+          "unit": "C"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Electric charge",
+          "text": "A constant current of 3 A flows for 10 seconds. What charge passes through a cross-section of the wire?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "60 C"
+            },
+            {
+              "id": "o1",
+              "label": "30 C"
+            },
+            {
+              "id": "o2",
+              "label": "15 C"
+            },
+            {
+              "id": "o3",
+              "label": "90 C"
+            }
+          ],
+          "explanation": "Q = It = 3 × 10 = 30 C.",
+          "hint": "Q = It."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-capacitor-3",
+      "group": "capacitor",
+      "difficulty": 0,
+      "category": "Kondensator",
+      "text": "Idealny kondensator 100 µF naładowano do 36 V. Jaka jest wartość bezwzględna ładunku jednej okładki?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "3.6 mC"
+        },
+        {
+          "id": "o1",
+          "label": "7.2 mC"
+        },
+        {
+          "id": "o2",
+          "label": "1.8 mC"
+        },
+        {
+          "id": "o3",
+          "label": "10.8 mC"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "Q = CU = 100 µF × 36 V = 3.6 mC.",
+      "hint": "Q = CU; 1000 µC = 1 mC.",
+      "sourceIds": [
+        "basic-capacitance"
+      ],
+      "calculation": {
+        "inputs": {
+          "c": 100,
+          "u": 36
+        },
+        "expected": {
+          "value": 3.6,
+          "unit": "mC"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Capacitor",
+          "text": "An ideal 100 µF capacitor is charged to 36 V. What is the magnitude of the charge on one plate?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "3.6 mC"
+            },
+            {
+              "id": "o1",
+              "label": "7.2 mC"
+            },
+            {
+              "id": "o2",
+              "label": "1.8 mC"
+            },
+            {
+              "id": "o3",
+              "label": "10.8 mC"
+            }
+          ],
+          "explanation": "Q = CU = 100 µF × 36 V = 3.6 mC.",
+          "hint": "Q = CU; 1000 µC = 1 mC."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-period-3",
+      "group": "period",
+      "difficulty": 0,
+      "category": "Częstotliwość i okres",
+      "text": "Przebieg sinusoidalny ma częstotliwość 75 Hz. Ile wynosi jego okres?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "26.67 ms"
+        },
+        {
+          "id": "o1",
+          "label": "13.33 ms"
+        },
+        {
+          "id": "o2",
+          "label": "6.67 ms"
+        },
+        {
+          "id": "o3",
+          "label": "40 ms"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "T = 1/f = 1/75 s ≈ 13.33 ms.",
+      "hint": "T = 1/f; 1 s = 1000 ms.",
+      "sourceIds": [
+        "basic-ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "f": 75
+        },
+        "expected": {
+          "value": 13.333333333333334,
+          "unit": "ms"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Frequency and period",
+          "text": "A sinusoidal waveform has a frequency of 75 Hz. What is its period?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "26.67 ms"
+            },
+            {
+              "id": "o1",
+              "label": "13.33 ms"
+            },
+            {
+              "id": "o2",
+              "label": "6.67 ms"
+            },
+            {
+              "id": "o3",
+              "label": "40 ms"
+            }
+          ],
+          "explanation": "T = 1/f = 1/75 s ≈ 13.33 ms.",
+          "hint": "T = 1/f; 1 s = 1000 ms."
+        }
+      }
+    },
+    {
+      "id": "ee-pupil-loss-3",
+      "group": "loss",
+      "difficulty": 0,
+      "category": "Straty cieplne",
+      "text": "Przez rezystor 6 Ω płynie stały prąd 3 A. Jaka moc zmienia się w nim w ciepło?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "162 W"
+        },
+        {
+          "id": "o1",
+          "label": "108 W"
+        },
+        {
+          "id": "o2",
+          "label": "27 W"
+        },
+        {
+          "id": "o3",
+          "label": "54 W"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "P = I²R = 3² × 6 = 54 W.",
+      "hint": "P = I²R.",
+      "sourceIds": [
+        "basic-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "i": 3,
+          "r": 6
+        },
+        "expected": {
+          "value": 54,
+          "unit": "W"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Heat losses",
+          "text": "A constant current of 3 A flows through a 6 Ω resistor. What power is converted to heat?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "162 W"
+            },
+            {
+              "id": "o1",
+              "label": "108 W"
+            },
+            {
+              "id": "o2",
+              "label": "27 W"
+            },
+            {
+              "id": "o3",
+              "label": "54 W"
+            }
+          ],
+          "explanation": "P = I²R = 3² × 6 = 54 W.",
+          "hint": "P = I²R."
         }
       }
     }

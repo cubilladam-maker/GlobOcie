@@ -86,9 +86,13 @@ vm.runInContext(fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8'),conte
   assert.equal(vm.runInContext('state.difficulty',context),1);
   assert.equal(storage.get('globocie-difficulty'),'9','Knowledge module must preserve other topics difficulty');
   assert.equal(storage.get('globocie-game-starts-v1'),'21');
-  assert.match(elements['#app'].innerHTML,/id="difficulty-live"[^>]*value="1"[^>]*disabled/);
+  assert.match(elements['#app'].innerHTML,/id="difficulty-live"[^>]*max="1"[^>]*value="1"/);
+  assert.doesNotMatch(elements['#app'].innerHTML,/id="difficulty-live"[^>]*disabled/);
   assert.doesNotMatch(elements['#app'].innerHTML,/Zdecydowanie się zgadzam|oś światopoglądowa/);
-  vm.runInContext('requestDifficultyChange(10)',context);
+  vm.runInContext('requestDifficultyChange(0); state.confirmState.onYes(); state.confirmState=null;',context);
+  assert.equal(vm.runInContext('state.difficulty',context),0);
+  assert.ok(vm.runInContext('state.questions.every(q=>q.difficulty===0)',context));
+  vm.runInContext('beginSession(1)',context);
   assert.equal(vm.runInContext('state.difficulty',context),1);
   for(let run=0;run<50;run++){
     vm.runInContext('beginSession(10)',context);
@@ -110,8 +114,8 @@ vm.runInContext(fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8'),conte
       assert.ok(elements['#app'].innerHTML.includes(q.translations[lang]?.hint || q.hint));
     }
   }
-  for(const correctCount of [10,0,5]){
-    vm.runInContext('beginSession();state.screen="quiz";render();',context);
+  for(const level of [0,1]) for(const correctCount of [10,0,5]){
+    vm.runInContext('beginSession('+level+');state.screen="quiz";render();',context);
     assert.equal(vm.runInContext('currentResultCode()',context),null);
     const questions=vm.runInContext('state.questions',context);
     vm.runInContext('chooseAnswer("invalid")',context);
@@ -129,6 +133,8 @@ vm.runInContext(fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8'),conte
     const code=vm.runInContext('currentResultCode()',context);
     assert.ok(code);
     assert.equal(windowObject.GLOBOCIE_RESULT_CODE.decode(code).percent,correctCount*10);
+    assert.equal(windowObject.GLOBOCIE_RESULT_CODE.decode(code).difficulty,level);
+    assert.match(elements['#app'].innerHTML,level===0?/Pupil|Uczeń/:/Student/);
     assert.ok(elements['#app'].innerHTML.includes(code));
     assert.match(elements['#app'].innerHTML,/data-action="copy-result-code"/);
     let clipboard='';
@@ -157,9 +163,10 @@ vm.runInContext(fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8'),conte
     assert.doesNotMatch(elements['#app'].innerHTML,/Poprawna odpowiedź|Twoja odpowiedź|Moc na wale|Prąd/);
   }
   vm.runInContext('state.screen="start";render();',context);
-  assert.match(elements['#app'].innerHTML,/id="start-difficulty"[^>]*value="1"[^>]*disabled/);
+  assert.match(elements['#app'].innerHTML,/id="start-difficulty"[^>]*max="1"[^>]*value="1"/);
+  assert.doesNotMatch(elements['#app'].innerHTML,/id="start-difficulty"[^>]*disabled/);
   vm.runInContext('activateModule("political-compass");state.screen="start";render();',context);
   assert.equal(vm.runInContext('state.difficulty',context),9);
   assert.doesNotMatch(elements['#app'].innerHTML,/id="start-difficulty"[^>]*disabled/);
-  console.log('Electricity flow: compressed loading, all 30 PL/EN questions and hints, 50 balanced draws, difficulty lock and restore, double clicks, 100/0/50% scores, solutions and Home PASS.');
+  console.log('Electricity flow: compressed loading, all 60 PL/EN questions and hints, 50 balanced draws, two-level selection and restore, double clicks, 100/0/50% scores, solutions and Home PASS.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

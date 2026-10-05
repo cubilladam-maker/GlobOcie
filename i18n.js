@@ -615,7 +615,7 @@
   Object.assign(common.pl, {
   "knowledgeLevel": "🔒 Student — III rok elektrotechniki",
   "knowledgeScope": "Zakres testu",
-  "knowledgeScopeBody": "Obwody, rezonans, układy trójfazowe, kompensacja, harmoniczne, silniki, transformatory, DC/DC i dopasowanie impedancji.",
+  "knowledgeScopeBody": "Uczeń: podstawowe obwody, moc, energia i ładunek. Student: obwody AC, maszyny, transformatory i przekształtniki.",
   "knowledgeLocked": "Poziom jest ustalony dla tego tematu: III rok elektrotechniki.",
   "knowledgeInstructions": "Wybierz jedną z czterech odpowiedzi. Możesz korzystać z kalkulatora i podpowiedzi ze wzorem. Wynik: 1 punkt za poprawną odpowiedź, 0 za błędną.",
   "knowledgeResult": "Wynik testu wiedzy",
@@ -655,7 +655,7 @@
   Object.assign(common.en, {
   "knowledgeLevel": "🔒 Student — third-year electrical engineering",
   "knowledgeScope": "Test scope",
-  "knowledgeScopeBody": "Circuits, resonance, three-phase systems, compensation, harmonics, motors, transformers, DC/DC and impedance matching.",
+  "knowledgeScopeBody": "Pupil: basic circuits, power, energy and charge. Student: AC circuits, machines, transformers and power converters.",
   "knowledgeLocked": "This topic has a fixed level: third-year electrical engineering.",
   "knowledgeInstructions": "Choose one of four answers. A calculator and formula hints are allowed. Scoring: 1 point for a correct answer, 0 for an incorrect answer.",
   "knowledgeResult": "Knowledge test result",
@@ -689,8 +689,8 @@
     "aiLead": "Test calculations and understanding of electrical engineering.",
     "aiSubline": "Your score is calculated using a fixed, verified answer key.",
     "startButton": "Start the electrical engineering knowledge test →",
-    "stageCaption": "30 questions in the bank · 10 per session · one from each area",
-    "cardDescription": "Third-year electrical engineering. Calculation questions, four options and worked explanations."
+    "stageCaption": "60 questions in the bank · 30 per level · 10 per session · one from each area",
+    "cardDescription": "Pupil: basic electrical knowledge. Student: third-year electrical engineering. Choose your test level."
   },
   "loading": {
     "title": "Loading the electrical engineering knowledge test…",
