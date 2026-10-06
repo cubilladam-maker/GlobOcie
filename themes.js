@@ -490,7 +490,7 @@
   "topicUrl": "topics/electricity-student.quiz.gz",
   "name": "Wiedza z zakresu elektryczności",
   "mode": "knowledge",
-  "maxDifficulty": 1,
+  "maxDifficulty": 2,
   "difficultyStorageKey": "globocie-electricity-difficulty",
   "appearance": {
     "--module-accent": "#7fe5b4",
@@ -507,8 +507,8 @@
     "aiLead": "Sprawdź obliczenia i rozumienie elektrotechniki.",
     "aiSubline": "Wynik pochodzi ze stałego, sprawdzonego klucza odpowiedzi.",
     "startButton": "Rozpocznij test wiedzy z elektryczności →",
-    "stageCaption": "60 pytań w banku · 30 na poziom · 10 pytań w sesji · jedno z każdego działu",
-    "cardDescription": "Uczeń: podstawy elektryczności. Student: III rok elektrotechniki. Wybierz poziom testu."
+    "stageCaption": "3 poziomy edukacyjne · 10 pytań w sesji · jedno z każdego działu",
+    "cardDescription": "Absolwent podstawówki · Maturzysta · Licencjat / inżynier. Wybierz poziom testu."
   },
   "loading": {
     "title": "Wczytuję test wiedzy z elektryczności…",
