@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.24";
+const APP_VERSION = "2.25";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const AXIS_POSITION_KEY_PREFIX = "globocie-axis-position-v1:";
@@ -167,11 +167,26 @@ function storeDifficulty() {
   localStorage.setItem(currentModule().difficultyStorageKey || "globocie-difficulty", String(state.difficulty));
 }
 function knowledgeLevelLabel() {
-  return difficultyLabel(state.difficulty) + (state.difficulty === 1 ? (I18N.getLanguage() === "en" ? " — third-year electrical engineering" : " — III rok elektrotechniki") : (I18N.getLanguage() === "en" ? " — basic electrical knowledge" : " — podstawy elektryczności"));
+  const pl = [
+    "Absolwent podstawówki — podstawy elektryczności",
+    "Maturzysta — poziom szkoły średniej",
+    "Licencjat / inżynier — poziom akademicki"
+  ];
+  const en = [
+    "Primary school graduate — electrical basics",
+    "High school graduate — upper-secondary level",
+    "Bachelor’s degree / Engineer — university level"
+  ];
+  return (I18N.getLanguage() === "en" ? en : pl)[state.difficulty] || difficultyLabel(state.difficulty);
 }
 
 function difficultyLabel(index) {
-  if (currentModule().id === "electricity-knowledge" && index === 0 && I18N.getLanguage() === "en") return "Pupil";
+  if (currentModule().id === "electricity-knowledge") {
+    const labels = I18N.getLanguage() === "en"
+      ? ["Primary school graduate", "High school graduate", "Bachelor’s degree / Engineer"]
+      : ["Absolwent podstawówki", "Maturzysta", "Licencjat / inżynier"];
+    return labels[index] || labels[1];
+  }
   return I18N.difficultyLabel(index, DIFFICULTIES[index]?.label || t("difficulty"));
 }
 
@@ -262,6 +277,25 @@ function shuffle(items) {
 }
 
 function topicQuestionsForDifficulty(level) {
+  if (isKnowledgeModule()) {
+    const all = state.package.questions || [];
+    const pickOnePerGroup = (pool) => {
+      const groups = shuffle([...new Set(pool.map(question => question.group))]);
+      return groups.map(group => shuffle(pool.filter(question => question.group === group))[0]).filter(Boolean);
+    };
+    if (level === 0 || level === 2) {
+      const band = level === 0 ? 0 : 1;
+      return pickOnePerGroup(all.filter(question => question.difficulty === band));
+    }
+    const groups = shuffle([...new Set(all.map(question => question.group))]);
+    const advancedGroups = new Set(groups.slice(0, Math.ceil(groups.length / 2)));
+    return groups.map(group => {
+      const band = advancedGroups.has(group) ? 1 : 0;
+      const preferred = all.filter(question => question.group === group && question.difficulty === band);
+      const fallback = all.filter(question => question.group === group);
+      return shuffle(preferred.length ? preferred : fallback)[0];
+    }).filter(Boolean);
+  }
   const difficulty = DIFFICULTIES[level] || DIFFICULTIES[1];
   const exact = state.package.questions.filter(question => question.difficulty === difficulty.sourceBand);
   if (state.package.settings?.onePerGroup) {
@@ -327,10 +361,12 @@ function confidencePercent() {
 }
 
 function difficultyTicks() {
+  if (isKnowledgeModule()) return '<div class="difficulty-ticks knowledge-three" aria-hidden="true"><i class="major"></i><i class="major"></i><i class="major"></i></div>';
   return `<div class="difficulty-ticks" aria-hidden="true">${DIFFICULTIES.slice(0, difficultyMax() + 1).map((_, index) => `<i class="${[0, 1, 9, 10].includes(index) ? "major" : ""}"></i>`).join("")}</div>`;
 }
 
 function difficultyLabels() {
+  if (isKnowledgeModule()) return `<div class="difficulty-labels knowledge-three-labels"><span>${escapeHtml(difficultyLabel(0))}</span><span>${escapeHtml(difficultyLabel(1))}</span><span>${escapeHtml(difficultyLabel(2))}</span></div>`;
   if (difficultyMax() === 1) return `<div class="difficulty-labels" style="display:flex;justify-content:space-between"><span>${escapeHtml(difficultyLabel(0))}</span><span>${escapeHtml(difficultyLabel(1))}</span></div>`;
   return `<div class="difficulty-labels"><span>${escapeHtml(difficultyLabel(0))}</span><span>${escapeHtml(difficultyLabel(1))}</span><span>${escapeHtml(difficultyLabel(9))}</span><span>${escapeHtml(difficultyLabel(10))}</span></div>`;
 }
@@ -427,7 +463,37 @@ function futureTopicsPanel() {
   return `<section class="future-topics ${state.futureTopicsOpen ? "open" : ""}"><button class="future-toggle" data-action="toggle-future-topics" aria-expanded="${state.futureTopicsOpen}"><span>${escapeHtml(t("upcomingTopics"))}</span><small>${escapeHtml(t("inPreparation"))}</small><b>${state.futureTopicsOpen ? "←" : "→"}</b></button><div class="future-topic-list" ${state.futureTopicsOpen ? "" : "hidden"} aria-label="${escapeHtml(t("upcomingTopics"))}">${topics.map(topic => `<button class="future-topic" type="button" disabled><strong>${escapeHtml(I18N.futureTopic(topic.id, topic.name))}</strong><span>${escapeHtml(t("comingSoon"))}</span></button>`).join("")}</div></section>`;
 }
 
+function renderKnowledgeEntry() {
+  const module = currentLocalizedModule();
+  const ui = module.ui || {};
+  const isEn = I18N.getLanguage() === "en";
+  const descriptions = isEn
+    ? ["Basic concepts and straightforward electrical questions.", "Upper-secondary concepts, calculations and core laws.", "University-level circuits, machines and power electronics."]
+    : ["Podstawowe pojęcia i proste zagadnienia elektryczne.", "Poziom szkoły średniej, obliczenia i podstawowe prawa.", "Poziom akademicki: obwody, maszyny i energoelektronika."];
+  const title = isEn ? "Electrical engineering knowledge" : "Wiedza z zakresu elektryczności";
+  const intro = isEn ? "Choose the level that best matches your education and experience." : "Wybierz poziom, który najlepiej odpowiada Twojemu wykształceniu i doświadczeniu.";
+  app.innerHTML = `<section class="knowledge-entry panel">
+    <div class="knowledge-entry-art" aria-hidden="true"><div class="bulb">💡</div><span>R = U / I</span><span>P = U · I</span></div>
+    <div class="knowledge-entry-main">
+      <div class="eyebrow">${escapeHtml(isEn ? "THEMATIC QUIZ" : "QUIZ TEMATYCZNY")}</div>
+      <h1>${escapeHtml(title)}</h1>
+      <p class="knowledge-entry-lead">${escapeHtml(intro)}</p>
+      <section class="knowledge-level-card">
+        <h2>${escapeHtml(isEn ? "Knowledge level" : "Poziom wiedzy")}</h2>
+        <input id="start-difficulty" class="glow-range" type="range" min="0" max="2" step="1" value="${state.difficulty}">
+        ${difficultyTicks()}
+        <div class="knowledge-level-options">
+          ${[0,1,2].map(level => `<button type="button" class="knowledge-level-option ${state.difficulty === level ? "active" : ""}" data-action="select-knowledge-level" data-level="${level}"><strong>${escapeHtml(difficultyLabel(level))}</strong><span>${escapeHtml(descriptions[level])}</span></button>`).join("")}
+        </div>
+        <button class="primary big knowledge-start" data-action="start-module" data-module-id="${escapeHtml(module.id)}">▶ ${escapeHtml(isEn ? "Start test" : "Rozpocznij test")}</button>
+        <p class="knowledge-entry-note">${escapeHtml(isEn ? "10 questions · immediate result · explanations after the test" : "10 pytań · natychmiastowy wynik · wyjaśnienia po teście")}</p>
+      </section>
+    </div>
+  </section>`;
+}
+
 function renderStart() {
+  if (isKnowledgeModule() && directQuizId) return renderKnowledgeEntry();
   const module = currentLocalizedModule();
   const theme = currentLocalizedTheme();
   const ui = module.ui || {};
@@ -617,7 +683,10 @@ function currentResultCode() {
   const ids = new Set(state.questions.map(question => question.id));
   if (ids.size !== 10 || new Set(state.answers.map(answer => answer.questionId)).size !== 10) return null;
   if (!state.answers.every(answer => ids.has(answer.questionId) && state.questions.find(question => question.id === answer.questionId).options.some(option => option.id === answer.value))) return null;
-  if (!state.questions.every(question => question.difficulty === state.difficulty)) return null;
+  if (state.difficulty === 0 && !state.questions.every(question => question.difficulty === 0)) return null;
+  if (state.difficulty === 2 && !state.questions.every(question => question.difficulty === 1)) return null;
+  if (state.difficulty === 1 && !state.questions.some(question => question.difficulty === 0)) return null;
+  if (state.difficulty === 1 && !state.questions.some(question => question.difficulty === 1)) return null;
   const score = knowledgeScore();
   return window.GLOBOCIE_RESULT_CODE.encode({ ...score, completed: true, moduleId: state.moduleId, difficulty: state.difficulty });
 }
@@ -799,6 +868,11 @@ app.addEventListener("click", event => {
   const actionElement = event.target.closest("[data-action]");
   if (!actionElement) return;
   const action = actionElement.dataset.action;
+  if (action === "select-knowledge-level") {
+    state.difficulty = normalizedDifficulty(currentModule(), Number(actionElement.dataset.level));
+    storeDifficulty();
+    return renderKnowledgeEntry();
+  }
   if (action === "start-module") return startModule(actionElement.dataset.moduleId || "political-compass");
   if (action === "start-politics") return startPolitics();
   if (action === "scroll-topics") return document.querySelector("#topics")?.scrollIntoView({ behavior: "smooth" });
@@ -827,7 +901,9 @@ app.addEventListener("input", event => {
     if (currentModule().fixedDifficulty !== undefined) { state.difficulty = currentModule().fixedDifficulty; return renderStart(); }
     state.difficulty = normalizedDifficulty(currentModule(), event.target.value);
     storeDifficulty();
-    document.querySelector("#start-difficulty-label").textContent = difficultyLabel(state.difficulty);
+    const label = document.querySelector("#start-difficulty-label");
+    if (label) label.textContent = difficultyLabel(state.difficulty);
+    if (isKnowledgeModule() && directQuizId) return renderKnowledgeEntry();
   }
   if (event.target.id === "difficulty-live") requestDifficultyChange(Number(event.target.value));
 });
