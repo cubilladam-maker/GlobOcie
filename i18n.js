@@ -613,10 +613,10 @@
   "resultCodeLimit": "Kod zawiera wynik i znacznik ukończenia. To proste kodowanie z kontrolą literówek, nie zabezpieczenie przed fałszerstwem. Nie potwierdza tożsamości ani samodzielności."
 });
   Object.assign(common.pl, {
-  "knowledgeLevel": "Wybierz poziom wiedzy",
+  "knowledgeLevel": "🔒 Student — III rok elektrotechniki",
   "knowledgeScope": "Zakres testu",
-  "knowledgeScopeBody": "Absolwent podstawówki: podstawy. Maturzysta: poziom szkoły średniej. Licencjat / inżynier: poziom akademicki.",
-  "knowledgeLocked": "Wybierz jeden z trzech poziomów edukacyjnych.",
+  "knowledgeScopeBody": "Absolwent podstawówki: podstawy. Maturzysta: obwody i podstawowe prawa. Licencjat / inżynier: obwody AC, maszyny, transformatory i przekształtniki.",
+  "knowledgeLocked": "Poziom jest ustalony dla tego tematu: III rok elektrotechniki.",
   "knowledgeInstructions": "Wybierz jedną z czterech odpowiedzi. Możesz korzystać z kalkulatora i podpowiedzi ze wzorem. Wynik: 1 punkt za poprawną odpowiedź, 0 za błędną.",
   "knowledgeResult": "Wynik testu wiedzy",
   "knowledgeScore": "poprawnych",
@@ -630,7 +630,7 @@
   "knowledgeSources": "Źródła podstaw teoretycznych",
   "knowledgeSourceNote": "Liczby w zadaniach są autorskimi danymi ćwiczeniowymi. Podane wyniki wynikają z opisanych modeli i założeń.",
   "knowledgeHint": "Podpowiedź ze wzorem",
-  "knowledgeHelp": "Ten moduł sprawdza wiedzę, a nie przekonania. Każde pytanie ma dokładnie jedną poprawną odpowiedź. Sesja zawiera 10 pytań, po jednym z każdego działu. Wybierasz poziom: Absolwent podstawówki, Maturzysta albo Licencjat / inżynier. Wyjaśnienia i źródła są dostępne w wynikach.",
+  "knowledgeHelp": "Test wiedzy: jedna poprawna odpowiedź w każdym pytaniu. Wybierz jeden z trzech poziomów. Sesja losuje 10 pytań z 30 dostępnych na danym poziomie, po jednym z każdego działu. Zmiana poziomu w trakcie wymaga potwierdzenia nowego zestawu. Wynik i kod zawierają poziom; po teście dostępne są rozwiązania i źródła.",
   "knowledgeUniqueTitle": "Sprawdź swoją wiedzę techniczną",
   "knowledgeUniqueBody": "10 działów, jawne założenia i sprawdzony klucz odpowiedzi.",
   "knowledgeBenefitProfile": "Obwody i moce",
@@ -653,10 +653,10 @@
   "resultCodeLimit": "The code contains the score and a completion flag. It uses simple encoding with a typo check, not protection against forgery. It does not verify identity or independent work."
 });
   Object.assign(common.en, {
-  "knowledgeLevel": "Choose your knowledge level",
+  "knowledgeLevel": "🔒 Student — third-year electrical engineering",
   "knowledgeScope": "Test scope",
-  "knowledgeScopeBody": "Primary school graduate: basics. High school graduate: upper-secondary level. Bachelor’s degree / Engineer: university level.",
-  "knowledgeLocked": "Choose one of three education levels.",
+  "knowledgeScopeBody": "Primary-school graduate: fundamentals. Upper-secondary-school graduate: circuits and basic laws. Bachelor’s / engineering graduate: AC circuits, machines, transformers and power converters.",
+  "knowledgeLocked": "This topic has a fixed level: third-year electrical engineering.",
   "knowledgeInstructions": "Choose one of four answers. A calculator and formula hints are allowed. Scoring: 1 point for a correct answer, 0 for an incorrect answer.",
   "knowledgeResult": "Knowledge test result",
   "knowledgeScore": "correct",
@@ -670,7 +670,7 @@
   "knowledgeSources": "Sources for the theoretical principles",
   "knowledgeSourceNote": "Numerical inputs are original exercise data. Results follow from the stated models and assumptions.",
   "knowledgeHint": "Formula hint",
-  "knowledgeHelp": "This module tests knowledge, not beliefs. Each question has exactly one correct answer. A session contains 10 questions, one from each area. Choose a level: Primary school graduate, High school graduate, or Bachelor’s degree / Engineer. Explanations and sources are available in the results.",
+  "knowledgeHelp": "Knowledge test: one correct answer per question. Choose one of three levels. Each session selects 10 of the 30 questions at that level, one per area. Changing level during a test requires confirmation of a new session. The result and code include the level; worked solutions and sources are available after the test.",
   "knowledgeUniqueTitle": "Test your technical knowledge",
   "knowledgeUniqueBody": "10 areas, explicit assumptions and a verified answer key.",
   "knowledgeBenefitProfile": "Circuits and power",
@@ -689,8 +689,8 @@
     "aiLead": "Test calculations and understanding of electrical engineering.",
     "aiSubline": "Your score is calculated using a fixed, verified answer key.",
     "startButton": "Start the electrical engineering knowledge test →",
-    "stageCaption": "3 education levels · 10 questions per session · one from each area",
-    "cardDescription": "Primary school graduate · High school graduate · Bachelor’s degree / Engineer. Choose your test level."
+    "stageCaption": "90 questions in the bank · 30 per level · 10 per session · one from each area",
+    "cardDescription": "Choose from three levels: primary-school graduate, upper-secondary-school graduate or bachelor’s / engineering graduate."
   },
   "loading": {
     "title": "Loading the electrical engineering knowledge test…",

@@ -491,7 +491,7 @@
   "name": "Wiedza z zakresu elektryczności",
   "mode": "knowledge",
   "maxDifficulty": 2,
-  "difficultyStorageKey": "globocie-electricity-difficulty",
+  "difficultyStorageKey": "globocie-electricity-difficulty-v3",
   "appearance": {
     "--module-accent": "#7fe5b4",
     "--module-accent-2": "#49a8ff",
@@ -507,7 +507,7 @@
     "aiLead": "Sprawdź obliczenia i rozumienie elektrotechniki.",
     "aiSubline": "Wynik pochodzi ze stałego, sprawdzonego klucza odpowiedzi.",
     "startButton": "Rozpocznij test wiedzy z elektryczności →",
-    "stageCaption": "3 poziomy edukacyjne · 10 pytań w sesji · jedno z każdego działu",
+    "stageCaption": "90 pytań w banku · 30 na poziom · 10 pytań w sesji · jedno z każdego działu",
     "cardDescription": "Absolwent podstawówki · Maturzysta · Licencjat / inżynier. Wybierz poziom testu."
   },
   "loading": {

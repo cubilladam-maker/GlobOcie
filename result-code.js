@@ -1,7 +1,7 @@
 (function (root) {
   "use strict";
   // Reversible encoding, NOT encryption or authentication.
-  // EL2 carries level; decode also accepts legacy student-only EL1.
+  // EL3 carries three levels; EL1 and EL2 retain their historical meaning.
   const ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
   const MASK = 0x5A3C;
   const rol16 = x => ((x << 5) | (x >>> 11)) & 0xFFFF;
@@ -16,7 +16,7 @@
   }
   function encode({ correct, total, completed, moduleId, difficulty = 1 }) {
     if (moduleId !== "electricity-knowledge" || completed !== true || total !== 10 || !Number.isInteger(correct) || correct < 0 || correct > total || ![0, 1, 2].includes(difficulty)) throw new Error("invalid-result");
-    // v3: bits 15..12 version; 11 completed; 10..9 level; 8..5 correct; 4..1 total; 0 topic.
+    // bits 15..12 version; 11 completed; 10..9 level; 8..5 correct; 4..1 total; 0 topic.
     const payload = (3 << 12) | (1 << 11) | (difficulty << 9) | (correct << 5) | (total << 1) | 1;
     const word = rol16(payload ^ MASK);
     let packed = (word << 8) | crc8(word);
@@ -37,12 +37,12 @@
     const version = payload >>> 12, completed = Boolean(payload & 0x0800);
     const prefixVersion = Number(normalized[2]);
     if (version !== prefixVersion || ![1, 2, 3].includes(version)) throw new Error("invalid-result");
-    const difficulty = version === 1 ? 1 : (version === 2 ? ((payload >>> 10) & 1) : ((payload >>> 9) & 3));
-    const correct = version === 1 ? ((payload >>> 7) & 15) : (version === 2 ? ((payload >>> 6) & 15) : ((payload >>> 5) & 15));
-    const total = version === 1 ? ((payload >>> 3) & 15) : (version === 2 ? ((payload >>> 2) & 15) : ((payload >>> 1) & 15));
-    const topic = version === 1 ? (payload & 7) : (version === 2 ? (payload & 3) : (payload & 1));
-    if (!completed || topic !== 1 || total !== 10 || correct > total) throw new Error("invalid-result");
-    return { version, moduleId: "electricity-knowledge", completed, difficulty, level: ["primary-graduate","high-school-graduate","bachelor-engineer"][difficulty] || "unknown", correct, total, percent: correct * 10 };
+    const difficulty = version === 1 ? 1 : version === 2 ? ((payload >>> 10) & 1) : ((payload >>> 9) & 3);
+    const correct = (payload >>> (version === 1 ? 7 : version === 2 ? 6 : 5)) & 15;
+    const total = (payload >>> (version === 1 ? 3 : version === 2 ? 2 : 1)) & 15;
+    const topic = payload & (version === 1 ? 7 : version === 2 ? 3 : 1);
+    if (!completed || topic !== 1 || total !== 10 || correct > total || (version === 3 && difficulty > 2)) throw new Error("invalid-result");
+    return { version, moduleId: "electricity-knowledge", completed, difficulty, level: version < 3 ? (version < 3 ? (difficulty === 0 ? "pupil" : "student") : ["primary-school", "upper-secondary-school", "bachelor-engineering"][difficulty]) : ["primary-school", "upper-secondary-school", "bachelor-engineering"][difficulty], correct, total, percent: correct * 10 };
   }
   const api = Object.freeze({ encode, decode });
   if (typeof module === "object" && module.exports) module.exports = api;

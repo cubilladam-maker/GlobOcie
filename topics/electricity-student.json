@@ -1,7 +1,7 @@
 {
   "manifest": {
     "id": "ELECTRICITY-STUDENT",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "title": "Wiedza z zakresu elektryczności",
     "created": "2026-10-05",
     "mode": "knowledge",
@@ -9,13 +9,14 @@
       "pl",
       "en"
     ],
-    "questionCount": 60,
-    "level": "Pupil: basic electrical calculations; Student: third-year electrical engineering; author-selected scope"
+    "questionCount": 90,
+    "level": "Primary-school graduate / upper-secondary-school graduate / bachelor or engineering graduate; authored exercise scope, not a certified exam"
   },
   "settings": {
     "questionCountByDifficulty": {
       "0": 10,
-      "1": 10
+      "1": 10,
+      "2": 10
     },
     "onePerGroup": true
   },
@@ -84,13 +85,33 @@
       "id": "basic-ac",
       "title": "OpenStax University Physics Vol. 2: 15-1-ac-sources",
       "url": "https://openstax.org/books/university-physics-volume-2/pages/15-1-ac-sources"
+    },
+    {
+      "id": "school-circuits",
+      "title": "OpenStax University Physics Volume 2: 10-2-resistors-in-series-and-parallel",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/10-2-resistors-in-series-and-parallel"
+    },
+    {
+      "id": "school-power",
+      "title": "OpenStax University Physics Volume 2: 9-5-electrical-energy-and-power",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/9-5-electrical-energy-and-power"
+    },
+    {
+      "id": "school-capacitor",
+      "title": "OpenStax University Physics Volume 2: 8-3-energy-stored-in-a-capacitor",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/8-3-energy-stored-in-a-capacitor"
+    },
+    {
+      "id": "school-ac",
+      "title": "OpenStax University Physics Volume 2: 15-2-simple-ac-circuits",
+      "url": "https://openstax.org/books/university-physics-volume-2/pages/15-2-simple-ac-circuits"
     }
   ],
   "questions": [
     {
       "id": "ee-ac-1",
       "group": "ac",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Obwody AC",
       "text": "Szeregowy odbiornik ma Z = 8 + j6 Ω i jest zasilany napięciem sinusoidalnym 100 V RMS. Jakie są I RMS, moc czynna P i moc bierna Q?",
       "options": [
@@ -141,7 +162,7 @@
     {
       "id": "ee-ac-2",
       "group": "ac",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Obwody AC",
       "text": "Szeregowy odbiornik ma Z = 12 + j16 Ω i jest zasilany napięciem sinusoidalnym 200 V RMS. Jakie są I RMS, moc czynna P i moc bierna Q?",
       "options": [
@@ -192,7 +213,7 @@
     {
       "id": "ee-ac-3",
       "group": "ac",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Obwody AC",
       "text": "Szeregowy odbiornik ma Z = 6 + j8 Ω i jest zasilany napięciem sinusoidalnym 120 V RMS. Jakie są I RMS, moc czynna P i moc bierna Q?",
       "options": [
@@ -243,7 +264,7 @@
     {
       "id": "ee-rlc-1",
       "group": "rlc",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Rezonans",
       "text": "Idealne L = 100 mH i C = 10 µF połączono szeregowo z R = 10 Ω. Oblicz częstotliwość rezonansu i dobroć Q tego obwodu RLC.",
       "options": [
@@ -293,7 +314,7 @@
     {
       "id": "ee-rlc-2",
       "group": "rlc",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Rezonans",
       "text": "Idealne L = 50 mH i C = 5 µF połączono szeregowo z R = 20 Ω. Oblicz częstotliwość rezonansu i dobroć Q tego obwodu RLC.",
       "options": [
@@ -343,7 +364,7 @@
     {
       "id": "ee-rlc-3",
       "group": "rlc",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Rezonans",
       "text": "Idealne L = 20 mH i C = 20 µF połączono szeregowo z R = 5 Ω. Oblicz częstotliwość rezonansu i dobroć Q tego obwodu RLC.",
       "options": [
@@ -393,7 +414,7 @@
     {
       "id": "ee-threephase-1",
       "group": "threephase",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Układy trójfazowe",
       "text": "Symetryczny odbiornik w gwiazdę ma impedancję każdej fazy 12 + j9 Ω. Sinusoidalne napięcie międzyfazowe wynosi 400 V RMS. Oblicz prąd przewodowy i łączną moc czynną.",
       "options": [
@@ -443,7 +464,7 @@
     {
       "id": "ee-threephase-2",
       "group": "threephase",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Układy trójfazowe",
       "text": "Symetryczny odbiornik w gwiazdę ma impedancję każdej fazy 8 + j6 Ω. Sinusoidalne napięcie międzyfazowe wynosi 400 V RMS. Oblicz prąd przewodowy i łączną moc czynną.",
       "options": [
@@ -493,7 +514,7 @@
     {
       "id": "ee-threephase-3",
       "group": "threephase",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Układy trójfazowe",
       "text": "Symetryczny odbiornik w gwiazdę ma impedancję każdej fazy 24 + j18 Ω. Sinusoidalne napięcie międzyfazowe wynosi 400 V RMS. Oblicz prąd przewodowy i łączną moc czynną.",
       "options": [
@@ -543,7 +564,7 @@
     {
       "id": "ee-compensation-1",
       "group": "compensation",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Kompensacja mocy biernej",
       "text": "Odbiornik sinusoidalny pobiera P = 10 kW przy cosφ = 0.8, indukcyjnie. Jaką moc bierną pojemnościową powinna dostarczyć idealna bateria kondensatorów, aby uzyskać cosφ = 0.95, przy niezmienionej P i napięciu?",
       "options": [
@@ -592,7 +613,7 @@
     {
       "id": "ee-compensation-2",
       "group": "compensation",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Kompensacja mocy biernej",
       "text": "Odbiornik sinusoidalny pobiera P = 20 kW przy cosφ = 0.75, indukcyjnie. Jaką moc bierną pojemnościową powinna dostarczyć idealna bateria kondensatorów, aby uzyskać cosφ = 0.95, przy niezmienionej P i napięciu?",
       "options": [
@@ -641,7 +662,7 @@
     {
       "id": "ee-compensation-3",
       "group": "compensation",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Kompensacja mocy biernej",
       "text": "Odbiornik sinusoidalny pobiera P = 15 kW przy cosφ = 0.85, indukcyjnie. Jaką moc bierną pojemnościową powinna dostarczyć idealna bateria kondensatorów, aby uzyskać cosφ = 0.98, przy niezmienionej P i napięciu?",
       "options": [
@@ -690,7 +711,7 @@
     {
       "id": "ee-harmonics-1",
       "group": "harmonics",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Harmoniczne i współczynnik mocy",
       "text": "Napięcie ma wyłącznie sinusoidalną składową podstawową 230 V RMS. Prąd zawiera tylko składową podstawową 10 A RMS w fazie z napięciem i trzecią harmoniczną 5 A RMS. Oblicz P i całkowity PF = P/(U RMS · I RMS).",
       "options": [
@@ -741,7 +762,7 @@
     {
       "id": "ee-harmonics-2",
       "group": "harmonics",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Harmoniczne i współczynnik mocy",
       "text": "Napięcie ma wyłącznie sinusoidalną składową podstawową 230 V RMS. Prąd zawiera tylko składową podstawową 8 A RMS w fazie z napięciem i trzecią harmoniczną 6 A RMS. Oblicz P i całkowity PF = P/(U RMS · I RMS).",
       "options": [
@@ -792,7 +813,7 @@
     {
       "id": "ee-harmonics-3",
       "group": "harmonics",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Harmoniczne i współczynnik mocy",
       "text": "Napięcie ma wyłącznie sinusoidalną składową podstawową 120 V RMS. Prąd zawiera tylko składową podstawową 12 A RMS w fazie z napięciem i trzecią harmoniczną 9 A RMS. Oblicz P i całkowity PF = P/(U RMS · I RMS).",
       "options": [
@@ -843,7 +864,7 @@
     {
       "id": "ee-slip-1",
       "group": "slip",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Poślizg silnika",
       "text": "Silnik indukcyjny: liczba biegunów 4, zasilanie 50 Hz i prędkość wirnika 1440 obr./min. Jakie są poślizg i częstotliwość prądów wirnika?",
       "options": [
@@ -894,7 +915,7 @@
     {
       "id": "ee-slip-2",
       "group": "slip",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Poślizg silnika",
       "text": "Silnik indukcyjny: liczba biegunów 6, zasilanie 50 Hz i prędkość wirnika 960 obr./min. Jakie są poślizg i częstotliwość prądów wirnika?",
       "options": [
@@ -945,7 +966,7 @@
     {
       "id": "ee-slip-3",
       "group": "slip",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Poślizg silnika",
       "text": "Silnik indukcyjny: liczba biegunów 4, zasilanie 60 Hz i prędkość wirnika 1746 obr./min. Jakie są poślizg i częstotliwość prądów wirnika?",
       "options": [
@@ -996,7 +1017,7 @@
     {
       "id": "ee-motorpower-1",
       "group": "motorpower",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Bilans mocy silnika",
       "text": "W uproszczonym modelu silnika indukcyjnego łączna moc przekazana przez szczelinę wynosi 20 kW, a poślizg 3%. Oblicz straty miedziane wirnika i moc mechaniczną rozwijaną wewnętrznie, przed stratami mechanicznymi. Pomijamy dodatkowe straty wirnika.",
       "options": [
@@ -1045,7 +1066,7 @@
     {
       "id": "ee-motorpower-2",
       "group": "motorpower",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Bilans mocy silnika",
       "text": "W uproszczonym modelu silnika indukcyjnego łączna moc przekazana przez szczelinę wynosi 30 kW, a poślizg 4%. Oblicz straty miedziane wirnika i moc mechaniczną rozwijaną wewnętrznie, przed stratami mechanicznymi. Pomijamy dodatkowe straty wirnika.",
       "options": [
@@ -1094,7 +1115,7 @@
     {
       "id": "ee-motorpower-3",
       "group": "motorpower",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Bilans mocy silnika",
       "text": "W uproszczonym modelu silnika indukcyjnego łączna moc przekazana przez szczelinę wynosi 15 kW, a poślizg 5%. Oblicz straty miedziane wirnika i moc mechaniczną rozwijaną wewnętrznie, przed stratami mechanicznymi. Pomijamy dodatkowe straty wirnika.",
       "options": [
@@ -1143,7 +1164,7 @@
     {
       "id": "ee-transformer-1",
       "group": "transformer",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Sprawność transformatora",
       "text": "Transformator ma stałe straty w rdzeniu 100 W i straty miedziane 400 W przy prądzie znamionowym. Przy stałym napięciu, częstotliwości i cosφ, pomijając inne straty i spadek napięcia, przy jakim procencie obciążenia znamionowego sprawność jest największa?",
       "options": [
@@ -1191,7 +1212,7 @@
     {
       "id": "ee-transformer-2",
       "group": "transformer",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Sprawność transformatora",
       "text": "Transformator ma stałe straty w rdzeniu 90 W i straty miedziane 250 W przy prądzie znamionowym. Przy stałym napięciu, częstotliwości i cosφ, pomijając inne straty i spadek napięcia, przy jakim procencie obciążenia znamionowego sprawność jest największa?",
       "options": [
@@ -1239,7 +1260,7 @@
     {
       "id": "ee-transformer-3",
       "group": "transformer",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Sprawność transformatora",
       "text": "Transformator ma stałe straty w rdzeniu 80 W i straty miedziane 500 W przy prądzie znamionowym. Przy stałym napięciu, częstotliwości i cosφ, pomijając inne straty i spadek napięcia, przy jakim procencie obciążenia znamionowego sprawność jest największa?",
       "options": [
@@ -1287,7 +1308,7 @@
     {
       "id": "ee-buck-1",
       "group": "buck",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Przetwornice DC/DC",
       "text": "Idealny buck w stanie ustalonym i trybie ciągłego prądu dławika przetwarza 48 V na 12 V. Częstotliwość przełączania: 100 kHz, L = 100 µH. Pomijamy tętnienia napięcia wyjściowego. Oblicz wypełnienie D i tętnienia prądu dławika od minimum do maksimum.",
       "options": [
@@ -1338,7 +1359,7 @@
     {
       "id": "ee-buck-2",
       "group": "buck",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Przetwornice DC/DC",
       "text": "Idealny buck w stanie ustalonym i trybie ciągłego prądu dławika przetwarza 24 V na 12 V. Częstotliwość przełączania: 100 kHz, L = 100 µH. Pomijamy tętnienia napięcia wyjściowego. Oblicz wypełnienie D i tętnienia prądu dławika od minimum do maksimum.",
       "options": [
@@ -1389,7 +1410,7 @@
     {
       "id": "ee-buck-3",
       "group": "buck",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Przetwornice DC/DC",
       "text": "Idealny buck w stanie ustalonym i trybie ciągłego prądu dławika przetwarza 48 V na 24 V. Częstotliwość przełączania: 200 kHz, L = 100 µH. Pomijamy tętnienia napięcia wyjściowego. Oblicz wypełnienie D i tętnienia prądu dławika od minimum do maksimum.",
       "options": [
@@ -1440,7 +1461,7 @@
     {
       "id": "ee-matching-1",
       "group": "matching",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Dopasowanie impedancji",
       "text": "Liniowe źródło Thévenina ma impedancję 4 + j3 Ω przy ustalonej częstotliwości. Można dowolnie dobierać dodatnią rezystancję oraz reaktancję obciążenia. Jakie ZL zapewni największą moc czynną w obciążeniu?",
       "options": [
@@ -1489,7 +1510,7 @@
     {
       "id": "ee-matching-2",
       "group": "matching",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Dopasowanie impedancji",
       "text": "Liniowe źródło Thévenina ma impedancję 10 − j5 Ω przy ustalonej częstotliwości. Można dowolnie dobierać dodatnią rezystancję oraz reaktancję obciążenia. Jakie ZL zapewni największą moc czynną w obciążeniu?",
       "options": [
@@ -1538,7 +1559,7 @@
     {
       "id": "ee-matching-3",
       "group": "matching",
-      "difficulty": 1,
+      "difficulty": 2,
       "category": "Dopasowanie impedancji",
       "text": "Liniowe źródło Thévenina ma impedancję 6 + j8 Ω przy ustalonej częstotliwości. Można dowolnie dobierać dodatnią rezystancję oraz reaktancję obciążenia. Jakie ZL zapewni największą moc czynną w obciążeniu?",
       "options": [
@@ -3585,6 +3606,2025 @@
           ],
           "explanation": "P = I²R = 3² × 6 = 54 W.",
           "hint": "P = I²R."
+        }
+      }
+    },
+    {
+      "id": "ee-school-divider-1",
+      "group": "divider",
+      "difficulty": 1,
+      "category": "Dzielnik napięcia",
+      "text": "Rezystory 4 Ω i 8 Ω tworzą nieobciążony dzielnik zasilany napięciem 12 V DC. Jakie napięcie występuje na rezystorze 8 Ω?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "8 V"
+        },
+        {
+          "id": "o1",
+          "label": "16 V"
+        },
+        {
+          "id": "o2",
+          "label": "4 V"
+        },
+        {
+          "id": "o3",
+          "label": "24 V"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "U₂ = U R₂/(R₁ + R₂). → 8 V",
+      "hint": "U₂ = U R₂/(R₁ + R₂).",
+      "sourceIds": [
+        "school-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 12,
+          "a": 4,
+          "b": 8
+        },
+        "expected": {
+          "value": 8.0,
+          "unit": "V"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Voltage divider",
+          "text": "Resistors of 4 Ω and 8 Ω form an unloaded voltage divider supplied at 12 V DC. What is the voltage across the 8 Ω resistor?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "8 V"
+            },
+            {
+              "id": "o1",
+              "label": "16 V"
+            },
+            {
+              "id": "o2",
+              "label": "4 V"
+            },
+            {
+              "id": "o3",
+              "label": "24 V"
+            }
+          ],
+          "explanation": "U₂ = U R₂/(R₁ + R₂). → 8 V",
+          "hint": "U₂ = U R₂/(R₁ + R₂)."
+        }
+      }
+    },
+    {
+      "id": "ee-school-parallel-unequal-1",
+      "group": "parallel-unequal",
+      "difficulty": 1,
+      "category": "Rezystancja zastępcza",
+      "text": "Rezystory 4 Ω i 8 Ω połączono równolegle. Oblicz rezystancję zastępczą.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "5.333 Ω"
+        },
+        {
+          "id": "o1",
+          "label": "2.667 Ω"
+        },
+        {
+          "id": "o2",
+          "label": "1.333 Ω"
+        },
+        {
+          "id": "o3",
+          "label": "8 Ω"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "R = R₁R₂/(R₁ + R₂). → 2.667 Ω",
+      "hint": "R = R₁R₂/(R₁ + R₂).",
+      "sourceIds": [
+        "school-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "a": 4,
+          "b": 8
+        },
+        "expected": {
+          "value": 2.6666666666666665,
+          "unit": "Ω"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Equivalent resistance",
+          "text": "Resistors of 4 Ω and 8 Ω are connected in parallel. Calculate their equivalent resistance.",
+          "options": [
+            {
+              "id": "o0",
+              "label": "5.333 Ω"
+            },
+            {
+              "id": "o1",
+              "label": "2.667 Ω"
+            },
+            {
+              "id": "o2",
+              "label": "1.333 Ω"
+            },
+            {
+              "id": "o3",
+              "label": "8 Ω"
+            }
+          ],
+          "explanation": "R = R₁R₂/(R₁ + R₂). → 2.667 Ω",
+          "hint": "R = R₁R₂/(R₁ + R₂)."
+        }
+      }
+    },
+    {
+      "id": "ee-school-series-power-1",
+      "group": "series-power",
+      "difficulty": 1,
+      "category": "Moc w obwodzie szeregowym",
+      "text": "Rezystory 4 Ω i 8 Ω połączono szeregowo do 12 V DC. Jaka moc wydziela się tylko w rezystorze 4 Ω?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "8 W"
+        },
+        {
+          "id": "o1",
+          "label": "4 W"
+        },
+        {
+          "id": "o2",
+          "label": "2 W"
+        },
+        {
+          "id": "o3",
+          "label": "12 W"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "I = U/(R₁ + R₂); P₁ = I²R₁. → 4 W",
+      "hint": "I = U/(R₁ + R₂); P₁ = I²R₁.",
+      "sourceIds": [
+        "school-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 12,
+          "a": 4,
+          "b": 8
+        },
+        "expected": {
+          "value": 4.0,
+          "unit": "W"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Power in a series circuit",
+          "text": "Resistors of 4 Ω and 8 Ω are connected in series across 12 V DC. What power is dissipated only in the 4 Ω resistor?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "8 W"
+            },
+            {
+              "id": "o1",
+              "label": "4 W"
+            },
+            {
+              "id": "o2",
+              "label": "2 W"
+            },
+            {
+              "id": "o3",
+              "label": "12 W"
+            }
+          ],
+          "explanation": "I = U/(R₁ + R₂); P₁ = I²R₁. → 4 W",
+          "hint": "I = U/(R₁ + R₂); P₁ = I²R₁."
+        }
+      }
+    },
+    {
+      "id": "ee-school-voltage-loss-1",
+      "group": "voltage-loss",
+      "difficulty": 1,
+      "category": "Spadek napięcia",
+      "text": "Całkowita rezystancja pary przewodów wynosi 0.1 Ω. Prąd DC wynosi 5 A. Jaki jest spadek napięcia na obu przewodach łącznie?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "1 V"
+        },
+        {
+          "id": "o1",
+          "label": "0.5 V"
+        },
+        {
+          "id": "o2",
+          "label": "0.25 V"
+        },
+        {
+          "id": "o3",
+          "label": "1.5 V"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "ΔU = IR. → 0.5 V",
+      "hint": "ΔU = IR.",
+      "sourceIds": [
+        "school-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "r": 0.1,
+          "i": 5
+        },
+        "expected": {
+          "value": 0.5,
+          "unit": "V"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Voltage drop",
+          "text": "The total resistance of a pair of wires is 0.1 Ω. The DC current is 5 A. What is the combined voltage drop across both wires?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "1 V"
+            },
+            {
+              "id": "o1",
+              "label": "0.5 V"
+            },
+            {
+              "id": "o2",
+              "label": "0.25 V"
+            },
+            {
+              "id": "o3",
+              "label": "1.5 V"
+            }
+          ],
+          "explanation": "ΔU = IR. → 0.5 V",
+          "hint": "ΔU = IR."
+        }
+      }
+    },
+    {
+      "id": "ee-school-efficiency-1",
+      "group": "efficiency",
+      "difficulty": 1,
+      "category": "Sprawność",
+      "text": "Przetwornik pobiera 100 W i oddaje 80 W mocy użytecznej. Ile wynosi jego sprawność?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "240 %"
+        },
+        {
+          "id": "o1",
+          "label": "160 %"
+        },
+        {
+          "id": "o2",
+          "label": "40 %"
+        },
+        {
+          "id": "o3",
+          "label": "80 %"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "η = Pout/Pin × 100%. → 80 %",
+      "hint": "η = Pout/Pin × 100%.",
+      "sourceIds": [
+        "school-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "pin": 100,
+          "pout": 80
+        },
+        "expected": {
+          "value": 80,
+          "unit": "%"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Efficiency",
+          "text": "A converter takes 100 W of input power and delivers 80 W of useful output power. What is its efficiency?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "240 %"
+            },
+            {
+              "id": "o1",
+              "label": "160 %"
+            },
+            {
+              "id": "o2",
+              "label": "40 %"
+            },
+            {
+              "id": "o3",
+              "label": "80 %"
+            }
+          ],
+          "explanation": "η = Pout/Pin × 100%. → 80 %",
+          "hint": "η = Pout/Pin × 100%."
+        }
+      }
+    },
+    {
+      "id": "ee-school-energy-joule-1",
+      "group": "energy-joule",
+      "difficulty": 1,
+      "category": "Energia w dżulach",
+      "text": "Rezystor zasilany napięciem 12 V DC pobiera 2 A przez 60 sekund. Ile energii zamienia w ciepło?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "2880 J"
+        },
+        {
+          "id": "o1",
+          "label": "1440 J"
+        },
+        {
+          "id": "o2",
+          "label": "720 J"
+        },
+        {
+          "id": "o3",
+          "label": "4320 J"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "E = UIt. → 1440 J",
+      "hint": "E = UIt.",
+      "sourceIds": [
+        "school-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 12,
+          "i": 2,
+          "t": 60
+        },
+        "expected": {
+          "value": 1440,
+          "unit": "J"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Energy in joules",
+          "text": "A resistor supplied at 12 V DC draws 2 A for 60 seconds. How much energy does it convert to heat?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "2880 J"
+            },
+            {
+              "id": "o1",
+              "label": "1440 J"
+            },
+            {
+              "id": "o2",
+              "label": "720 J"
+            },
+            {
+              "id": "o3",
+              "label": "4320 J"
+            }
+          ],
+          "explanation": "E = UIt. → 1440 J",
+          "hint": "E = UIt."
+        }
+      }
+    },
+    {
+      "id": "ee-school-cap-energy-1",
+      "group": "cap-energy",
+      "difficulty": 1,
+      "category": "Energia kondensatora",
+      "text": "Idealny kondensator o pojemności 1000 µF naładowano do 12 V. Ile energii zgromadził?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "0.216 J"
+        },
+        {
+          "id": "o1",
+          "label": "0.144 J"
+        },
+        {
+          "id": "o2",
+          "label": "0.036 J"
+        },
+        {
+          "id": "o3",
+          "label": "0.072 J"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "E = ½CU²; C w faradach. → 0.072 J",
+      "hint": "E = ½CU²; C w faradach.",
+      "sourceIds": [
+        "school-capacitor"
+      ],
+      "calculation": {
+        "inputs": {
+          "c": 0.001,
+          "u": 12
+        },
+        "expected": {
+          "value": 0.07200000000000001,
+          "unit": "J"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Capacitor energy",
+          "text": "An ideal 1000 µF capacitor is charged to 12 V. How much energy does it store?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "0.216 J"
+            },
+            {
+              "id": "o1",
+              "label": "0.144 J"
+            },
+            {
+              "id": "o2",
+              "label": "0.036 J"
+            },
+            {
+              "id": "o3",
+              "label": "0.072 J"
+            }
+          ],
+          "explanation": "E = ½CU²; C in F. → 0.072 J",
+          "hint": "E = ½CU²; C in F."
+        }
+      }
+    },
+    {
+      "id": "ee-school-rms-1",
+      "group": "rms",
+      "difficulty": 1,
+      "category": "Wartość skuteczna",
+      "text": "Napięcie sinusoidalne ma amplitudę 100 V. Jaka jest jego wartość skuteczna (RMS)?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "70.711 V"
+        },
+        {
+          "id": "o1",
+          "label": "141.421 V"
+        },
+        {
+          "id": "o2",
+          "label": "35.355 V"
+        },
+        {
+          "id": "o3",
+          "label": "212.132 V"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "U_RMS = U_peak/√2. → 70.711 V",
+      "hint": "U_RMS = U_peak/√2.",
+      "sourceIds": [
+        "school-ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "peak": 100
+        },
+        "expected": {
+          "value": 70.71067811865474,
+          "unit": "V"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "RMS voltage",
+          "text": "A sinusoidal voltage has a peak amplitude of 100 V. What is its RMS value?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "70.711 V"
+            },
+            {
+              "id": "o1",
+              "label": "141.421 V"
+            },
+            {
+              "id": "o2",
+              "label": "35.355 V"
+            },
+            {
+              "id": "o3",
+              "label": "212.132 V"
+            }
+          ],
+          "explanation": "U_RMS = U_peak/√2. → 70.711 V",
+          "hint": "U_RMS = U_peak/√2."
+        }
+      }
+    },
+    {
+      "id": "ee-school-resistor-ac-1",
+      "group": "resistor-ac",
+      "difficulty": 1,
+      "category": "Moc rezystora w AC",
+      "text": "Idealny rezystor 100 Ω zasilany jest napięciem sinusoidalnym 10 V RMS. Jaka jest średnia moc?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "1 W"
+        },
+        {
+          "id": "o1",
+          "label": "2 W"
+        },
+        {
+          "id": "o2",
+          "label": "0.5 W"
+        },
+        {
+          "id": "o3",
+          "label": "3 W"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "P = U_RMS²/R. → 1 W",
+      "hint": "P = U_RMS²/R.",
+      "sourceIds": [
+        "school-ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 10,
+          "r": 100
+        },
+        "expected": {
+          "value": 1,
+          "unit": "W"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Resistor power in AC",
+          "text": "An ideal 100 Ω resistor is supplied with a sinusoidal voltage of 10 V RMS. What is the average power?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "1 W"
+            },
+            {
+              "id": "o1",
+              "label": "2 W"
+            },
+            {
+              "id": "o2",
+              "label": "0.5 W"
+            },
+            {
+              "id": "o3",
+              "label": "3 W"
+            }
+          ],
+          "explanation": "P = U_RMS²/R. → 1 W",
+          "hint": "P = U_RMS²/R."
+        }
+      }
+    },
+    {
+      "id": "ee-school-current-split-1",
+      "group": "current-split",
+      "difficulty": 1,
+      "category": "Podział prądu",
+      "text": "Rezystory 4 Ω i 8 Ω są połączone równolegle. Prąd całkowity wynosi 3 A. Ile płynie przez rezystor 4 Ω?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "1 A"
+        },
+        {
+          "id": "o1",
+          "label": "4 A"
+        },
+        {
+          "id": "o2",
+          "label": "2 A"
+        },
+        {
+          "id": "o3",
+          "label": "6 A"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "I₁ = I R₂/(R₁ + R₂). → 2 A",
+      "hint": "I₁ = I R₂/(R₁ + R₂).",
+      "sourceIds": [
+        "school-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "a": 4,
+          "b": 8,
+          "i": 3
+        },
+        "expected": {
+          "value": 2,
+          "unit": "A"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Current division",
+          "text": "Resistors of 4 Ω and 8 Ω are connected in parallel. The total current is 3 A. How much flows through the 4 Ω resistor?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "1 A"
+            },
+            {
+              "id": "o1",
+              "label": "4 A"
+            },
+            {
+              "id": "o2",
+              "label": "2 A"
+            },
+            {
+              "id": "o3",
+              "label": "6 A"
+            }
+          ],
+          "explanation": "I₁ = I R₂/(R₁ + R₂). → 2 A",
+          "hint": "I₁ = I R₂/(R₁ + R₂)."
+        }
+      }
+    },
+    {
+      "id": "ee-school-divider-2",
+      "group": "divider",
+      "difficulty": 1,
+      "category": "Dzielnik napięcia",
+      "text": "Rezystory 8 Ω i 16 Ω tworzą nieobciążony dzielnik zasilany napięciem 24 V DC. Jakie napięcie występuje na rezystorze 16 Ω?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "32 V"
+        },
+        {
+          "id": "o1",
+          "label": "16 V"
+        },
+        {
+          "id": "o2",
+          "label": "8 V"
+        },
+        {
+          "id": "o3",
+          "label": "48 V"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "U₂ = U R₂/(R₁ + R₂). → 16 V",
+      "hint": "U₂ = U R₂/(R₁ + R₂).",
+      "sourceIds": [
+        "school-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 24,
+          "a": 8,
+          "b": 16
+        },
+        "expected": {
+          "value": 16.0,
+          "unit": "V"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Voltage divider",
+          "text": "Resistors of 8 Ω and 16 Ω form an unloaded voltage divider supplied at 24 V DC. What is the voltage across the 16 Ω resistor?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "32 V"
+            },
+            {
+              "id": "o1",
+              "label": "16 V"
+            },
+            {
+              "id": "o2",
+              "label": "8 V"
+            },
+            {
+              "id": "o3",
+              "label": "48 V"
+            }
+          ],
+          "explanation": "U₂ = U R₂/(R₁ + R₂). → 16 V",
+          "hint": "U₂ = U R₂/(R₁ + R₂)."
+        }
+      }
+    },
+    {
+      "id": "ee-school-parallel-unequal-2",
+      "group": "parallel-unequal",
+      "difficulty": 1,
+      "category": "Rezystancja zastępcza",
+      "text": "Rezystory 8 Ω i 16 Ω połączono równolegle. Oblicz rezystancję zastępczą.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "2.667 Ω"
+        },
+        {
+          "id": "o1",
+          "label": "10.667 Ω"
+        },
+        {
+          "id": "o2",
+          "label": "5.333 Ω"
+        },
+        {
+          "id": "o3",
+          "label": "16 Ω"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "R = R₁R₂/(R₁ + R₂). → 5.333 Ω",
+      "hint": "R = R₁R₂/(R₁ + R₂).",
+      "sourceIds": [
+        "school-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "a": 8,
+          "b": 16
+        },
+        "expected": {
+          "value": 5.333333333333333,
+          "unit": "Ω"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Equivalent resistance",
+          "text": "Resistors of 8 Ω and 16 Ω are connected in parallel. Calculate their equivalent resistance.",
+          "options": [
+            {
+              "id": "o0",
+              "label": "2.667 Ω"
+            },
+            {
+              "id": "o1",
+              "label": "10.667 Ω"
+            },
+            {
+              "id": "o2",
+              "label": "5.333 Ω"
+            },
+            {
+              "id": "o3",
+              "label": "16 Ω"
+            }
+          ],
+          "explanation": "R = R₁R₂/(R₁ + R₂). → 5.333 Ω",
+          "hint": "R = R₁R₂/(R₁ + R₂)."
+        }
+      }
+    },
+    {
+      "id": "ee-school-series-power-2",
+      "group": "series-power",
+      "difficulty": 1,
+      "category": "Moc w obwodzie szeregowym",
+      "text": "Rezystory 8 Ω i 16 Ω połączono szeregowo do 24 V DC. Jaka moc wydziela się tylko w rezystorze 8 Ω?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "4 W"
+        },
+        {
+          "id": "o1",
+          "label": "16 W"
+        },
+        {
+          "id": "o2",
+          "label": "8 W"
+        },
+        {
+          "id": "o3",
+          "label": "24 W"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "I = U/(R₁ + R₂); P₁ = I²R₁. → 8 W",
+      "hint": "I = U/(R₁ + R₂); P₁ = I²R₁.",
+      "sourceIds": [
+        "school-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 24,
+          "a": 8,
+          "b": 16
+        },
+        "expected": {
+          "value": 8.0,
+          "unit": "W"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Power in a series circuit",
+          "text": "Resistors of 8 Ω and 16 Ω are connected in series across 24 V DC. What power is dissipated only in the 8 Ω resistor?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "4 W"
+            },
+            {
+              "id": "o1",
+              "label": "16 W"
+            },
+            {
+              "id": "o2",
+              "label": "8 W"
+            },
+            {
+              "id": "o3",
+              "label": "24 W"
+            }
+          ],
+          "explanation": "I = U/(R₁ + R₂); P₁ = I²R₁. → 8 W",
+          "hint": "I = U/(R₁ + R₂); P₁ = I²R₁."
+        }
+      }
+    },
+    {
+      "id": "ee-school-voltage-loss-2",
+      "group": "voltage-loss",
+      "difficulty": 1,
+      "category": "Spadek napięcia",
+      "text": "Całkowita rezystancja pary przewodów wynosi 0.2 Ω. Prąd DC wynosi 5 A. Jaki jest spadek napięcia na obu przewodach łącznie?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "0.5 V"
+        },
+        {
+          "id": "o1",
+          "label": "2 V"
+        },
+        {
+          "id": "o2",
+          "label": "1 V"
+        },
+        {
+          "id": "o3",
+          "label": "3 V"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "ΔU = IR. → 1 V",
+      "hint": "ΔU = IR.",
+      "sourceIds": [
+        "school-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "r": 0.2,
+          "i": 5
+        },
+        "expected": {
+          "value": 1.0,
+          "unit": "V"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Voltage drop",
+          "text": "The total resistance of a pair of wires is 0.2 Ω. The DC current is 5 A. What is the combined voltage drop across both wires?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "0.5 V"
+            },
+            {
+              "id": "o1",
+              "label": "2 V"
+            },
+            {
+              "id": "o2",
+              "label": "1 V"
+            },
+            {
+              "id": "o3",
+              "label": "3 V"
+            }
+          ],
+          "explanation": "ΔU = IR. → 1 V",
+          "hint": "ΔU = IR."
+        }
+      }
+    },
+    {
+      "id": "ee-school-efficiency-2",
+      "group": "efficiency",
+      "difficulty": 1,
+      "category": "Sprawność",
+      "text": "Przetwornik pobiera 200 W i oddaje 160 W mocy użytecznej. Ile wynosi jego sprawność?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "80 %"
+        },
+        {
+          "id": "o1",
+          "label": "160 %"
+        },
+        {
+          "id": "o2",
+          "label": "40 %"
+        },
+        {
+          "id": "o3",
+          "label": "240 %"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "η = Pout/Pin × 100%. → 80 %",
+      "hint": "η = Pout/Pin × 100%.",
+      "sourceIds": [
+        "school-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "pin": 200,
+          "pout": 160
+        },
+        "expected": {
+          "value": 80,
+          "unit": "%"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Efficiency",
+          "text": "A converter takes 200 W of input power and delivers 160 W of useful output power. What is its efficiency?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "80 %"
+            },
+            {
+              "id": "o1",
+              "label": "160 %"
+            },
+            {
+              "id": "o2",
+              "label": "40 %"
+            },
+            {
+              "id": "o3",
+              "label": "240 %"
+            }
+          ],
+          "explanation": "η = Pout/Pin × 100%. → 80 %",
+          "hint": "η = Pout/Pin × 100%."
+        }
+      }
+    },
+    {
+      "id": "ee-school-energy-joule-2",
+      "group": "energy-joule",
+      "difficulty": 1,
+      "category": "Energia w dżulach",
+      "text": "Rezystor zasilany napięciem 24 V DC pobiera 2 A przez 60 sekund. Ile energii zamienia w ciepło?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "1440 J"
+        },
+        {
+          "id": "o1",
+          "label": "5760 J"
+        },
+        {
+          "id": "o2",
+          "label": "2880 J"
+        },
+        {
+          "id": "o3",
+          "label": "8640 J"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "E = UIt. → 2880 J",
+      "hint": "E = UIt.",
+      "sourceIds": [
+        "school-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 24,
+          "i": 2,
+          "t": 60
+        },
+        "expected": {
+          "value": 2880,
+          "unit": "J"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Energy in joules",
+          "text": "A resistor supplied at 24 V DC draws 2 A for 60 seconds. How much energy does it convert to heat?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "1440 J"
+            },
+            {
+              "id": "o1",
+              "label": "5760 J"
+            },
+            {
+              "id": "o2",
+              "label": "2880 J"
+            },
+            {
+              "id": "o3",
+              "label": "8640 J"
+            }
+          ],
+          "explanation": "E = UIt. → 2880 J",
+          "hint": "E = UIt."
+        }
+      }
+    },
+    {
+      "id": "ee-school-cap-energy-2",
+      "group": "cap-energy",
+      "difficulty": 1,
+      "category": "Energia kondensatora",
+      "text": "Idealny kondensator o pojemności 1000 µF naładowano do 24 V. Ile energii zgromadził?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "0.288 J"
+        },
+        {
+          "id": "o1",
+          "label": "0.576 J"
+        },
+        {
+          "id": "o2",
+          "label": "0.144 J"
+        },
+        {
+          "id": "o3",
+          "label": "0.864 J"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "E = ½CU²; C w faradach. → 0.288 J",
+      "hint": "E = ½CU²; C w faradach.",
+      "sourceIds": [
+        "school-capacitor"
+      ],
+      "calculation": {
+        "inputs": {
+          "c": 0.001,
+          "u": 24
+        },
+        "expected": {
+          "value": 0.28800000000000003,
+          "unit": "J"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Capacitor energy",
+          "text": "An ideal 1000 µF capacitor is charged to 24 V. How much energy does it store?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "0.288 J"
+            },
+            {
+              "id": "o1",
+              "label": "0.576 J"
+            },
+            {
+              "id": "o2",
+              "label": "0.144 J"
+            },
+            {
+              "id": "o3",
+              "label": "0.864 J"
+            }
+          ],
+          "explanation": "E = ½CU²; C in F. → 0.288 J",
+          "hint": "E = ½CU²; C in F."
+        }
+      }
+    },
+    {
+      "id": "ee-school-rms-2",
+      "group": "rms",
+      "difficulty": 1,
+      "category": "Wartość skuteczna",
+      "text": "Napięcie sinusoidalne ma amplitudę 200 V. Jaka jest jego wartość skuteczna (RMS)?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "282.843 V"
+        },
+        {
+          "id": "o1",
+          "label": "141.421 V"
+        },
+        {
+          "id": "o2",
+          "label": "70.711 V"
+        },
+        {
+          "id": "o3",
+          "label": "424.264 V"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "U_RMS = U_peak/√2. → 141.421 V",
+      "hint": "U_RMS = U_peak/√2.",
+      "sourceIds": [
+        "school-ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "peak": 200
+        },
+        "expected": {
+          "value": 141.42135623730948,
+          "unit": "V"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "RMS voltage",
+          "text": "A sinusoidal voltage has a peak amplitude of 200 V. What is its RMS value?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "282.843 V"
+            },
+            {
+              "id": "o1",
+              "label": "141.421 V"
+            },
+            {
+              "id": "o2",
+              "label": "70.711 V"
+            },
+            {
+              "id": "o3",
+              "label": "424.264 V"
+            }
+          ],
+          "explanation": "U_RMS = U_peak/√2. → 141.421 V",
+          "hint": "U_RMS = U_peak/√2."
+        }
+      }
+    },
+    {
+      "id": "ee-school-resistor-ac-2",
+      "group": "resistor-ac",
+      "difficulty": 1,
+      "category": "Moc rezystora w AC",
+      "text": "Idealny rezystor 100 Ω zasilany jest napięciem sinusoidalnym 20 V RMS. Jaka jest średnia moc?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "8 W"
+        },
+        {
+          "id": "o1",
+          "label": "4 W"
+        },
+        {
+          "id": "o2",
+          "label": "2 W"
+        },
+        {
+          "id": "o3",
+          "label": "12 W"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "P = U_RMS²/R. → 4 W",
+      "hint": "P = U_RMS²/R.",
+      "sourceIds": [
+        "school-ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 20,
+          "r": 100
+        },
+        "expected": {
+          "value": 4,
+          "unit": "W"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Resistor power in AC",
+          "text": "An ideal 100 Ω resistor is supplied with a sinusoidal voltage of 20 V RMS. What is the average power?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "8 W"
+            },
+            {
+              "id": "o1",
+              "label": "4 W"
+            },
+            {
+              "id": "o2",
+              "label": "2 W"
+            },
+            {
+              "id": "o3",
+              "label": "12 W"
+            }
+          ],
+          "explanation": "P = U_RMS²/R. → 4 W",
+          "hint": "P = U_RMS²/R."
+        }
+      }
+    },
+    {
+      "id": "ee-school-current-split-2",
+      "group": "current-split",
+      "difficulty": 1,
+      "category": "Podział prądu",
+      "text": "Rezystory 8 Ω i 16 Ω są połączone równolegle. Prąd całkowity wynosi 3 A. Ile płynie przez rezystor 8 Ω?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "6 A"
+        },
+        {
+          "id": "o1",
+          "label": "4 A"
+        },
+        {
+          "id": "o2",
+          "label": "1 A"
+        },
+        {
+          "id": "o3",
+          "label": "2 A"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "I₁ = I R₂/(R₁ + R₂). → 2 A",
+      "hint": "I₁ = I R₂/(R₁ + R₂).",
+      "sourceIds": [
+        "school-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "a": 8,
+          "b": 16,
+          "i": 3
+        },
+        "expected": {
+          "value": 2,
+          "unit": "A"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Current division",
+          "text": "Resistors of 8 Ω and 16 Ω are connected in parallel. The total current is 3 A. How much flows through the 8 Ω resistor?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "6 A"
+            },
+            {
+              "id": "o1",
+              "label": "4 A"
+            },
+            {
+              "id": "o2",
+              "label": "1 A"
+            },
+            {
+              "id": "o3",
+              "label": "2 A"
+            }
+          ],
+          "explanation": "I₁ = I R₂/(R₁ + R₂). → 2 A",
+          "hint": "I₁ = I R₂/(R₁ + R₂)."
+        }
+      }
+    },
+    {
+      "id": "ee-school-divider-3",
+      "group": "divider",
+      "difficulty": 1,
+      "category": "Dzielnik napięcia",
+      "text": "Rezystory 12 Ω i 24 Ω tworzą nieobciążony dzielnik zasilany napięciem 36 V DC. Jakie napięcie występuje na rezystorze 24 Ω?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "12 V"
+        },
+        {
+          "id": "o1",
+          "label": "48 V"
+        },
+        {
+          "id": "o2",
+          "label": "24 V"
+        },
+        {
+          "id": "o3",
+          "label": "72 V"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "U₂ = U R₂/(R₁ + R₂). → 24 V",
+      "hint": "U₂ = U R₂/(R₁ + R₂).",
+      "sourceIds": [
+        "school-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 36,
+          "a": 12,
+          "b": 24
+        },
+        "expected": {
+          "value": 24.0,
+          "unit": "V"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Voltage divider",
+          "text": "Resistors of 12 Ω and 24 Ω form an unloaded voltage divider supplied at 36 V DC. What is the voltage across the 24 Ω resistor?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "12 V"
+            },
+            {
+              "id": "o1",
+              "label": "48 V"
+            },
+            {
+              "id": "o2",
+              "label": "24 V"
+            },
+            {
+              "id": "o3",
+              "label": "72 V"
+            }
+          ],
+          "explanation": "U₂ = U R₂/(R₁ + R₂). → 24 V",
+          "hint": "U₂ = U R₂/(R₁ + R₂)."
+        }
+      }
+    },
+    {
+      "id": "ee-school-parallel-unequal-3",
+      "group": "parallel-unequal",
+      "difficulty": 1,
+      "category": "Rezystancja zastępcza",
+      "text": "Rezystory 12 Ω i 24 Ω połączono równolegle. Oblicz rezystancję zastępczą.",
+      "options": [
+        {
+          "id": "o0",
+          "label": "24 Ω"
+        },
+        {
+          "id": "o1",
+          "label": "16 Ω"
+        },
+        {
+          "id": "o2",
+          "label": "4 Ω"
+        },
+        {
+          "id": "o3",
+          "label": "8 Ω"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "R = R₁R₂/(R₁ + R₂). → 8 Ω",
+      "hint": "R = R₁R₂/(R₁ + R₂).",
+      "sourceIds": [
+        "school-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "a": 12,
+          "b": 24
+        },
+        "expected": {
+          "value": 8.0,
+          "unit": "Ω"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Equivalent resistance",
+          "text": "Resistors of 12 Ω and 24 Ω are connected in parallel. Calculate their equivalent resistance.",
+          "options": [
+            {
+              "id": "o0",
+              "label": "24 Ω"
+            },
+            {
+              "id": "o1",
+              "label": "16 Ω"
+            },
+            {
+              "id": "o2",
+              "label": "4 Ω"
+            },
+            {
+              "id": "o3",
+              "label": "8 Ω"
+            }
+          ],
+          "explanation": "R = R₁R₂/(R₁ + R₂). → 8 Ω",
+          "hint": "R = R₁R₂/(R₁ + R₂)."
+        }
+      }
+    },
+    {
+      "id": "ee-school-series-power-3",
+      "group": "series-power",
+      "difficulty": 1,
+      "category": "Moc w obwodzie szeregowym",
+      "text": "Rezystory 12 Ω i 24 Ω połączono szeregowo do 36 V DC. Jaka moc wydziela się tylko w rezystorze 12 Ω?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "36 W"
+        },
+        {
+          "id": "o1",
+          "label": "24 W"
+        },
+        {
+          "id": "o2",
+          "label": "6 W"
+        },
+        {
+          "id": "o3",
+          "label": "12 W"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "I = U/(R₁ + R₂); P₁ = I²R₁. → 12 W",
+      "hint": "I = U/(R₁ + R₂); P₁ = I²R₁.",
+      "sourceIds": [
+        "school-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 36,
+          "a": 12,
+          "b": 24
+        },
+        "expected": {
+          "value": 12.0,
+          "unit": "W"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Power in a series circuit",
+          "text": "Resistors of 12 Ω and 24 Ω are connected in series across 36 V DC. What power is dissipated only in the 12 Ω resistor?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "36 W"
+            },
+            {
+              "id": "o1",
+              "label": "24 W"
+            },
+            {
+              "id": "o2",
+              "label": "6 W"
+            },
+            {
+              "id": "o3",
+              "label": "12 W"
+            }
+          ],
+          "explanation": "I = U/(R₁ + R₂); P₁ = I²R₁. → 12 W",
+          "hint": "I = U/(R₁ + R₂); P₁ = I²R₁."
+        }
+      }
+    },
+    {
+      "id": "ee-school-voltage-loss-3",
+      "group": "voltage-loss",
+      "difficulty": 1,
+      "category": "Spadek napięcia",
+      "text": "Całkowita rezystancja pary przewodów wynosi 0.3 Ω. Prąd DC wynosi 5 A. Jaki jest spadek napięcia na obu przewodach łącznie?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "4.5 V"
+        },
+        {
+          "id": "o1",
+          "label": "3 V"
+        },
+        {
+          "id": "o2",
+          "label": "0.75 V"
+        },
+        {
+          "id": "o3",
+          "label": "1.5 V"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "ΔU = IR. → 1.5 V",
+      "hint": "ΔU = IR.",
+      "sourceIds": [
+        "school-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "r": 0.3,
+          "i": 5
+        },
+        "expected": {
+          "value": 1.5,
+          "unit": "V"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Voltage drop",
+          "text": "The total resistance of a pair of wires is 0.3 Ω. The DC current is 5 A. What is the combined voltage drop across both wires?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "4.5 V"
+            },
+            {
+              "id": "o1",
+              "label": "3 V"
+            },
+            {
+              "id": "o2",
+              "label": "0.75 V"
+            },
+            {
+              "id": "o3",
+              "label": "1.5 V"
+            }
+          ],
+          "explanation": "ΔU = IR. → 1.5 V",
+          "hint": "ΔU = IR."
+        }
+      }
+    },
+    {
+      "id": "ee-school-efficiency-3",
+      "group": "efficiency",
+      "difficulty": 1,
+      "category": "Sprawność",
+      "text": "Przetwornik pobiera 300 W i oddaje 240 W mocy użytecznej. Ile wynosi jego sprawność?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "160 %"
+        },
+        {
+          "id": "o1",
+          "label": "80 %"
+        },
+        {
+          "id": "o2",
+          "label": "40 %"
+        },
+        {
+          "id": "o3",
+          "label": "240 %"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "η = Pout/Pin × 100%. → 80 %",
+      "hint": "η = Pout/Pin × 100%.",
+      "sourceIds": [
+        "school-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "pin": 300,
+          "pout": 240
+        },
+        "expected": {
+          "value": 80,
+          "unit": "%"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Efficiency",
+          "text": "A converter takes 300 W of input power and delivers 240 W of useful output power. What is its efficiency?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "160 %"
+            },
+            {
+              "id": "o1",
+              "label": "80 %"
+            },
+            {
+              "id": "o2",
+              "label": "40 %"
+            },
+            {
+              "id": "o3",
+              "label": "240 %"
+            }
+          ],
+          "explanation": "η = Pout/Pin × 100%. → 80 %",
+          "hint": "η = Pout/Pin × 100%."
+        }
+      }
+    },
+    {
+      "id": "ee-school-energy-joule-3",
+      "group": "energy-joule",
+      "difficulty": 1,
+      "category": "Energia w dżulach",
+      "text": "Rezystor zasilany napięciem 36 V DC pobiera 2 A przez 60 sekund. Ile energii zamienia w ciepło?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "12960 J"
+        },
+        {
+          "id": "o1",
+          "label": "8640 J"
+        },
+        {
+          "id": "o2",
+          "label": "2160 J"
+        },
+        {
+          "id": "o3",
+          "label": "4320 J"
+        }
+      ],
+      "correctOptionId": "o3",
+      "explanation": "E = UIt. → 4320 J",
+      "hint": "E = UIt.",
+      "sourceIds": [
+        "school-power"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 36,
+          "i": 2,
+          "t": 60
+        },
+        "expected": {
+          "value": 4320,
+          "unit": "J"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Energy in joules",
+          "text": "A resistor supplied at 36 V DC draws 2 A for 60 seconds. How much energy does it convert to heat?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "12960 J"
+            },
+            {
+              "id": "o1",
+              "label": "8640 J"
+            },
+            {
+              "id": "o2",
+              "label": "2160 J"
+            },
+            {
+              "id": "o3",
+              "label": "4320 J"
+            }
+          ],
+          "explanation": "E = UIt. → 4320 J",
+          "hint": "E = UIt."
+        }
+      }
+    },
+    {
+      "id": "ee-school-cap-energy-3",
+      "group": "cap-energy",
+      "difficulty": 1,
+      "category": "Energia kondensatora",
+      "text": "Idealny kondensator o pojemności 1000 µF naładowano do 36 V. Ile energii zgromadził?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "1.296 J"
+        },
+        {
+          "id": "o1",
+          "label": "0.648 J"
+        },
+        {
+          "id": "o2",
+          "label": "0.324 J"
+        },
+        {
+          "id": "o3",
+          "label": "1.944 J"
+        }
+      ],
+      "correctOptionId": "o1",
+      "explanation": "E = ½CU²; C w faradach. → 0.648 J",
+      "hint": "E = ½CU²; C w faradach.",
+      "sourceIds": [
+        "school-capacitor"
+      ],
+      "calculation": {
+        "inputs": {
+          "c": 0.001,
+          "u": 36
+        },
+        "expected": {
+          "value": 0.6480000000000001,
+          "unit": "J"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Capacitor energy",
+          "text": "An ideal 1000 µF capacitor is charged to 36 V. How much energy does it store?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "1.296 J"
+            },
+            {
+              "id": "o1",
+              "label": "0.648 J"
+            },
+            {
+              "id": "o2",
+              "label": "0.324 J"
+            },
+            {
+              "id": "o3",
+              "label": "1.944 J"
+            }
+          ],
+          "explanation": "E = ½CU²; C in F. → 0.648 J",
+          "hint": "E = ½CU²; C in F."
+        }
+      }
+    },
+    {
+      "id": "ee-school-rms-3",
+      "group": "rms",
+      "difficulty": 1,
+      "category": "Wartość skuteczna",
+      "text": "Napięcie sinusoidalne ma amplitudę 300 V. Jaka jest jego wartość skuteczna (RMS)?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "106.066 V"
+        },
+        {
+          "id": "o1",
+          "label": "424.264 V"
+        },
+        {
+          "id": "o2",
+          "label": "212.132 V"
+        },
+        {
+          "id": "o3",
+          "label": "636.396 V"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "U_RMS = U_peak/√2. → 212.132 V",
+      "hint": "U_RMS = U_peak/√2.",
+      "sourceIds": [
+        "school-ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "peak": 300
+        },
+        "expected": {
+          "value": 212.13203435596424,
+          "unit": "V"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "RMS voltage",
+          "text": "A sinusoidal voltage has a peak amplitude of 300 V. What is its RMS value?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "106.066 V"
+            },
+            {
+              "id": "o1",
+              "label": "424.264 V"
+            },
+            {
+              "id": "o2",
+              "label": "212.132 V"
+            },
+            {
+              "id": "o3",
+              "label": "636.396 V"
+            }
+          ],
+          "explanation": "U_RMS = U_peak/√2. → 212.132 V",
+          "hint": "U_RMS = U_peak/√2."
+        }
+      }
+    },
+    {
+      "id": "ee-school-resistor-ac-3",
+      "group": "resistor-ac",
+      "difficulty": 1,
+      "category": "Moc rezystora w AC",
+      "text": "Idealny rezystor 100 Ω zasilany jest napięciem sinusoidalnym 30 V RMS. Jaka jest średnia moc?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "4.5 W"
+        },
+        {
+          "id": "o1",
+          "label": "18 W"
+        },
+        {
+          "id": "o2",
+          "label": "9 W"
+        },
+        {
+          "id": "o3",
+          "label": "27 W"
+        }
+      ],
+      "correctOptionId": "o2",
+      "explanation": "P = U_RMS²/R. → 9 W",
+      "hint": "P = U_RMS²/R.",
+      "sourceIds": [
+        "school-ac"
+      ],
+      "calculation": {
+        "inputs": {
+          "u": 30,
+          "r": 100
+        },
+        "expected": {
+          "value": 9,
+          "unit": "W"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Resistor power in AC",
+          "text": "An ideal 100 Ω resistor is supplied with a sinusoidal voltage of 30 V RMS. What is the average power?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "4.5 W"
+            },
+            {
+              "id": "o1",
+              "label": "18 W"
+            },
+            {
+              "id": "o2",
+              "label": "9 W"
+            },
+            {
+              "id": "o3",
+              "label": "27 W"
+            }
+          ],
+          "explanation": "P = U_RMS²/R. → 9 W",
+          "hint": "P = U_RMS²/R."
+        }
+      }
+    },
+    {
+      "id": "ee-school-current-split-3",
+      "group": "current-split",
+      "difficulty": 1,
+      "category": "Podział prądu",
+      "text": "Rezystory 12 Ω i 24 Ω są połączone równolegle. Prąd całkowity wynosi 3 A. Ile płynie przez rezystor 12 Ω?",
+      "options": [
+        {
+          "id": "o0",
+          "label": "2 A"
+        },
+        {
+          "id": "o1",
+          "label": "4 A"
+        },
+        {
+          "id": "o2",
+          "label": "1 A"
+        },
+        {
+          "id": "o3",
+          "label": "6 A"
+        }
+      ],
+      "correctOptionId": "o0",
+      "explanation": "I₁ = I R₂/(R₁ + R₂). → 2 A",
+      "hint": "I₁ = I R₂/(R₁ + R₂).",
+      "sourceIds": [
+        "school-circuits"
+      ],
+      "calculation": {
+        "inputs": {
+          "a": 12,
+          "b": 24,
+          "i": 3
+        },
+        "expected": {
+          "value": 2,
+          "unit": "A"
+        }
+      },
+      "translations": {
+        "en": {
+          "category": "Current division",
+          "text": "Resistors of 12 Ω and 24 Ω are connected in parallel. The total current is 3 A. How much flows through the 12 Ω resistor?",
+          "options": [
+            {
+              "id": "o0",
+              "label": "2 A"
+            },
+            {
+              "id": "o1",
+              "label": "4 A"
+            },
+            {
+              "id": "o2",
+              "label": "1 A"
+            },
+            {
+              "id": "o3",
+              "label": "6 A"
+            }
+          ],
+          "explanation": "I₁ = I R₂/(R₁ + R₂). → 2 A",
+          "hint": "I₁ = I R₂/(R₁ + R₂)."
         }
       }
     }

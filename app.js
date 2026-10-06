@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.26";
+const APP_VERSION = "2.27";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const AXIS_POSITION_KEY_PREFIX = "globocie-axis-position-v1:";
@@ -19,9 +19,7 @@ const t = (key, vars = {}) => I18N.text(key, vars);
 const startupParams = new URLSearchParams(location.search || "");
 const requestedQuizId = startupParams.get("quiz");
 const galleryReferrer = /https:\/\/rewolucja-ac-dc-galeria(?:-prywatna)?\.cubilladam\.chatgpt\.site(?:\/|$)/i.test(document.referrer || "");
-const directQuizId = Object.prototype.hasOwnProperty.call(THEME_API.modules, requestedQuizId)
-  ? requestedQuizId
-  : (galleryReferrer ? "electricity-knowledge" : null);
+const directQuizId = Object.prototype.hasOwnProperty.call(THEME_API.modules, requestedQuizId) ? requestedQuizId : (galleryReferrer ? "electricity-knowledge" : null);
 const requestedLanguage = startupParams.get("lang");
 if (requestedLanguage === "pl" || requestedLanguage === "en") I18N.setLanguage(requestedLanguage);
 const initialModuleId = directQuizId || localStorage.getItem("globocie-module") || THEME_API.defaultModule || "political-compass";
@@ -33,17 +31,9 @@ const initialAxisCandidate = initialStoredAxisPosition !== null && initialStored
 const initialSelfPosition = clamp(Number.isFinite(initialAxisCandidate) ? initialAxisCandidate : initialAxisFallback, Number(initialAxis.min ?? 0), Number(initialAxis.max ?? 100));
 
 const DIFFICULTIES = [
-  { id: "uczen", label: "Uczeń", sourceBand: 0 },
-  { id: "student", label: "Student", sourceBand: 1 },
-  { id: "student-plus", label: "Student+", sourceBand: 1 },
-  { id: "zaawansowany", label: "Zaawansowany", sourceBand: 1 },
-  { id: "zaawansowany-plus", label: "Zaawansowany+", sourceBand: 1 },
-  { id: "doktorant", label: "Doktorant", sourceBand: 2 },
-  { id: "doktorant-plus", label: "Doktorant+", sourceBand: 2 },
-  { id: "doktor", label: "Doktor", sourceBand: 2 },
-  { id: "profesor-minus", label: "Profesor−", sourceBand: 2 },
-  { id: "profesor", label: "Profesor", sourceBand: 2 },
-  { id: "ekspert", label: "Ekspert", sourceBand: 2 }
+  { id: "primary", label: "Absolwent podstawówki", sourceBand: 0 },
+  { id: "secondary", label: "Maturzysta", sourceBand: 1 },
+  { id: "bachelor", label: "Licencjat / inżynier", sourceBand: 2 }
 ];
 
 const AXIS_META = {
@@ -157,42 +147,27 @@ function questionCategory(question) {
   return I18N.questionCategory(state.package?.manifest?.id, question?.category || t("questionFallback"));
 }
 
-function difficultyMax() { return currentModule().maxDifficulty ?? 10; }
+function difficultyMax() { return currentModule().maxDifficulty ?? 2; }
 function normalizedDifficulty(module, value) {
   const number = Number(value);
-  return module.fixedDifficulty ?? clamp(Number.isFinite(number) ? Math.round(number) : 1, 0, module.maxDifficulty ?? 10);
+  return module.fixedDifficulty ?? clamp(Number.isFinite(number) ? Math.round(number) : 1, 0, module.maxDifficulty ?? 2);
 }
 function storedDifficulty(module) {
-  const key = module.difficultyStorageKey || "globocie-difficulty";
-  return normalizedDifficulty(module, localStorage.getItem(key) ?? 1);
+  const key = module.difficultyStorageKey || "globocie-difficulty-v3";
+  const saved = localStorage.getItem(key);
+  if (saved !== null) return normalizedDifficulty(module, saved);
+  const legacy = localStorage.getItem(module.id === "electricity-knowledge" ? "globocie-electricity-difficulty" : "globocie-difficulty");
+  if (legacy === null) return 1;
+  const value = Number(legacy);
+  return normalizedDifficulty(module, module.id === "electricity-knowledge" ? (value === 0 ? 0 : 2) : (value === 0 ? 0 : value < 5 ? 1 : 2));
 }
 function storeDifficulty() {
-  localStorage.setItem(currentModule().difficultyStorageKey || "globocie-difficulty", String(state.difficulty));
+  localStorage.setItem(currentModule().difficultyStorageKey || "globocie-difficulty-v3", String(state.difficulty));
 }
-function knowledgeLevelLabel() {
-  const pl = [
-    "Absolwent podstawówki — podstawy elektryczności",
-    "Maturzysta — poziom szkoły średniej",
-    "Licencjat / inżynier — poziom akademicki"
-  ];
-  const en = [
-    "Primary school graduate — electrical basics",
-    "High school graduate — upper-secondary level",
-    "Bachelor’s degree / Engineer — university level"
-  ];
-  return (I18N.getLanguage() === "en" ? en : pl)[state.difficulty] || difficultyLabel(state.difficulty);
-}
-
+function knowledgeLevelLabel() { return difficultyLabel(state.difficulty); }
 function difficultyLabel(index) {
-  if (currentModule().id === "electricity-knowledge") {
-    const labels = I18N.getLanguage() === "en"
-      ? ["Primary school graduate", "High school graduate", "Bachelor’s degree / Engineer"]
-      : ["Absolwent podstawówki", "Maturzysta", "Licencjat / inżynier"];
-    return labels[index] || labels[1];
-  }
-  return I18N.difficultyLabel(index, DIFFICULTIES[index]?.label || t("difficulty"));
+  return (I18N.getLanguage() === "en" ? ["Primary-school graduate", "Upper-secondary-school graduate", "Bachelor’s / engineering graduate"] : ["Absolwent podstawówki", "Maturzysta", "Licencjat / inżynier"])[index] || t("difficulty");
 }
-
 function syncLocale() {
   const language = I18N.getLanguage();
   document.documentElement.lang = language;
@@ -280,25 +255,6 @@ function shuffle(items) {
 }
 
 function topicQuestionsForDifficulty(level) {
-  if (isKnowledgeModule()) {
-    const all = state.package.questions || [];
-    const pickOnePerGroup = (pool) => {
-      const groups = shuffle([...new Set(pool.map(question => question.group))]);
-      return groups.map(group => shuffle(pool.filter(question => question.group === group))[0]).filter(Boolean);
-    };
-    if (level === 0 || level === 2) {
-      const band = level === 0 ? 0 : 1;
-      return pickOnePerGroup(all.filter(question => question.difficulty === band));
-    }
-    const groups = shuffle([...new Set(all.map(question => question.group))]);
-    const advancedGroups = new Set(groups.slice(0, Math.ceil(groups.length / 2)));
-    return groups.map(group => {
-      const band = advancedGroups.has(group) ? 1 : 0;
-      const preferred = all.filter(question => question.group === group && question.difficulty === band);
-      const fallback = all.filter(question => question.group === group);
-      return shuffle(preferred.length ? preferred : fallback)[0];
-    }).filter(Boolean);
-  }
   const difficulty = DIFFICULTIES[level] || DIFFICULTIES[1];
   const exact = state.package.questions.filter(question => question.difficulty === difficulty.sourceBand);
   if (state.package.settings?.onePerGroup) {
@@ -364,16 +320,12 @@ function confidencePercent() {
 }
 
 function difficultyTicks() {
-  if (isKnowledgeModule()) return '<div class="difficulty-ticks knowledge-three" aria-hidden="true"><i class="major"></i><i class="major"></i><i class="major"></i></div>';
   return `<div class="difficulty-ticks" aria-hidden="true">${DIFFICULTIES.slice(0, difficultyMax() + 1).map((_, index) => `<i class="${[0, 1, 9, 10].includes(index) ? "major" : ""}"></i>`).join("")}</div>`;
 }
 
 function difficultyLabels() {
-  if (isKnowledgeModule()) return `<div class="difficulty-labels knowledge-three-labels"><span>${escapeHtml(difficultyLabel(0))}</span><span>${escapeHtml(difficultyLabel(1))}</span><span>${escapeHtml(difficultyLabel(2))}</span></div>`;
-  if (difficultyMax() === 1) return `<div class="difficulty-labels" style="display:flex;justify-content:space-between"><span>${escapeHtml(difficultyLabel(0))}</span><span>${escapeHtml(difficultyLabel(1))}</span></div>`;
-  return `<div class="difficulty-labels"><span>${escapeHtml(difficultyLabel(0))}</span><span>${escapeHtml(difficultyLabel(1))}</span><span>${escapeHtml(difficultyLabel(9))}</span><span>${escapeHtml(difficultyLabel(10))}</span></div>`;
+  return `<div class="difficulty-labels three-level-labels">${DIFFICULTIES.map((_, index) => `<span>${escapeHtml(difficultyLabel(index))}</span>`).join("")}</div>`;
 }
-
 function heartAnimationMarkup() {
   return `<div class="heart-animation" data-heart-animation="true" aria-hidden="true"><span class="heart-ripple heart-ripple-a"></span><span class="heart-ripple heart-ripple-b"></span><span class="heart-core">♥</span></div>`;
 }
@@ -466,37 +418,13 @@ function futureTopicsPanel() {
   return `<section class="future-topics ${state.futureTopicsOpen ? "open" : ""}"><button class="future-toggle" data-action="toggle-future-topics" aria-expanded="${state.futureTopicsOpen}"><span>${escapeHtml(t("upcomingTopics"))}</span><small>${escapeHtml(t("inPreparation"))}</small><b>${state.futureTopicsOpen ? "←" : "→"}</b></button><div class="future-topic-list" ${state.futureTopicsOpen ? "" : "hidden"} aria-label="${escapeHtml(t("upcomingTopics"))}">${topics.map(topic => `<button class="future-topic" type="button" disabled><strong>${escapeHtml(I18N.futureTopic(topic.id, topic.name))}</strong><span>${escapeHtml(t("comingSoon"))}</span></button>`).join("")}</div></section>`;
 }
 
-function renderKnowledgeEntry() {
-  const module = currentLocalizedModule();
-  const ui = module.ui || {};
-  const isEn = I18N.getLanguage() === "en";
-  const descriptions = isEn
-    ? ["Basic concepts and straightforward electrical questions.", "Upper-secondary concepts, calculations and core laws.", "University-level circuits, machines and power electronics."]
-    : ["Podstawowe pojęcia i proste zagadnienia elektryczne.", "Poziom szkoły średniej, obliczenia i podstawowe prawa.", "Poziom akademicki: obwody, maszyny i energoelektronika."];
-  const title = isEn ? "Electrical engineering knowledge" : "Wiedza z zakresu elektryczności";
-  const intro = isEn ? "Choose the level that best matches your education and experience." : "Wybierz poziom, który najlepiej odpowiada Twojemu wykształceniu i doświadczeniu.";
-  app.innerHTML = `<section class="knowledge-entry panel">
-    <div class="knowledge-entry-art" aria-hidden="true"><div class="bulb">💡</div><span>R = U / I</span><span>P = U · I</span></div>
-    <div class="knowledge-entry-main">
-      <div class="eyebrow">${escapeHtml(isEn ? "THEMATIC QUIZ" : "QUIZ TEMATYCZNY")}</div>
-      <h1>${escapeHtml(title)}</h1>
-      <p class="knowledge-entry-lead">${escapeHtml(intro)}</p>
-      <section class="knowledge-level-card">
-        <h2>${escapeHtml(isEn ? "Knowledge level" : "Poziom wiedzy")}</h2>
-        <input id="start-difficulty" class="glow-range" type="range" min="0" max="2" step="1" value="${state.difficulty}">
-        ${difficultyTicks()}
-        <div class="knowledge-level-options">
-          ${[0,1,2].map(level => `<button type="button" class="knowledge-level-option ${state.difficulty === level ? "active" : ""}" data-action="select-knowledge-level" data-level="${level}"><strong>${escapeHtml(difficultyLabel(level))}</strong><span>${escapeHtml(descriptions[level])}</span></button>`).join("")}
-        </div>
-        <button class="primary big knowledge-start" data-action="start-module" data-module-id="${escapeHtml(module.id)}">▶ ${escapeHtml(isEn ? "Start test" : "Rozpocznij test")}</button>
-        <p class="knowledge-entry-note">${escapeHtml(isEn ? "10 questions · immediate result · explanations after the test" : "10 pytań · natychmiastowy wynik · wyjaśnienia po teście")}</p>
-      </section>
-    </div>
-  </section>`;
+function renderElectricityEntry() {
+  const en = I18N.getLanguage() === "en";
+  const descriptions = en ? ["Basic concepts and simple problems. A good starting point.", "Intermediate problems using basic laws and their applications.", "Advanced electrical and engineering problems."] : ["Podstawowe pojęcia i proste zagadnienia. Dobry poziom na start.", "Średni poziom: podstawowe prawa i ich zastosowania.", "Zaawansowane zagadnienia z elektryczności i elektrotechniki."];
+  app.innerHTML = `<section class="electricity-entry"><div class="entry-bulb" aria-hidden="true"></div><header><div class="eyebrow">${en ? "ELECTRICITY QUIZ" : "QUIZ TEMATYCZNY"}</div><h1>${en ? "Knowledge of electricity" : "Wiedza z zakresu elektryczności"}</h1><p>${en ? "Explore electric current, circuits, devices and electrical phenomena." : "Sprawdź swoją wiedzę o prądzie, obwodach, urządzeniach i zjawiskach elektrycznych."}</p></header><section class="entry-choice"><h2>${en ? "Knowledge level" : "Poziom wiedzy"}</h2><p>${en ? "Choose the level that best matches your knowledge and experience." : "Wybierz poziom, który najlepiej odpowiada Twojej wiedzy i doświadczeniu."}</p><label class="entry-current" for="start-difficulty" id="start-difficulty-label">${escapeHtml(difficultyLabel(state.difficulty))}</label><input id="start-difficulty" aria-label="${en ? "Knowledge level" : "Poziom wiedzy"}" class="glow-range" type="range" min="0" max="2" step="1" value="${state.difficulty}"><div class="entry-levels">${DIFFICULTIES.map((_,i)=>`<button class="entry-level ${i===state.difficulty ? "selected" : ""}" data-action="select-level" data-level="${i}" aria-pressed="${i===state.difficulty}"><strong>${escapeHtml(difficultyLabel(i))}</strong><span>${descriptions[i]}</span></button>`).join("")}</div><button class="primary entry-start" data-action="start-module" data-module-id="electricity-knowledge">${en ? "Start the test" : "Rozpocznij test"}</button><div class="entry-benefits"><span>${en ? "10 questions" : "10 pytań"}</span><span>${en ? "Instant result and result code" : "Natychmiastowy wynik i kod"}</span><span>${en ? "Answers with explanations" : "Odpowiedzi z wyjaśnieniami"}</span></div><small>${en ? "The level determines the questions. Your result applies to the chosen level." : "Poziom wyznacza zestaw pytań. Wynik dotyczy wybranego poziomu."}</small></section></section>`;
 }
-
 function renderStart() {
-  if (isKnowledgeModule() && directQuizId) return renderKnowledgeEntry();
+  if (isKnowledgeModule()) return renderElectricityEntry();
   const module = currentLocalizedModule();
   const theme = currentLocalizedTheme();
   const ui = module.ui || {};
@@ -686,10 +614,7 @@ function currentResultCode() {
   const ids = new Set(state.questions.map(question => question.id));
   if (ids.size !== 10 || new Set(state.answers.map(answer => answer.questionId)).size !== 10) return null;
   if (!state.answers.every(answer => ids.has(answer.questionId) && state.questions.find(question => question.id === answer.questionId).options.some(option => option.id === answer.value))) return null;
-  if (state.difficulty === 0 && !state.questions.every(question => question.difficulty === 0)) return null;
-  if (state.difficulty === 2 && !state.questions.every(question => question.difficulty === 1)) return null;
-  if (state.difficulty === 1 && !state.questions.some(question => question.difficulty === 0)) return null;
-  if (state.difficulty === 1 && !state.questions.some(question => question.difficulty === 1)) return null;
+  if (!state.questions.every(question => question.difficulty === state.difficulty)) return null;
   const score = knowledgeScore();
   return window.GLOBOCIE_RESULT_CODE.encode({ ...score, completed: true, moduleId: state.moduleId, difficulty: state.difficulty });
 }
@@ -871,11 +796,6 @@ app.addEventListener("click", event => {
   const actionElement = event.target.closest("[data-action]");
   if (!actionElement) return;
   const action = actionElement.dataset.action;
-  if (action === "select-knowledge-level") {
-    state.difficulty = normalizedDifficulty(currentModule(), Number(actionElement.dataset.level));
-    storeDifficulty();
-    return renderKnowledgeEntry();
-  }
   if (action === "start-module") return startModule(actionElement.dataset.moduleId || "political-compass");
   if (action === "start-politics") return startPolitics();
   if (action === "scroll-topics") return document.querySelector("#topics")?.scrollIntoView({ behavior: "smooth" });
@@ -884,6 +804,7 @@ app.addEventListener("click", event => {
   if (action === "return-start") return requestReturnStart();
   if (action === "home") return requestHome();
   if (action === "restart-topic") return restartTopic();
+  if (action === "select-level") { state.difficulty = normalizedDifficulty(currentModule(), actionElement.dataset.level); storeDifficulty(); return renderStart(); }
   if (action === "help") return showHelp();
   if (action === "privacy") return showPrivacy();
   if (action === "close-dialog") return infoDialog.close();
@@ -904,9 +825,8 @@ app.addEventListener("input", event => {
     if (currentModule().fixedDifficulty !== undefined) { state.difficulty = currentModule().fixedDifficulty; return renderStart(); }
     state.difficulty = normalizedDifficulty(currentModule(), event.target.value);
     storeDifficulty();
-    const label = document.querySelector("#start-difficulty-label");
-    if (label) label.textContent = difficultyLabel(state.difficulty);
-    if (isKnowledgeModule() && directQuizId) return renderKnowledgeEntry();
+    document.querySelector("#start-difficulty-label").textContent = difficultyLabel(state.difficulty);
+    document.querySelectorAll(".entry-level").forEach(button => { const selected = Number(button.dataset.level) === state.difficulty; button.classList.toggle("selected", selected); button.setAttribute("aria-pressed", String(selected)); });
   }
   if (event.target.id === "difficulty-live") requestDifficultyChange(Number(event.target.value));
 });
@@ -937,4 +857,4 @@ window.addEventListener?.("globocie-language-change", () => {
 syncLocale();
 visitorCounter.registerVisit();
 // Resolve a direct link before rendering the start page. No selection-screen flash.
-const initialQuizStartup = directQuizId ? startModule(directQuizId) : Promise.resolve(render());
+const initialQuizStartup = directQuizId && directQuizId !== "electricity-knowledge" ? startModule(directQuizId) : Promise.resolve(render());

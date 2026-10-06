@@ -92,6 +92,12 @@ const context = vm.createContext({
     const test=launch('?quiz='+moduleId+'&lang='+lang+'&ref=campaign#question',{'globocie-difficulty':'0','globocie-language-v1':lang==='pl'?'en':'pl','globocie-module':'political-compass','globocie-game-starts-v1':'7'});
     await test.ready;
     const run=code=>vm.runInContext(code,test.context);
+    if(moduleId==='electricity-knowledge'){
+      assert.equal(run('state.screen'),'start');assert.match(test.elements['#app'].innerHTML,/electricity-entry/);
+      assert.equal(test.storage.get('globocie-game-starts-v1'),'7','Entry screen must not count as a test start');
+      assert.ok(test.elements['#app'].innerHTML.includes(lang==='pl'?'Maturzysta':'Upper-secondary-school graduate'));
+      await run('startModule("electricity-knowledge")');
+    }
     assert.equal(run('state.screen'),'quiz');assert.equal(run('state.moduleId'),moduleId);
     assert.equal(run('I18N.getLanguage()'),lang);
     assert.equal(test.storage.get('globocie-game-starts-v1'),'8','A direct entry must count once');
@@ -131,7 +137,8 @@ const context = vm.createContext({
   assert.equal(vm.runInContext('I18N.getLanguage()',remembered.context),'en');
   const pupil=launch('?quiz=electricity-knowledge&lang=pl',{'globocie-electricity-difficulty':'0','globocie-difficulty':'9'});await pupil.ready;
   assert.equal(vm.runInContext('state.difficulty',pupil.context),0);
+  await vm.runInContext('startModule("electricity-knowledge")',pupil.context);
   assert.ok(vm.runInContext('state.questions.every(q=>q.difficulty===0)',pupil.context));
   assert.equal(pupil.storage.get('globocie-difficulty'),'9');
-  console.log('Direct links: 4 topics × PL/EN, no start-screen flash, first question, default Student and remembered Pupil, single counter increment, language preservation, cancel/confirm Home, unknown topics and stored language PASS.');
+  console.log('Direct links: 4 topics × PL/EN, no start-screen flash, first question, default upper-secondary and remembered primary, single counter increment, language preservation, cancel/confirm Home, unknown topics and stored language PASS.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

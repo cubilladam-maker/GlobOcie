@@ -480,26 +480,9 @@ body[data-module="electricity-knowledge"] .answer { font-size: 15px; line-height
 
 body[data-module="electricity-knowledge"] .difficulty-ticks { display: flex; justify-content: space-between; }
 
-/* v2.25 — focused electricity-test entry opened from gallery links */
-.knowledge-entry{min-height:calc(100svh - 170px);display:grid;grid-template-columns:minmax(230px,.7fr) minmax(520px,1.6fr);overflow:hidden;background:
-radial-gradient(circle at 12% 38%,rgba(255,170,70,.20),transparent 23%),
-linear-gradient(135deg,rgba(4,14,28,.98),rgba(5,22,40,.96));}
-.knowledge-entry-art{position:relative;display:grid;place-items:center;border-right:1px solid var(--line);overflow:hidden}
-.knowledge-entry-art:before,.knowledge-entry-art:after{content:"";position:absolute;width:75%;height:1px;background:linear-gradient(90deg,transparent,rgba(125,220,255,.35),transparent);transform:rotate(-18deg)}
-.knowledge-entry-art:before{top:28%}.knowledge-entry-art:after{bottom:28%;transform:rotate(17deg)}
-.knowledge-entry-art .bulb{font-size:clamp(110px,13vw,220px);filter:drop-shadow(0 0 32px rgba(255,177,73,.58));z-index:1}
-.knowledge-entry-art span{position:absolute;color:rgba(174,213,244,.42);font:600 18px/1.2 ui-monospace,monospace}.knowledge-entry-art span:nth-of-type(1){left:12%;top:18%}.knowledge-entry-art span:nth-of-type(2){right:10%;bottom:18%}
-.knowledge-entry-main{display:flex;flex-direction:column;justify-content:center;padding:clamp(28px,5vw,72px)}
-.knowledge-entry-main h1{font-size:clamp(34px,4vw,64px);margin:.15em 0}.knowledge-entry-lead{max-width:800px;color:var(--muted);font-size:clamp(16px,1.5vw,22px)}
-.knowledge-level-card{margin-top:24px;padding:clamp(22px,3vw,42px);border:1px solid rgba(120,205,255,.30);border-radius:26px;background:rgba(5,17,31,.72);box-shadow:0 28px 70px rgba(0,0,0,.35)}
-.knowledge-level-card h2{text-align:center;font-size:clamp(24px,2.5vw,36px)}
-.knowledge-level-card .glow-range{width:100%;margin:24px 0 4px}
-.knowledge-three{display:flex!important;justify-content:space-between;margin:0 6px}
-.knowledge-level-options{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:8px 0 26px}
-.knowledge-level-option{border:1px solid transparent;border-radius:16px;padding:16px;background:transparent;color:var(--text);text-align:center;cursor:pointer}
-.knowledge-level-option strong{display:block;font-size:clamp(15px,1.3vw,20px);margin-bottom:7px}.knowledge-level-option span{display:block;color:var(--muted);font-size:13px;line-height:1.45}
-.knowledge-level-option.active{border-color:var(--cyan);background:rgba(36,216,255,.08);box-shadow:0 0 28px rgba(36,216,255,.10)}
-.knowledge-start{display:block!important;margin:14px auto 0;min-width:min(100%,430px)}
-.knowledge-entry-note{text-align:center;color:var(--muted);margin:16px 0 0}
-.knowledge-three-labels{grid-template-columns:repeat(3,1fr)!important}.knowledge-three-labels span:nth-child(2){text-align:center}.knowledge-three-labels span:last-child{text-align:right}
-@media(max-width:860px){.knowledge-entry{grid-template-columns:1fr}.knowledge-entry-art{display:none}.knowledge-entry-main{padding:24px}.knowledge-level-options{grid-template-columns:1fr}.knowledge-level-option{text-align:left}}
+/* v2.25: approved electricity entry, three discrete levels */
+.three-level-labels{display:flex;justify-content:space-between;gap:12px}.three-level-labels span{flex:1;text-align:center;font-size:14px;line-height:1.4}
+.electricity-entry{position:relative;isolation:isolate;max-width:1160px;margin:0 auto;padding:30px 24px 35px 225px;min-height:670px;color:#f4f7fc}.electricity-entry header{text-align:center}.electricity-entry h1{font-size:clamp(28px,3vw,44px);line-height:1.16;margin:16px 0}.electricity-entry p{font-size:17px;line-height:1.5;color:#bfcadc}.entry-bulb{position:absolute;z-index:-1;left:0;top:0;width:200px;height:100%;background-image:url(https://rewolucja-ac-dc-galeria.cubilladam.chatgpt.site/images/quiz-entry-approved.png);background-size:auto 100%;background-position:left center;opacity:.82;mask-image:linear-gradient(to right,#000 65%,transparent)}.entry-choice{padding:24px 32px;background:linear-gradient(135deg,#101e2d,#081322);border:1px solid #2c4056;border-radius:24px;text-align:center}.entry-choice h2{font-size:28px;margin:0}.entry-current{display:block;color:#45dbf6;font-size:17px;min-height:30px}.entry-choice input{width:100%;margin:14px 0 18px;accent-color:#39d6fa}.entry-levels{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.entry-level{padding:16px 8px;background:transparent;color:#f4f7fc;border:1px solid transparent;border-radius:12px;cursor:pointer;line-height:1.4}.entry-level.selected{border-color:#38d5ec;background:#183348}.entry-level strong{display:block;font-size:18px;min-height:48px}.entry-level span{display:block;font-size:15px;color:#bfcadc;margin-top:8px}.entry-start{margin:25px auto 22px;padding:18px 35px;min-width:260px;font-size:22px;background:linear-gradient(110deg,#00ccdb,#7b22ff)}.entry-benefits{display:flex;justify-content:space-between;gap:15px;margin:8px 0 20px;font-size:15px}.entry-choice small{color:#bfcadc;font-size:14px;line-height:1.5}.entry-level:focus-visible,.entry-choice input:focus-visible{outline:3px solid #4cdfef;outline-offset:3px}
+@media(max-width:850px){.electricity-entry{padding:20px 12px;min-height:0}.entry-bulb{display:none}.entry-choice{padding:22px 15px}.entry-levels{gap:4px}.entry-level strong{font-size:15px}.entry-level span{font-size:14px}.entry-benefits{flex-direction:column;gap:8px}.entry-start{min-width:0;width:100%}}
+
+body[data-module="electricity-knowledge"][data-screen="start"]{overflow:auto}.entry-level.selected{box-shadow:0 0 16px #22d3ee22}
