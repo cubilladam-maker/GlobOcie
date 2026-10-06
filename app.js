@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.27";
+const APP_VERSION = "2.28";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const AXIS_POSITION_KEY_PREFIX = "globocie-axis-position-v1:";
@@ -20,6 +20,7 @@ const startupParams = new URLSearchParams(location.search || "");
 const requestedQuizId = startupParams.get("quiz");
 const galleryReferrer = /https:\/\/rewolucja-ac-dc-galeria(?:-prywatna)?\.cubilladam\.chatgpt\.site(?:\/|$)/i.test(document.referrer || "");
 const directQuizId = Object.prototype.hasOwnProperty.call(THEME_API.modules, requestedQuizId) ? requestedQuizId : (galleryReferrer ? "electricity-knowledge" : null);
+const MAIN_GALLERY_URL = "https://rewolucja-ac-dc-galeria.cubilladam.chatgpt.site/";
 const requestedLanguage = startupParams.get("lang");
 if (requestedLanguage === "pl" || requestedLanguage === "en") I18N.setLanguage(requestedLanguage);
 const initialModuleId = directQuizId || localStorage.getItem("globocie-module") || THEME_API.defaultModule || "political-compass";
@@ -362,12 +363,48 @@ function confirmMarkup() {
   if (confirm.key === "difficulty") {
     return `<div class="confirm-symbol">⚠</div><h2>${escapeHtml(t("confirmDifficultyTitle"))}</h2><p>${t("confirmDifficultyChange", { current: escapeHtml(confirm.current), next: escapeHtml(confirm.next) })}</p><p>${escapeHtml(t("confirmAnswersRemoved"))}</p>`;
   }
+  if (confirm.key === "exit") return `<div class="confirm-symbol">↗</div><h2>${escapeHtml(t("exitTitle"))}</h2><p>${escapeHtml(t("exitBody"))}</p>`;
   return `<div class="confirm-symbol">↻</div><h2>${escapeHtml(t("confirmReturnTitle"))}</h2><p>${escapeHtml(t("confirmReturnBody"))}</p>`;
 }
 
 function renderConfirmDialog() {
   if (!state.confirmState) return;
   const confirm = state.confirmState;
+  if (confirm.key === "exit") {
+    confirmContent.innerHTML = `<div class="confirm-card">${confirmMarkup()}<div class="confirm-actions exit-actions"><button class="secondary" id="exit-gallery">${escapeHtml(t("exitGallery"))}</button><button class="secondary" id="exit-topic">${escapeHtml(t("exitTopicStart"))}</button><button class="primary" id="exit-home">${escapeHtml(t("exitQuizHome"))}</button></div></div>`;
+    confirmContent.querySelector("#exit-gallery").onclick = () => {
+      state.confirmState = null;
+      confirmDialog.close();
+      const target = new URL(MAIN_GALLERY_URL);
+      target.searchParams.set("lang", I18N.getLanguage());
+      window.location.assign(target.toString());
+    };
+    confirmContent.querySelector("#exit-topic").onclick = () => {
+      state.confirmState = null;
+      confirmDialog.close();
+      beginSession(state.difficulty);
+      state.screen = "quiz";
+      render();
+      window.scrollTo?.(0, 0);
+    };
+    confirmContent.querySelector("#exit-home").onclick = () => {
+      state.confirmState = null;
+      confirmDialog.close();
+      clearDirectQuizLink();
+      state.questions = [];
+      state.currentIndex = 0;
+      state.answers = [];
+      state.scores = freshScores(currentAxisMeta());
+      state.answerLock = false;
+      state.hintOpen = false;
+      localStorage.removeItem("globocie-progress");
+      activateModule(THEME_API.defaultModule || "political-compass");
+      state.screen = "start";
+      render();
+      requestAnimationFrame(() => document.querySelector("#topics")?.scrollIntoView({ block: "start" }));
+    };
+    return;
+  }
   const yesLabel = confirm.key === "difficulty" ? t("startNewGame") : t("returnToStart");
   confirmContent.innerHTML = `<div class="confirm-card">${confirmMarkup()}<div class="confirm-actions"><button class="secondary" id="confirm-no">${escapeHtml(t("stayHere"))}</button><button class="primary" id="confirm-yes">${escapeHtml(yesLabel)}</button></div></div>`;
   confirmContent.querySelector("#confirm-yes").onclick = () => { state.confirmState = null; confirmDialog.close(); confirm.onYes?.(); };
@@ -472,7 +509,7 @@ function renderQuiz() {
   const answers = isKnowledgeModule() ? localizedQuestion(question).options.map(option => ({ value: option.id, label: option.label })) : I18N.answerScale(state.package?.manifest?.id, state.package.answerScale || []);
   const offerHint = shouldOfferHint();
   app.innerHTML = `<section class="quiz-page">
-    <aside class="panel quiz-settings-panel"><div class="eyebrow">${escapeHtml(t("settings"))}</div>${axisSettingCard("quiz")}<section class="quiz-setting-section"><div class="difficulty-heading"><h3>${escapeHtml(t("difficulty"))}</h3><span>${escapeHtml(isKnowledgeModule() ? knowledgeLevelLabel() : t("difficultyCanChange"))}</span></div><input id="difficulty-live" class="glow-range" type="range" min="0" max="${difficultyMax()}" step="1" value="${state.difficulty}" ${(!isKnowledgeModule() && state.difficultyChangeAttempted) || currentModule().fixedDifficulty !== undefined ? "disabled" : ""}>${difficultyTicks()}${difficultyLabels()}<p>${escapeHtml(!isKnowledgeModule() && state.difficultyChangeAttempted ? t("difficultyAttemptUsed") : t("difficultyShiftRequiresNew"))}</p></section><section class="locked-summary"><div>◉</div><div><strong>${escapeHtml(t("startConfigured"))}</strong><span>${escapeHtml(isKnowledgeModule() ? knowledgeLevelLabel() : axisDescription().label)}</span><span>${escapeHtml(t("levelPrefix"))}: ${escapeHtml(difficultyLabel(state.difficulty))}</span></div><b>🔒</b></section><section class="ai-tip-mini"><b>${escapeHtml(t("aiHintLabel"))}</b><p>${escapeHtml(t(isKnowledgeModule() ? "knowledgeInstructions" : "aiHintBody"))}</p></section><button class="return-start" data-action="return-start">↻ <span><strong>${escapeHtml(t("returnStart"))}</strong><small>${escapeHtml(t("resetQuiz"))}</small></span></button></aside>
+    <aside class="panel quiz-settings-panel"><div class="eyebrow">${escapeHtml(t("settings"))}</div>${axisSettingCard("quiz")}<section class="quiz-setting-section"><div class="difficulty-heading"><h3>${escapeHtml(t("difficulty"))}</h3><span>${escapeHtml(isKnowledgeModule() ? knowledgeLevelLabel() : t("difficultyCanChange"))}</span></div><input id="difficulty-live" class="glow-range" type="range" min="0" max="${difficultyMax()}" step="1" value="${state.difficulty}" ${(!isKnowledgeModule() && state.difficultyChangeAttempted) || currentModule().fixedDifficulty !== undefined ? "disabled" : ""}>${difficultyTicks()}${difficultyLabels()}<p>${escapeHtml(!isKnowledgeModule() && state.difficultyChangeAttempted ? t("difficultyAttemptUsed") : t("difficultyShiftRequiresNew"))}</p></section><section class="locked-summary"><div>◉</div><div><strong>${escapeHtml(t("startConfigured"))}</strong><span>${escapeHtml(isKnowledgeModule() ? knowledgeLevelLabel() : axisDescription().label)}</span><span>${escapeHtml(t("levelPrefix"))}: ${escapeHtml(difficultyLabel(state.difficulty))}</span></div><b>🔒</b></section><section class="ai-tip-mini"><b>${escapeHtml(t("aiHintLabel"))}</b><p>${escapeHtml(t(isKnowledgeModule() ? "knowledgeInstructions" : "aiHintBody"))}</p></section><button class="return-start" data-action="return-start">↗ <span><strong>${escapeHtml(t("exitButton"))}</strong><small>${escapeHtml(t("exitButtonHint"))}</small></span></button></aside>
     <main class="panel quiz-question-panel">${climateQuestionArtwork()}<div class="question-kicker">${escapeHtml(quizUi.kicker || questionCategory(question) || t("questionFallback"))}</div><h2>${escapeHtml(questionText(question))}</h2><div class="answers compact-answers">${answers.map((answer, index) => `<button class="answer" data-answer="${answer.value}" ${state.answerLock ? "disabled" : ""}><span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${escapeHtml(answer.label)}</span></button>`).join("")}</div>${offerHint ? `<button class="hint-row" data-action="toggle-hint"><span>✦</span><strong>${escapeHtml(t(isKnowledgeModule() ? "knowledgeHint" : "questionHint"))}</strong><small>${escapeHtml(t(state.hintOpen ? "hide" : "show"))}</small><b>${state.hintOpen ? "⌃" : "⌄"}</b></button>` : ""}${offerHint && state.hintOpen ? `<div class="hint-box">${escapeHtml(aiHintForQuestion())}</div>` : ""}<div class="question-footnote">${escapeHtml(t("questionFootnote"))}</div></main>
     <aside class="panel quiz-ai-panel">${aiHologram("quiz-ai")}<div class="ai-status"><strong>${escapeHtml(quizUi.aiStatus || t("aiStatusFallback"))}</strong><span>${escapeHtml(quizUi.aiNote || t("aiNoteFallback"))}</span></div></aside>
   </section>`;
@@ -524,7 +561,7 @@ function clearDirectQuizLink() {
 }
 
 function requestReturnStart() {
-  showConfirm("return", {}, () => { clearDirectQuizLink(); state.questions = []; state.currentIndex = 0; state.answers = []; state.scores = freshScores(currentAxisMeta()); state.answerLock = false; state.hintOpen = false; state.screen = "start"; localStorage.removeItem("globocie-progress"); render(); });
+  showConfirm("exit");
 }
 
 function elapsedMinutes() {
