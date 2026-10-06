@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.29";
+const APP_VERSION = "2.30";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const AXIS_POSITION_KEY_PREFIX = "globocie-axis-position-v1:";
@@ -36,6 +36,8 @@ const DIFFICULTIES = [
   { id: "secondary", label: "Maturzysta", sourceBand: 1 },
   { id: "bachelor", label: "Licencjat / inżynier", sourceBand: 2 }
 ];
+const ELECTRICITY_TIME_LIMIT_SECONDS = [45, 75, 120];
+let questionTimerHandle = null;
 
 const AXIS_META = {
   economy: { name: "Gospodarka", left: "Rynek", right: "Redystrybucja" },
@@ -82,7 +84,9 @@ const state = {
   futureTopicsOpen: false,
   sessionStartedMs: null,
   infoDialogKey: null,
-  confirmState: null
+  confirmState: null,
+  questionDeadlineMs: null,
+  questionTimerQuestionId: null
 };
 
 function freshScores(meta = AXIS_META) {
@@ -133,6 +137,8 @@ function saveAxisPosition(module, value) {
   return normalized;
 }
 function isKnowledgeModule() { return currentModule().mode === "knowledge"; }
+function isTimedElectricityQuiz() { return state.moduleId === "electricity-knowledge" && state.screen === "quiz"; }
+function electricityTimeLimitSeconds() { return ELECTRICITY_TIME_LIMIT_SECONDS[state.difficulty] || ELECTRICITY_TIME_LIMIT_SECONDS[1]; }
 function localizedQuestion(question) { return I18N.getLanguage() === "en" ? { ...question, ...question.translations?.en } : question; }
 function startCopy(key) { return t(isKnowledgeModule() ? "knowledge" + key[0].toUpperCase() + key.slice(1) : key); }
 
@@ -282,6 +288,9 @@ function beginSession(level = state.difficulty) {
   state.answerLock = false;
   state.difficultyChangeAttempted = false;
   state.hintOpen = false;
+  stopQuestionTimer();
+  state.questionDeadlineMs = null;
+  state.questionTimerQuestionId = null;
   state.sessionStartedMs = Date.now();
   recordLocalGameStart();
   persistProgress();
@@ -299,7 +308,9 @@ function persistProgress() {
     currentIndex: state.currentIndex,
     answers: state.answers,
     scores: state.scores,
-    sessionStartedMs: state.sessionStartedMs
+    sessionStartedMs: state.sessionStartedMs,
+    questionDeadlineMs: state.questionDeadlineMs,
+    questionTimerQuestionId: state.questionTimerQuestionId
   }));
 }
 
@@ -467,7 +478,7 @@ function futureTopicsPanel() {
 function renderElectricityEntry() {
   const en = I18N.getLanguage() === "en";
   const descriptions = en ? ["Basic concepts and simple problems. A good starting point.", "Intermediate problems using basic laws and their applications.", "Advanced electrical and engineering problems."] : ["Podstawowe pojęcia i proste zagadnienia. Dobry poziom na start.", "Średni poziom: podstawowe prawa i ich zastosowania.", "Zaawansowane zagadnienia z elektryczności i elektrotechniki."];
-  app.innerHTML = `<section class="electricity-entry"><div class="entry-bulb" aria-hidden="true"></div><header><div class="eyebrow">${en ? "ELECTRICITY QUIZ" : "QUIZ TEMATYCZNY"}</div><h1>${en ? "Knowledge of electricity" : "Wiedza z zakresu elektryczności"}</h1><p>${en ? "Explore electric current, circuits, devices and electrical phenomena." : "Sprawdź swoją wiedzę o prądzie, obwodach, urządzeniach i zjawiskach elektrycznych."}</p></header><section class="entry-choice"><h2>${en ? "Knowledge level" : "Poziom wiedzy"}</h2><p>${en ? "Choose the level that best matches your knowledge and experience." : "Wybierz poziom, który najlepiej odpowiada Twojej wiedzy i doświadczeniu."}</p><label class="entry-current" for="start-difficulty" id="start-difficulty-label">${escapeHtml(difficultyLabel(state.difficulty))}</label><input id="start-difficulty" aria-label="${en ? "Knowledge level" : "Poziom wiedzy"}" class="glow-range" type="range" min="0" max="2" step="1" value="${state.difficulty}"><div class="entry-levels">${DIFFICULTIES.map((_,i)=>`<button class="entry-level ${i===state.difficulty ? "selected" : ""}" data-action="select-level" data-level="${i}" aria-pressed="${i===state.difficulty}"><strong>${escapeHtml(difficultyLabel(i))}</strong><span>${descriptions[i]}</span></button>`).join("")}</div><button class="primary entry-start" data-action="start-module" data-module-id="electricity-knowledge">${en ? "Start the test" : "Rozpocznij test"}</button><div class="entry-benefits"><span>${en ? "10 questions" : "10 pytań"}</span><span>${en ? "Instant result and result code" : "Natychmiastowy wynik i kod"}</span><span>${en ? "Answers with explanations" : "Odpowiedzi z wyjaśnieniami"}</span></div><small>${en ? "The level determines the questions. Your result applies to the chosen level." : "Poziom wyznacza zestaw pytań. Wynik dotyczy wybranego poziomu."}</small></section></section>`;
+  app.innerHTML = `<section class="electricity-entry"><div class="entry-bulb" aria-hidden="true"></div><header><div class="eyebrow">${en ? "ELECTRICITY QUIZ" : "QUIZ TEMATYCZNY"}</div><h1>${en ? "Knowledge of electricity" : "Wiedza z zakresu elektryczności"}</h1><p>${en ? "Explore electric current, circuits, devices and electrical phenomena." : "Sprawdź swoją wiedzę o prądzie, obwodach, urządzeniach i zjawiskach elektrycznych."}</p></header><section class="entry-choice"><h2>${en ? "Knowledge level" : "Poziom wiedzy"}</h2><p>${en ? "Choose the level that best matches your knowledge and experience." : "Wybierz poziom, który najlepiej odpowiada Twojej wiedzy i doświadczeniu."}</p><label class="entry-current" for="start-difficulty" id="start-difficulty-label">${escapeHtml(difficultyLabel(state.difficulty))}</label><input id="start-difficulty" aria-label="${en ? "Knowledge level" : "Poziom wiedzy"}" class="glow-range" type="range" min="0" max="2" step="1" value="${state.difficulty}"><div class="entry-levels">${DIFFICULTIES.map((_,i)=>`<button class="entry-level ${i===state.difficulty ? "selected" : ""}" data-action="select-level" data-level="${i}" aria-pressed="${i===state.difficulty}"><strong>${escapeHtml(difficultyLabel(i))}</strong><span>${descriptions[i]}</span></button>`).join("")}</div><button class="primary entry-start" data-action="start-module" data-module-id="electricity-knowledge">${en ? "Start the test" : "Rozpocznij test"}</button><div class="entry-benefits"><span>${en ? "10 questions" : "10 pytań"}</span><span>${en ? "Timed: 45 / 75 / 120 s per question" : "Na czas: 45 / 75 / 120 s na pytanie"}</span><span>${en ? "Answers with explanations" : "Odpowiedzi z wyjaśnieniami"}</span></div><small>${en ? "The level determines the questions. Your result applies to the chosen level." : "Poziom wyznacza zestaw pytań. Wynik dotyczy wybranego poziomu."}</small></section></section>`;
 }
 function renderStart() {
   if (isKnowledgeModule()) return renderElectricityEntry();
@@ -507,6 +518,72 @@ function climateQuestionArtwork(module = currentModule()) {
   return `<div class="climate-question-artwork" aria-hidden="true"><img src="assets/climate-atlas.svg?v=${APP_VERSION}" alt=""><span class="climate-signal climate-signal-one"></span><span class="climate-signal climate-signal-two"></span></div>`;
 }
 
+
+function stopQuestionTimer() {
+  if (questionTimerHandle !== null) {
+    clearInterval(questionTimerHandle);
+    questionTimerHandle = null;
+  }
+}
+
+function timerLabelMarkup() {
+  const seconds = electricityTimeLimitSeconds();
+  const en = I18N.getLanguage() === "en";
+  return `<section class="question-timer" id="question-timer" aria-live="polite">
+    <div class="question-timer-head"><span>${en ? "Time left" : "Pozostały czas"}</span><strong id="question-timer-value">${seconds} s</strong></div>
+    <div class="question-timer-track"><i id="question-timer-bar" style="width:100%"></i></div>
+    <small>${en ? "No answer before zero = incorrect; the next question opens automatically." : "Brak odpowiedzi przed zerem = pytanie niezaliczone; następne otworzy się automatycznie."}</small>
+  </section>`;
+}
+
+function updateQuestionTimerUI() {
+  if (!isTimedElectricityQuiz() || !state.questionDeadlineMs) return;
+  const limitMs = electricityTimeLimitSeconds() * 1000;
+  const remainingMs = Math.max(0, state.questionDeadlineMs - Date.now());
+  const remainingSeconds = Math.ceil(remainingMs / 1000);
+  const timer = document.querySelector("#question-timer");
+  const value = document.querySelector("#question-timer-value");
+  const bar = document.querySelector("#question-timer-bar");
+  if (value) value.textContent = `${remainingSeconds} s`;
+  if (bar) bar.style.width = `${Math.max(0, Math.min(100, remainingMs / limitMs * 100))}%`;
+  if (timer) timer.classList.toggle("urgent", remainingMs <= 10000);
+  if (remainingMs <= 0) handleQuestionTimeout();
+}
+
+function startQuestionTimer(question) {
+  stopQuestionTimer();
+  if (!isTimedElectricityQuiz() || !question) return;
+  if (state.questionTimerQuestionId !== question.id || !state.questionDeadlineMs) {
+    state.questionTimerQuestionId = question.id;
+    state.questionDeadlineMs = Date.now() + electricityTimeLimitSeconds() * 1000;
+    persistProgress();
+  }
+  updateQuestionTimerUI();
+  questionTimerHandle = setInterval(updateQuestionTimerUI, 250);
+}
+
+function handleQuestionTimeout() {
+  if (!isTimedElectricityQuiz() || state.answerLock) return;
+  const question = state.questions[state.currentIndex];
+  if (!question || state.questionTimerQuestionId !== question.id) return;
+  state.answerLock = true;
+  stopQuestionTimer();
+  document.querySelector(".quiz-question-panel")?.classList.add("question-leaving");
+  state.answers.push({ questionId: question.id, value: null, timedOut: true });
+  state.currentIndex += 1;
+  state.questionDeadlineMs = null;
+  state.questionTimerQuestionId = null;
+  persistProgress();
+  setTimeout(() => {
+    state.answerLock = false;
+    state.difficultyChangeAttempted = false;
+    state.hintOpen = false;
+    if (state.currentIndex >= state.questions.length) state.screen = "results";
+    render();
+    if (state.screen === "results") window.scrollTo?.(0, 0);
+  }, QUESTION_TRANSITION_MS);
+}
+
 function renderQuiz() {
   const module = currentLocalizedModule();
   const quizUi = module.quiz || {};
@@ -519,9 +596,10 @@ function renderQuiz() {
   const offerHint = shouldOfferHint();
   app.innerHTML = `<section class="quiz-page">
     <aside class="panel quiz-settings-panel"><div class="eyebrow">${escapeHtml(t("settings"))}</div>${axisSettingCard("quiz")}<section class="quiz-setting-section"><div class="difficulty-heading"><h3>${escapeHtml(t("difficulty"))}</h3><span>${escapeHtml(isKnowledgeModule() ? knowledgeLevelLabel() : t("difficultyCanChange"))}</span></div><input id="difficulty-live" class="glow-range" type="range" min="0" max="${difficultyMax()}" step="1" value="${state.difficulty}" ${(!isKnowledgeModule() && state.difficultyChangeAttempted) || currentModule().fixedDifficulty !== undefined ? "disabled" : ""}>${difficultyTicks()}${difficultyLabels()}<p>${escapeHtml(!isKnowledgeModule() && state.difficultyChangeAttempted ? t("difficultyAttemptUsed") : t("difficultyShiftRequiresNew"))}</p></section><section class="locked-summary"><div>◉</div><div><strong>${escapeHtml(t("startConfigured"))}</strong><span>${escapeHtml(isKnowledgeModule() ? knowledgeLevelLabel() : axisDescription().label)}</span><span>${escapeHtml(t("levelPrefix"))}: ${escapeHtml(difficultyLabel(state.difficulty))}</span></div><b>🔒</b></section><section class="ai-tip-mini"><b>${escapeHtml(t("aiHintLabel"))}</b><p>${escapeHtml(t(isKnowledgeModule() ? "knowledgeInstructions" : "aiHintBody"))}</p></section><button class="return-start" data-action="return-start">↗ <span><strong>${escapeHtml(t("exitButton"))}</strong><small>${escapeHtml(t("exitButtonHint"))}</small></span></button></aside>
-    <main class="panel quiz-question-panel">${climateQuestionArtwork()}<div class="question-kicker">${escapeHtml(quizUi.kicker || questionCategory(question) || t("questionFallback"))}</div><h2>${escapeHtml(questionText(question))}</h2><div class="answers compact-answers">${answers.map((answer, index) => `<button class="answer" data-answer="${answer.value}" ${state.answerLock ? "disabled" : ""}><span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${escapeHtml(answer.label)}</span></button>`).join("")}</div>${offerHint ? `<button class="hint-row" data-action="toggle-hint"><span>✦</span><strong>${escapeHtml(t(isKnowledgeModule() ? "knowledgeHint" : "questionHint"))}</strong><small>${escapeHtml(t(state.hintOpen ? "hide" : "show"))}</small><b>${state.hintOpen ? "⌃" : "⌄"}</b></button>` : ""}${offerHint && state.hintOpen ? `<div class="hint-box">${escapeHtml(aiHintForQuestion())}</div>` : ""}<div class="question-footnote">${escapeHtml(t("questionFootnote"))}</div></main>
+    <main class="panel quiz-question-panel">${climateQuestionArtwork()}<div class="question-kicker">${escapeHtml(quizUi.kicker || questionCategory(question) || t("questionFallback"))}</div>${isTimedElectricityQuiz() ? timerLabelMarkup() : ""}<h2>${escapeHtml(questionText(question))}</h2><div class="answers compact-answers">${answers.map((answer, index) => `<button class="answer" data-answer="${answer.value}" ${state.answerLock ? "disabled" : ""}><span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${escapeHtml(answer.label)}</span></button>`).join("")}</div>${offerHint ? `<button class="hint-row" data-action="toggle-hint"><span>✦</span><strong>${escapeHtml(t(isKnowledgeModule() ? "knowledgeHint" : "questionHint"))}</strong><small>${escapeHtml(t(state.hintOpen ? "hide" : "show"))}</small><b>${state.hintOpen ? "⌃" : "⌄"}</b></button>` : ""}${offerHint && state.hintOpen ? `<div class="hint-box">${escapeHtml(aiHintForQuestion())}</div>` : ""}<div class="question-footnote">${escapeHtml(t("questionFootnote"))}</div></main>
     <aside class="panel quiz-ai-panel">${aiHologram("quiz-ai")}<div class="ai-status"><strong>${escapeHtml(quizUi.aiStatus || t("aiStatusFallback"))}</strong><span>${escapeHtml(quizUi.aiNote || t("aiNoteFallback"))}</span></div></aside>
   </section>`;
+  if (isTimedElectricityQuiz()) startQuestionTimer(question);
 }
 
 function chooseAnswer(value, button) {
@@ -533,6 +611,9 @@ function chooseAnswer(value, button) {
   const numeric = knowledge ? String(value) : Number(value);
   if (!knowledge && !state.package.answerScale.some(answer => answer.value === numeric)) return;
   state.answerLock = true;
+  stopQuestionTimer();
+  state.questionDeadlineMs = null;
+  state.questionTimerQuestionId = null;
   button?.classList.add("selected");
   document.querySelector(".quiz-question-panel")?.classList.add("question-leaving");
   if (!isKnowledgeModule()) scoreAnswer(question, numeric);
@@ -659,7 +740,7 @@ function currentResultCode() {
   if (!isKnowledgeModule() || state.moduleId !== "electricity-knowledge" || state.questions.length !== 10 || state.answers.length !== 10 || state.currentIndex !== 10) return null;
   const ids = new Set(state.questions.map(question => question.id));
   if (ids.size !== 10 || new Set(state.answers.map(answer => answer.questionId)).size !== 10) return null;
-  if (!state.answers.every(answer => ids.has(answer.questionId) && state.questions.find(question => question.id === answer.questionId).options.some(option => option.id === answer.value))) return null;
+  if (!state.answers.every(answer => ids.has(answer.questionId) && (answer.timedOut === true || state.questions.find(question => question.id === answer.questionId).options.some(option => option.id === answer.value)))) return null;
   if (!state.questions.every(question => question.difficulty === state.difficulty)) return null;
   const score = knowledgeScore();
   return window.GLOBOCIE_RESULT_CODE.encode({ ...score, completed: true, moduleId: state.moduleId, difficulty: state.difficulty });

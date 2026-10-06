@@ -486,3 +486,55 @@ body[data-module="electricity-knowledge"] .difficulty-ticks { display: flex; jus
 @media(max-width:850px){.electricity-entry{padding:20px 12px;min-height:0}.entry-bulb{display:none}.entry-choice{padding:22px 15px}.entry-levels{gap:4px}.entry-level strong{font-size:15px}.entry-level span{font-size:14px}.entry-benefits{flex-direction:column;gap:8px}.entry-start{min-width:0;width:100%}}
 
 body[data-module="electricity-knowledge"][data-screen="start"]{overflow:auto}.entry-level.selected{box-shadow:0 0 16px #22d3ee22}
+
+
+/* v2.30 — electricity-only countdown */
+.question-timer {
+  margin: 12px 0 18px;
+  padding: 12px 14px;
+  border: 1px solid var(--module-cyan-border);
+  border-radius: 14px;
+  background: rgba(3, 15, 20, .62);
+}
+.question-timer-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+.question-timer-head span {
+  font-size: .82rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  opacity: .82;
+}
+.question-timer-head strong {
+  font-size: 1.35rem;
+  font-variant-numeric: tabular-nums;
+}
+.question-timer-track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255,255,255,.09);
+}
+.question-timer-track i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--module-primary-start), var(--module-cyan));
+  transition: width .25s linear;
+}
+.question-timer small {
+  display: block;
+  margin-top: 8px;
+  opacity: .68;
+}
+.question-timer.urgent {
+  border-color: rgba(255, 105, 105, .82);
+  box-shadow: 0 0 18px rgba(255, 76, 76, .16);
+}
+.question-timer.urgent .question-timer-head strong {
+  color: #ff9a9a;
+}
