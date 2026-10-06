@@ -508,7 +508,7 @@
     "aiSubline": "Wynik pochodzi ze stałego, sprawdzonego klucza odpowiedzi.",
     "startButton": "Rozpocznij test wiedzy z elektryczności →",
     "stageCaption": "90 pytań w banku · 30 na poziom · 10 pytań w sesji · jedno z każdego działu",
-    "cardDescription": "Absolwent podstawówki · Maturzysta · Licencjat / inżynier. Wybierz poziom testu."
+    "cardDescription": "Sprawdź swoją wiedzę o prądzie, obwodach, urządzeniach i zjawiskach elektrycznych."
   },
   "loading": {
     "title": "Wczytuję test wiedzy z elektryczności…",
