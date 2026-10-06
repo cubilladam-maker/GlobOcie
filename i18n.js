@@ -6,7 +6,7 @@
 
   const common = {
     pl: {
-      documentTitle: "Odkryj swój wewnętrzny ukryty kod — quiz AI",
+      documentTitle: "Odkryj swój ukryty kod — quiz AI",
       brandName: "Odkryj swój ukryty kod",
       brandTagline: "quiz wspierany przez sztuczną inteligencję",
       homeAria: "Strona główna",
@@ -21,7 +21,7 @@
       siteVersionAria: "Wersja strony v{version}",
       footerService: "Brak Service Workera buforującego stary interfejs.",
       titleSegment1: "Odkryj swój",
-      titleSegment2: "wewnętrzny",
+      titleSegment2: "",
       titleSegment3: "ukryty kod",
       titleEnglish: "Discover your hidden inner code",
       genericAiLead: "Jestem Twoją Sztuczną Inteligencją (AI).",
@@ -130,7 +130,7 @@
       browserNoGzip: "Ta przeglądarka nie obsługuje rozpakowywania GZIP.",
       embeddedFallback: "Używam osadzonej kopii tematu.",
       packageNotFound: "Nie znaleziono paczki pytań.",
-      localStartsStat: "lokalne rozpoczęcia gry na tym urządzeniu",
+      localStartsStat: "lokalnych rozpoczęć wszystkich quizów na tym urządzeniu",
       upcomingTopics: "Przyszłe tematy",
       inPreparation: "W przygotowaniu",
       comingSoon: "Wkrótce",
@@ -285,7 +285,7 @@
       browserNoGzip: "This browser does not support GZIP decompression.",
       embeddedFallback: "Using the embedded topic copy.",
       packageNotFound: "Question package not found.",
-      localStartsStat: "local game starts on this device",
+      localStartsStat: "local starts of all quizzes on this device",
       upcomingTopics: "Upcoming topics",
       inPreparation: "In preparation",
       comingSoon: "Coming soon",
