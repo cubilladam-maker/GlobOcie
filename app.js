@@ -8,8 +8,10 @@ const confirmContent = document.querySelector("#confirm-content");
 const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
+const brandTitle = document.querySelector("#brand-title");
+const brandSubtitle = document.querySelector("#brand-subtitle");
 
-const APP_VERSION = "2.30";
+const APP_VERSION = "2.31";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const AXIS_POSITION_KEY_PREFIX = "globocie-axis-position-v1:";
@@ -180,10 +182,20 @@ function knowledgeLevelLabel() { return difficultyLabel(state.difficulty); }
 function difficultyLabel(index) {
   return (I18N.getLanguage() === "en" ? ["Primary-school graduate", "Upper-secondary-school graduate", "Bachelor’s / engineering graduate"] : ["Absolwent podstawówki", "Maturzysta", "Licencjat / inżynier"])[index] || t("difficulty");
 }
+function syncBranding() {
+  const module = currentLocalizedModule();
+  const activeTopic = module?.name || t("brandName");
+  const genericBrand = t("brandName");
+  const isTopicContext = Boolean(state.moduleId);
+
+  if (brandTitle) brandTitle.textContent = isTopicContext ? activeTopic : genericBrand;
+  if (brandSubtitle) brandSubtitle.textContent = isTopicContext ? genericBrand : t("brandTagline");
+  document.title = isTopicContext ? `${activeTopic} — ${genericBrand}` : t("documentTitle");
+}
+
 function syncLocale() {
   const language = I18N.getLanguage();
   document.documentElement.lang = language;
-  document.title = t("documentTitle");
   document.querySelectorAll?.("[data-i18n]").forEach(element => {
     const key = element.dataset.i18n;
     const vars = key === "siteVersion" ? { version: APP_VERSION } : {};
@@ -197,6 +209,7 @@ function syncLocale() {
   document.querySelectorAll?.("[data-language]").forEach(element => {
     element.setAttribute("aria-pressed", element.dataset.language === language ? "true" : "false");
   });
+  syncBranding();
 }
 
 function applyModuleAppearance() {
@@ -224,6 +237,7 @@ function activateModule(moduleId) {
   localStorage.setItem("globocie-module", module.id);
   localStorage.setItem("globocie-theme", state.themeId);
   applyModuleAppearance();
+  syncBranding();
   return module;
 }
 
@@ -439,6 +453,7 @@ function showConfirm(key, options = {}, onYes, onNo = render) {
 
 function render() {
   applyModuleAppearance();
+  syncBranding();
   ownerCounter.hidden = true;
   document.body.dataset.screen = state.screen;
   topProgress.hidden = state.screen !== "quiz";
