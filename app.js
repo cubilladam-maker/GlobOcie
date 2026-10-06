@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.28";
+const APP_VERSION = "2.29";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const AXIS_POSITION_KEY_PREFIX = "globocie-axis-position-v1:";
@@ -363,7 +363,10 @@ function confirmMarkup() {
   if (confirm.key === "difficulty") {
     return `<div class="confirm-symbol">⚠</div><h2>${escapeHtml(t("confirmDifficultyTitle"))}</h2><p>${t("confirmDifficultyChange", { current: escapeHtml(confirm.current), next: escapeHtml(confirm.next) })}</p><p>${escapeHtml(t("confirmAnswersRemoved"))}</p>`;
   }
-  if (confirm.key === "exit") return `<div class="confirm-symbol">↗</div><h2>${escapeHtml(t("exitTitle"))}</h2><p>${escapeHtml(t("exitBody"))}</p>`;
+  if (confirm.key === "exit") {
+    const topic = currentLocalizedModule().name;
+    return `<div class="confirm-symbol">↗</div><h2>${escapeHtml(t("exitTitle", { topic }))}</h2><p>${escapeHtml(t("exitBody", { topic }))}</p>`;
+  }
   return `<div class="confirm-symbol">↻</div><h2>${escapeHtml(t("confirmReturnTitle"))}</h2><p>${escapeHtml(t("confirmReturnBody"))}</p>`;
 }
 
@@ -371,7 +374,8 @@ function renderConfirmDialog() {
   if (!state.confirmState) return;
   const confirm = state.confirmState;
   if (confirm.key === "exit") {
-    confirmContent.innerHTML = `<div class="confirm-card">${confirmMarkup()}<div class="confirm-actions exit-actions"><button class="secondary" id="exit-gallery">${escapeHtml(t("exitGallery"))}</button><button class="secondary" id="exit-topic">${escapeHtml(t("exitTopicStart"))}</button><button class="primary" id="exit-home">${escapeHtml(t("exitQuizHome"))}</button></div></div>`;
+    const topic = currentLocalizedModule().name;
+    confirmContent.innerHTML = `<div class="confirm-card">${confirmMarkup()}<div class="confirm-actions exit-actions"><button class="secondary" id="exit-gallery">${escapeHtml(t("exitGallery"))}</button><button class="secondary" id="exit-topic">${escapeHtml(t("exitTopicStart", { topic }))}</button><button class="primary" id="exit-home">${escapeHtml(t("exitQuizHome"))}</button></div></div>`;
     confirmContent.querySelector("#exit-gallery").onclick = () => {
       state.confirmState = null;
       confirmDialog.close();
