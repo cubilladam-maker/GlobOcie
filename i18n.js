@@ -318,8 +318,8 @@
   };
 
   const difficultyCopy = {
-    pl: ["Uczeń", "Student", "Student+", "Zaawansowany", "Zaawansowany+", "Doktorant", "Doktorant+", "Doktor", "Profesor−", "Profesor", "Ekspert"],
-    en: ["School", "Student", "Student+", "Advanced", "Advanced+", "Doctoral", "Doctoral+", "Doctor", "Professor−", "Professor", "Expert"]
+    pl: ["Absolwent podstawówki", "Maturzysta", "Licencjat / inżynier"],
+    en: ["Primary-school graduate", "Upper-secondary-school graduate", "Bachelor’s / engineering graduate"]
   };
 
   const themeCopy = {

@@ -148,10 +148,15 @@ function questionCategory(question) {
   return I18N.questionCategory(state.package?.manifest?.id, question?.category || t("questionFallback"));
 }
 
-function difficultyMax() { return currentModule().maxDifficulty ?? 2; }
+function difficultyMax() { return 2; }
+function validateThreeLevelQuestionBank(packageData) {
+  const invalid = (packageData?.questions || []).filter(question => !Number.isInteger(question?.difficulty) || question.difficulty < 0 || question.difficulty > 2);
+  if (invalid.length) throw new Error(`Nieprawidłowa skala trudności: ${invalid.length} pytań poza poziomami 0–2.`);
+  return packageData;
+}
 function normalizedDifficulty(module, value) {
   const number = Number(value);
-  return module.fixedDifficulty ?? clamp(Number.isFinite(number) ? Math.round(number) : 1, 0, module.maxDifficulty ?? 2);
+  return clamp(module.fixedDifficulty ?? (Number.isFinite(number) ? Math.round(number) : 1), 0, 2);
 }
 function storedDifficulty(module) {
   const key = module.difficultyStorageKey || "globocie-difficulty-v3";
@@ -741,6 +746,7 @@ async function startModule(moduleId) {
     if (!state.package || state.loadedModuleId !== module.id) {
       const loadedPackage = await loadCompressedTopic(module.topicUrl);
       if (requestId !== moduleLoadSequence || state.moduleId !== module.id) return;
+      validateThreeLevelQuestionBank(loadedPackage);
       state.package = loadedPackage;
       state.loadedModuleId = module.id;
       applyModuleAppearance();
