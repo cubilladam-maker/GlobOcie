@@ -9,7 +9,7 @@ const topProgress = document.querySelector("#top-progress");
 const ownerHotspot = document.querySelector("#owner-hotspot");
 const ownerCounter = document.querySelector("#owner-counter");
 
-const APP_VERSION = "2.25";
+const APP_VERSION = "2.26";
 const QUESTION_TRANSITION_MS = 540;
 const LOCAL_GAME_STARTS_KEY = "globocie-game-starts-v1";
 const AXIS_POSITION_KEY_PREFIX = "globocie-axis-position-v1:";
@@ -18,7 +18,10 @@ const I18N = window.GLOBOCIE_I18N;
 const t = (key, vars = {}) => I18N.text(key, vars);
 const startupParams = new URLSearchParams(location.search || "");
 const requestedQuizId = startupParams.get("quiz");
-const directQuizId = Object.prototype.hasOwnProperty.call(THEME_API.modules, requestedQuizId) ? requestedQuizId : null;
+const galleryReferrer = /https:\/\/rewolucja-ac-dc-galeria(?:-prywatna)?\.cubilladam\.chatgpt\.site(?:\/|$)/i.test(document.referrer || "");
+const directQuizId = Object.prototype.hasOwnProperty.call(THEME_API.modules, requestedQuizId)
+  ? requestedQuizId
+  : (galleryReferrer ? "electricity-knowledge" : null);
 const requestedLanguage = startupParams.get("lang");
 if (requestedLanguage === "pl" || requestedLanguage === "en") I18N.setLanguage(requestedLanguage);
 const initialModuleId = directQuizId || localStorage.getItem("globocie-module") || THEME_API.defaultModule || "political-compass";
